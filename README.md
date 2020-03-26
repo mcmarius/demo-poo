@@ -1,4 +1,5 @@
 # demo-poo
+![C/C++ CI](https://github.com/mcmarius/demo-poo/workflows/C/C++%20CI/badge.svg?branch=master)
 
 Pentru a scrie un fragment de cod colorat, facem în felul următor:
 
