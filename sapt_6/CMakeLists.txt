@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
-project(proj)
+project(sapt6)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -pedantic")
-add_subdirectory(sapt_5)
-add_subdirectory(sapt_6)
+
+add_executable(sapt6 main.cpp)
+
