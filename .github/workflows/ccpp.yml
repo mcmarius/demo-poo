@@ -20,6 +20,8 @@ jobs:
       run:
         g++ -Wall -Wextra -pedantic -std=c++17 -g main.cpp -o main
     - name: cppcheck
+      run:
         cppcheck --enable=all *.cpp *.h
     - name: valgrind
+      run:
         valgrind -v --leak-check=full --show-leak-kinds=all --track_origins=yes ./main
