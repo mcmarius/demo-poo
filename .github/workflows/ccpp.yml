@@ -1,0 +1,25 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: dependencies
+      run:
+        sudo apt-get install -y valgrind cppcheck g++
+    - name: compile
+      run:
+        g++ -Wall -Wextra -pedantic -std=c++17 -g main.cpp -o main
+    - name: cppcheck
+        cppcheck --enable=all *.cpp *.h
+    - name: valgrind
+        valgrind -v --leak-check=full --show-leak-kinds=all --track_origins=yes ./main
