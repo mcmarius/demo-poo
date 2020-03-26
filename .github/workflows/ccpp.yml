@@ -21,7 +21,7 @@ jobs:
         cmake .
     - name: cppcheck
       run:
-        cppcheck --enable=all */**.cpp */**.h
+        cppcheck --enable=all ./*/**.cpp ./*/**.h
     - name: valgrind
       run:
         valgrind -v --leak-check=full --show-leak-kinds=all --track_origins=yes ./$(grep "add_executable" CMakeLists.txt | awk '{print $1}' | sed s/.*\(//)
