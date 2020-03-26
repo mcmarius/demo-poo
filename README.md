@@ -1,1 +1,30 @@
 # demo-poo
+
+Pentru a scrie un fragment de cod colorat, facem în felul următor:
+
+```c++
+```c++
+//codul pe care vrem să îl afișăm
+` ` `
+//ultimul rând cu backticks (tasta de deasupra tastei tab) nu trebuie să aibă spații între backtics
+
+class A{};
+
+int main() {
+  return 0;
+}
+// links: [text](https://example.com)
+// liniuțe pt separat ---
+// ### Titluri
+```
+
+[text](https://example.com)
+
+## Secțiune mare
+---
+### Secțiune mai mică
+#### Secțiune și mai mică
+
+
+
+
