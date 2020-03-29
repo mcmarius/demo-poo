@@ -1,6 +1,6 @@
 # demo-poo
 ![C/C++ CI](https://github.com/mcmarius/demo-poo/workflows/C/C++%20CI/badge.svg?branch=master)
-![Code Quality Score](https://www.code-inspector.com/project/5456/score/svg)
+[![Code Quality Score](https://www.code-inspector.com/project/5456/score/svg)](https://frontend.code-inspector.com/public/project/5456/demo-poo/dashboard)
 ![Code Quality Grade](https://www.code-inspector.com/project/5456/status/svg)
 
 Pentru a scrie un fragment de cod colorat, facem în felul următor:
