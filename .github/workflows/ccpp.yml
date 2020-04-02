@@ -26,4 +26,4 @@ jobs:
         cppcheck --enable=all -i cmake-build-debug/ .
     - name: valgrind
       run:
-        valgrind -v --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(grep "add_executable" CMakeLists.txt | awk '{print $1}' | sed s/.*\(//)
+        valgrind --error-exitcode=1 --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(grep "add_executable" CMakeLists.txt | awk '{print $1}' | sed s/.*\(//)
