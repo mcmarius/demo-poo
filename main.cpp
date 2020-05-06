@@ -54,19 +54,19 @@ public:
 };
 
 int main() {
-    Nod *n = new VNod(3);
-    n->f();
-    BasicNod *n2 = new VBNod(2);
-    n2->g();
-    delete n;
-    delete n2;
-    std::cout << "\n\n";
-    std::cout << sizeof(Nod) << " " << sizeof(BasicNod) << std::endl;
-    ListaDubluInlantuita lista;
-    lista.add(1, 0);
-    std::cout << lista;
-    lista.add(2, 0);
-    std::cout << lista;
+//    Nod *n = new VNod(3);
+//    n->f();
+//    BasicNod *n2 = new VBNod(2);
+//    n2->g();
+//    delete n;
+//    delete n2;
+//    std::cout << "\n\n";
+//    std::cout << sizeof(Nod) << " " << sizeof(BasicNod) << std::endl;
+//    ListaDubluInlantuita lista;
+//    lista.add(1, 0);
+//    std::cout << lista;
+//    lista.add(2, 0);
+//    std::cout << lista;
 //    lista.add(3, 1);
 //    std::cout<<lista;
 //    lista.add(3, 1);
