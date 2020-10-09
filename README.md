@@ -28,6 +28,7 @@ int main() {
 ### Secțiune mai mică
 #### Secțiune și mai mică
 
+trigger pipeline
 
 
 
