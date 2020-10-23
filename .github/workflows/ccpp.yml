@@ -23,14 +23,14 @@ jobs:
         cppcheck --enable=all .
     - name: valgrind
       run:
-        valgrind --leak-check=full --show-leak-kinds=all\
+        valgrind --leak-check=full --show-leak-kinds=all
                  --track-origins=yes --error-exitcode=1 ./main
     - name: coverage
       run: |
         gcov *.cpp
         mkdir coverage/
-        gcovr -r . --html\
-                   --html-details -o coverage/coverage.html\
+        gcovr -r . --html
+                   --html-details -o coverage/coverage.html
                    --print-summary
         mv -v coverage/  public/
     - name: deploy
