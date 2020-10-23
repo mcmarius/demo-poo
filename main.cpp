@@ -56,10 +56,10 @@ public:
 int main() {
     Nod *n = new VNod(3);
     n->f();
-    BasicNod *n2 = new VBNod(2);
-    n2->g();
+    //BasicNod *n2 = new VBNod(2);
+    //n2->g();
     delete n;
-    delete n2;
+    //delete n2;
     std::cout << "\n\n";
     std::cout << sizeof(Nod) << " " << sizeof(BasicNod) << std::endl;
     ListaDubluInlantuita lista;
