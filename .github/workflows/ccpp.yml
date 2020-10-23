@@ -29,11 +29,9 @@ jobs:
     - name: coverage
       run: |
         gcov *.cpp
-        mkdir coverage/
-        gcovr -r . --html
-                   --html-details -o coverage/coverage.html
-                   --print-summary
-        mv -v coverage/  public/
+        mkdir cov/
+        gcovr -r . --html --html-details -o cov/coverage.html --print-summary
+        mv -v cov/  public/
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
