@@ -2,9 +2,9 @@ name: C/C++ CI
 
 on:
   push:
-    branches: [ master ] # replace with main (if applicable)
+    branches: [master] # replace with main (if applicable)
   pull_request:
-    branches: [ master ] # replace with main (if applicable)
+    branches: [master] # replace with main (if applicable)
 
 jobs:
   build:
@@ -15,15 +15,14 @@ jobs:
       fail-fast: false
       matrix:
         # os: [macos-latest, windows-latest, ubuntu-latest]
-        # os: [macos-10.15, windows-2019, ubuntu-20.04]
-        os: [ubuntu-latest]
-        cxx: [g++] #, clang++]
+        os: [macos-10.15, windows-2019, ubuntu-20.04]
+        cxx: [g++, clang++]
         include:
           - os: windows-2019
             cxx: cl
-        #exclude:
-        # - os: windows-2019
-        #    cxx: clang++
+        exclude:
+          - os: windows-2019
+            cxx: clang++
 
     steps:
       - uses: actions/checkout@v2
