@@ -17,15 +17,14 @@ jobs:
         # os: [macos-latest, windows-latest, ubuntu-latest]
         os: [macos-10.15, ubuntu-20.04]
         cxx: [g++, clang++]
-        # cmake_generator: 
+        # cmake_generator:
         include:
           - os: windows-2019
             cxx: cl
             # cmake_generator: ""
           - os: windows-2019
             cxx: g++
-            cmake_generator: "MinGW Makefiles"
-            
+            cmake_generator: "\"MinGW Makefiles\""
 
     steps:
       - uses: actions/checkout@v2
