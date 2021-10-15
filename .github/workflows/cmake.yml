@@ -28,6 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: debug
+        shell: bash
+        run: |
+          echo $GITHUB_WORKSPACE
+          mkdir $GITHUB_WORKSPACE/build
+          mkdir $GITHUB_WORKSPACE/artifacts
       - name: Configure CMake
         env:
           CXX: ${{ matrix.cxx }}
@@ -37,8 +43,6 @@ jobs:
         shell: bash
         working-directory: ${{github.workspace}}/build
         run: |
-          echo $GITHUB_WORKSPACE
-          mkdir $GITHUB_WORKSPACE/artifacts
           cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/artifacts
 
       - name: Build
