@@ -75,7 +75,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          files: |
+            'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
-          asset_name: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
-          asset_content_type: application/gzip
+          #asset_path: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
+          #asset_name: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
+          #asset_content_type: application/gzip
