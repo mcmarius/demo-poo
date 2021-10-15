@@ -13,3 +13,4 @@ endif()
 
 add_executable(proj Nod.cpp Nod.h main.cpp ListaDubluInlantuita.cpp ListaDubluInlantuita.h Lista.cpp Lista.h)
 
+install(TARGETS proj DESTINATION bin)
