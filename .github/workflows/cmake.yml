@@ -68,11 +68,11 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           type: 'zip'
-          directory: ${{ github.workspace }}/artifacts
+          path: ${{ github.workspace }}/artifacts
           filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            ${{ github.workspace }}/artifacts/release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+            release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
