@@ -1,0 +1,71 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ] # replace with main (if applicable)
+  pull_request:
+    branches: [ master ] # replace with main (if applicable)
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    env:
+      BUILD_TYPE: release
+    strategy:
+      fail-fast: false
+      matrix:
+        # os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-10.15, windows-2019, ubuntu-20.04]
+        cxx: [g++, clang++]
+        include:
+          - os: windows-2019
+            cxx: cl
+        exclude:
+          - os: windows-2019
+            cxx: clang++
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure CMake
+        env:
+          CXX: ${{ matrix.cxx }}
+        # Use a bash shell so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        # https://github.com/saxbophone/CPP20-Cross-Platform-Template
+        shell: bash
+        working-directory: ${{github.workspace}}/build
+        run: cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/artifacts
+
+      - name: Build
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: cmake --build . --config $BUILD_TYPE
+
+      - name: Install
+        working-directory: ${{github.workspace}}/build
+        shell: bash
+        # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
+        run: |
+          cmake --install . --config $BUILD_TYPE
+
+      - name: Set Tag Name
+        shell: bash
+        # trim prefix from ref to get tag name
+        run: echo "TAG_NAME=${GITHUB_REF#'refs/tags/'}" >> $GITHUB_ENV
+
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        if: startsWith(github.ref, 'refs/tags/')
+          with:
+          type: 'zip'
+          filename: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
+          asset_name: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
+          asset_content_type: application/gzip
