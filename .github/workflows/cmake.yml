@@ -53,10 +53,10 @@ jobs:
         run: cmake --build . --config $BUILD_TYPE
 
       - name: Install
-        working-directory: ${{ github.workspace }}/build
+        # working-directory: ${{ github.workspace }}/build
         shell: bash
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
-        run: cmake --install . --config $BUILD_TYPE --prefix ${{ github.workspace }}/artifacts
+        run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
       - name: Set Tag Name
         shell: bash
