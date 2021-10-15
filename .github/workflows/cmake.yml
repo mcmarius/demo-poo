@@ -15,14 +15,15 @@ jobs:
       fail-fast: false
       matrix:
         # os: [macos-latest, windows-latest, ubuntu-latest]
-        os: [macos-10.15, windows-2019, ubuntu-20.04]
-        cxx: [g++, clang++]
-        include:
-          - os: windows-2019
-            cxx: cl
-        exclude:
-          - os: windows-2019
-            cxx: clang++
+        # os: [macos-10.15, windows-2019, ubuntu-20.04]
+        os: [ubuntu-latest]
+        cxx: [g++] #, clang++]
+        #include:
+        #  - os: windows-2019
+        #    cxx: cl
+        #exclude:
+        # - os: windows-2019
+        #    cxx: clang++
 
     steps:
       - uses: actions/checkout@v2
@@ -35,7 +36,10 @@ jobs:
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
         shell: bash
         working-directory: ${{github.workspace}}/build
-        run: cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/artifacts
+        run: |
+          echo $GITHUB_WORKSPACE
+          mkdir $GITHUB_WORKSPACE/artifacts
+          cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/artifacts
 
       - name: Build
         working-directory: ${{github.workspace}}/build
