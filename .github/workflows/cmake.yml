@@ -71,7 +71,7 @@ jobs:
         with:
           type: 'zip'
           path: artifacts
-          filename: release_$TAG_NAME_${{ matrix.os }}_$${{ matrix.cxx }}.zip
+          filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_$${{ matrix.cxx }}.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
