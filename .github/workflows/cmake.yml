@@ -58,7 +58,7 @@ jobs:
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         if: startsWith(github.ref, 'refs/tags/')
-          with:
+        with:
           type: 'zip'
           filename: 'release_${TAG_NAME}_${{ matrix.os }}_$${{ matrix.cxx }}.zip'
       - name: Release
