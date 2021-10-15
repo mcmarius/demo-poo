@@ -15,19 +15,22 @@ jobs:
       fail-fast: false
       matrix:
         # os: [macos-latest, windows-latest, ubuntu-latest]
-        os: [macos-10.15, windows-2019, ubuntu-20.04]
+        os: [macos-10.15, ubuntu-20.04]
         cxx: [g++, clang++]
+        cmake_generator: ''
         include:
           - os: windows-2019
             cxx: cl
-        exclude:
+            cmake_generator: ''
           - os: windows-2019
-            cxx: clang++
+            cxx: g++
+            cmake_generator: "MinGW Makefiles"
+            
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: debug
+      - name: Prepare env
         shell: bash
         run: |
           echo $GITHUB_WORKSPACE
@@ -42,6 +45,7 @@ jobs:
         shell: bash
         working-directory: ${{github.workspace}}/build
         run: |
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }}
           cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX:PATH=$GITHUB_WORKSPACE/artifacts
 
       - name: Build
