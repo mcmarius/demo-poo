@@ -18,9 +18,9 @@ jobs:
         os: [ubuntu-20.04]
         cxx: [g++, clang++]
         include:
-          #- os: macos-10.15
-          #  cxx: clang++
-          #  cmake_config_flags: -DSFML_BUILD_FRAMEWORKS=TRUE
+          - os: macos-10.15
+            cxx: clang++
+            cmake_config_flags: -DSFML_BUILD_FRAMEWORKS=TRUE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts
           - os: windows-2019
             cxx: cl
           - os: windows-2019
@@ -64,7 +64,7 @@ jobs:
         # working-directory: ${{ github.workspace }}/build
         shell: bash
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
-        run: cmake --install build --config $BUILD_TYPE --prefix artifacts
+        run: cmake --install build --config $BUILD_TYPE --prefix artifacts --target demo-sfml
 
       - name: Set Tag Name
         shell: bash
