@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-20.04]
         cxx: [g++, clang++]
-        cmake_config_flags: -DBUILD_SHARED_LIBS=FALSE
+        cmake_config_flags: "-DBUILD_SHARED_LIBS=FALSE"
         include:
           - os: macos-10.15
             cxx: clang++
@@ -27,7 +27,7 @@ jobs:
           - os: windows-2019
             cxx: g++
             cmake_generator: "\"MinGW Makefiles\""
-            cmake_config_flags: -DBUILD_SHARED_LIBS=TRUE
+            cmake_config_flags: "-DBUILD_SHARED_LIBS=TRUE"
 
     steps:
       - uses: actions/checkout@v2
