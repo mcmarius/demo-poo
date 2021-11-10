@@ -35,6 +35,13 @@ jobs:
           echo $GITHUB_WORKSPACE
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
+
+      # taken from SFML Github Actions
+      - name: Install Linux Dependencies
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+
+
       - name: Configure CMake
         env:
           CXX: ${{ matrix.cxx }}
@@ -50,7 +57,7 @@ jobs:
         working-directory: ${{ github.workspace }}/build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE
+        run: cmake --build . --config $BUILD_TYPE -j4
 
       - name: Install
         # working-directory: ${{ github.workspace }}/build
@@ -65,14 +72,14 @@ jobs:
 
       - name: Archive Release
         uses: thedoctor0/zip-release@master
-        #if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           type: 'zip'
           path: artifacts
           filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
       - name: Release
         uses: softprops/action-gh-release@v1
-        #if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
