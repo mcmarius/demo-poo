@@ -21,7 +21,7 @@ jobs:
         include:
           - os: macos-10.15
             cxx: clang++
-            cmake_config_flags: -DSFML_BUILD_FRAMEWORKS=TRUE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
+            cmake_config_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
           - os: windows-2019
             cxx: cl
           - os: windows-2019
