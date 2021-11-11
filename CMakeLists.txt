@@ -14,8 +14,8 @@ endif()
 find_package(SFML COMPONENTS graphics window system)
 
 add_executable(${PROJECT_NAME} main.cpp)
-target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_SOURCE_DIR}/include)
-target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_DIR}/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_DIR}/lib)
+target_link_libraries(${PROJECT_NAME} sfml-graphics)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
