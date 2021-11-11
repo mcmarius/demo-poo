@@ -11,7 +11,7 @@ else()
     endif()
 endif()
 
-find_package(SFML REQUIRED)
+find_package(SFML COMPONENTS graphics window system)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_SOURCE_DIR}/include)
