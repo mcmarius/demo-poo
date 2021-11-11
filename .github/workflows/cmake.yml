@@ -62,7 +62,7 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
-          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DSFML_DIR=libs/sfml/artifacts
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DCMAKE_PREFIX_PATH=libs/sfml/artifacts -DSFML_DIR=libs/sfml/artifacts
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
