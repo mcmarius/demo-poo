@@ -1,34 +1,26 @@
-//
-// Created by marius on 10/11/2021.
-//
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
-int main()
-{
-    // create the window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "My window");
+int main() {
+    sf::RenderWindow window;
+    window.create(sf::VideoMode(800, 600), "My Window", sf::Style::Default);
+    window.setVerticalSyncEnabled(true);
 
-    // run the program as long as the window is open
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
+    while(window.isOpen()) {
+        sf::Event e;
+        while(window.pollEvent(e)) {
+            if(e.type == sf::Event::Closed)
                 window.close();
+            if(e.type == sf::Event::Resized)
+                std::cout << "New width: " << window.getSize().x << '\n'
+                          << "New height: " << window.getSize().y << '\n';
         }
 
-        // clear the window with black color
-        window.clear(sf::Color::Black);
-
-        // draw everything here...
-        // window.draw(...);
-
-        // end the current frame
+        window.clear();
         window.display();
     }
 
     return 0;
 }
+
