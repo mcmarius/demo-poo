@@ -24,11 +24,8 @@ if(NOT bcryptcpp_POPULATED)
   FetchContent_Populate(bcryptcpp)
 
   # Copy an additional/replacement file into the populated source
-  # only available in cmake 3.21 :(
-  # file(COPY_FILE CMakeLists.bcryptcpp.txt DESTINATION ${bcryptcpp_SOURCE_DIR}/CMakeLists.txt)
-  file(REMOVE ${bcryptcpp_SOURCE_DIR}/CMakeLists.txt)
-  file(COPY CMakeLists.bcryptcpp.txt DESTINATION ${bcryptcpp_SOURCE_DIR})
-  file(RENAME ${bcryptcpp_SOURCE_DIR}/CMakeLists.bcryptcpp.txt ${bcryptcpp_SOURCE_DIR}/CMakeLists.txt)
+  file(COPY bcryptcpp-patches/CMakeLists.txt DESTINATION ${bcryptcpp_SOURCE_DIR})
+  file(COPY bcryptcpp-patches/src/openbsd.h DESTINATION ${bcryptcpp_SOURCE_DIR}/src)
 
   add_subdirectory(${bcryptcpp_SOURCE_DIR} ${bcryptcpp_BINARY_DIR})
 endif()
