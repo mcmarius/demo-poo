@@ -32,6 +32,8 @@ jobs:
         mkdir cov/
         gcovr -r . --html --html-details -o cov/coverage.html --print-summary
         mv -v cov/  public/
+        mkdir public/.circleci
+        cp .circleci/config.yml public/.circleci/config.yml
     - name: deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
