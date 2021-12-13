@@ -28,7 +28,7 @@ jobs:
             cmake --build . -j6
             cmake --install . --prefix ../artifacts
             cd ..
-            zip artifacts artifacts/*
+            zip artifacts artifacts/**/*
 
       - store_artifacts: 
           path: artifacts.zip
