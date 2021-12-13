@@ -10,16 +10,29 @@ jobs:
       - checkout
       - run:
           name: Setup dependencies
-          command: sudo apt install -y gcc g++ cmake valgrind
-      - run: mkdir build && mkdir artifacts
-      - run: pwd
-      - run: uname -a
-      - run: lscpu
-      - run: cat /proc/cpuinfo
-      - run: ls
-      - run: cd build && cmake ..
-      - run: cmake --build build -j6
-      - run: cmake --install build --prefix artifacts
+          command: sudo apt install zip gcc g++ cmake # valgrind
+      - run:
+          name: Environment info
+          command: |
+            pwd
+            uname -a
+            lscpu
+            cat /proc/cpuinfo
+            ls
+      - run: 
+          name: Build and install
+          command: |
+            mkdir build && mkdir artifacts
+            cd build
+            cmake ..
+            cmake --build . -j6
+            cmake --install . --prefix ../artifacts
+            cd ..
+            zip artifacts artifacts
+
+      - store_artifacts: 
+          path: artifacts.zip
+          destination: artifacts
 
 workflows:
   build:
