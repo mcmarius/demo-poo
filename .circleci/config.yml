@@ -13,6 +13,9 @@ jobs:
           command: sudo apt install -y gcc g++ cmake valgrind
       - run: mkdir build && mkdir artifacts
       - run: pwd
+      - run: uname -a
+      - run: lscpu
+      - run: cat /proc/cpuinfo
       - run: ls
       - run: cd build && cmake ..
       - run: cmake --build build -j6
