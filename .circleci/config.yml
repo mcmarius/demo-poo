@@ -12,6 +12,8 @@ jobs:
           command: sudo apt install -y gcc g++ cmake valgrind
       - run: mkdir build && mkdir artifacts
       - run: cd build
+      - run: pwd
+      - run: ls
       - run: cmake ..
       - run: cmake --build . -j6
       - run: cmake --install . --prefix ../artifacts
