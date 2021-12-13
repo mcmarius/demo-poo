@@ -37,4 +37,8 @@ jobs:
 workflows:
   build:
     jobs:
-      - build-medium
+      - build-medium:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
