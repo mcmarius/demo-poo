@@ -19,7 +19,7 @@ jobs:
             lscpu
             cat /proc/cpuinfo
             ls
-      - run: 
+      - run:
           name: Build and install
           command: |
             mkdir build && mkdir artifacts
@@ -30,7 +30,7 @@ jobs:
             cd ..
             zip artifacts artifacts/**/*
 
-      - store_artifacts: 
+      - store_artifacts:
           path: artifacts.zip
           destination: artifacts
 
