@@ -1,0 +1,22 @@
+# .circleci/config.yml
+version: 2.1
+
+jobs:
+  build-medium:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    steps:
+      - run:
+          name: Setup dependencies
+          command: sudo apt install -y gcc g++ cmake valgrind
+      - run: mkdir build && mkdir artifacts
+      - run: cd build
+      - run: cmake ..
+      - run: cmake --build . -j6
+      - run: cmake --install . --prefix ../artifacts
+
+workflows:
+  build:
+    jobs:
+      - build-medium
