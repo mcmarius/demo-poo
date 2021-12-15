@@ -1,0 +1,45 @@
+# .circleci/config.yml
+version: 2.1
+
+jobs:
+  build-medium:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - run:
+          name: Setup dependencies
+          command: sudo apt-get update && sudo apt-get install zip gcc g++ cmake libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
+
+      - run:
+          name: Environment info
+          command: |
+            pwd
+            uname -a
+            lscpu
+            cat /proc/cpuinfo
+            ls
+      - run:
+          name: Build and install
+          command: |
+            mkdir build && mkdir artifacts
+            cd build
+            cmake -S .. -B . -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=../artifacts -DCMAKE_BUILD_TYPE=Release
+            cmake --build . -j6
+            cmake --install . --prefix ../artifacts
+            cd ..
+            zip artifacts artifacts/**/*
+
+      - store_artifacts:
+          path: artifacts.zip
+          destination: artifacts
+
+workflows:
+  build:
+    jobs:
+      - build-medium:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
