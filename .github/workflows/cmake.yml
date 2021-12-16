@@ -51,6 +51,7 @@ jobs:
           repository: "mcmarius/demo-poo"
           tag: "sfml-${{ env.SFML_VERSION }}-v0.0.1.0"
           fileName: "release_sfml-${{ env.SFML_VERSION }}-v0.0.1.0_${{ matrix.os }}_${{ matrix.cxx }}.zip"
+          token: ${{ secrets.GH_TOKEN }}
 
       - name: Prepare dependencies
         shell: bash
