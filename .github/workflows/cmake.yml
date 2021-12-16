@@ -46,7 +46,7 @@ jobs:
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
-      - uses: robinraju/release-downloader@v1.2
+      - uses: robinraju/release-downloader@v1.3
         with:
           repository: "mcmarius/demo-poo"
           tag: "sfml-${{ env.SFML_VERSION }}-v0.0.1.0"
