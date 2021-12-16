@@ -47,11 +47,16 @@ jobs:
         run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
 
       - uses: robinraju/release-downloader@v1.3
+        if: runner.os != 'macOS'
         with:
           repository: "mcmarius/demo-poo"
           tag: "sfml-${{ env.SFML_VERSION }}-v0.0.1.0"
           fileName: "release_sfml-${{ env.SFML_VERSION }}-v0.0.1.0_${{ matrix.os }}_${{ matrix.cxx }}.zip"
           token: ${{ secrets.GH_TOKEN }}
+
+      - name: Download release
+        if: runner.os == 'macOS'
+        run: wget https://github.com/mcmarius/demo-poo/releases/download/sfml-${{ env.SFML_VERSION }}-v0.0.1.0/release_sfml-${{ env.SFML_VERSION }}-v0.0.1.0_${{ matrix.os }}_${{ matrix.cxx }}.zip
 
       - name: Prepare dependencies
         shell: bash
