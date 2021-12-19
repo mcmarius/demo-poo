@@ -61,7 +61,7 @@ jobs:
           ls gcc/mingw64
           echo "CXX=$(pwd)/gcc/minwg64/bin" >> $GITHUB_ENV
       - name: Configure CMake
-        env:
+        #env:
           #CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
