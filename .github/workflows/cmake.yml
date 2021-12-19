@@ -72,6 +72,8 @@ jobs:
         working-directory: ${{ github.workspace }}/build
         run: |
           echo "$PATH"
+          PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
+          echo "$PATH"
           g++ --version
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
