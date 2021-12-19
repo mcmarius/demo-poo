@@ -62,7 +62,7 @@ jobs:
           echo "CXX=$(pwd)/gcc/minwg64/bin" >> $GITHUB_ENV
       - name: Configure CMake
         env:
-          CXX: ${{ matrix.cxx }}
+          #CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
