@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "ListaDubluInlantuita.h"
+#include <type_traits>
 
 class VNod : public Nod {
 public:
@@ -53,7 +54,40 @@ public:
     }
 };
 
+template <typename T>
+concept Printable = requires(const T& v, std::ostream& os) {
+    os << v;
+};
+
+template <Printable T>
+class abc {
+    T x;
+public:
+    friend std::ostream& operator<<(std::ostream& os, const abc<T>& ob) { os << ob.x; return os; }
+};
+
+template <typename T>
+concept Playable = requires(T v) {
+    { v.play() } -> std::same_as<void>;
+};
+
+class instrument {
+public:
+    void play() { return; }
+    // int play() { return 1; }  // err
+};
+
+template <Playable T>
+class def {
+    T x;
+};
+
 int main() {
+    //abc<BasicNod> a;
+    abc<abc<VNod>> a;
+    std::cout << a << "\n---\n";
+    def<instrument> d;
+
     Nod *n = new VNod(3);
     n->f();
     BasicNod n3;

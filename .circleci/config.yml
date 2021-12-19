@@ -10,7 +10,10 @@ jobs:
       - checkout
       - run:
           name: Setup dependencies
-          command: sudo apt install zip gcc g++ cmake # valgrind
+          command: |
+            sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+            sudo apt-get update
+            sudo apt-get install zip gcc-11 g++-11 cmake # valgrind
       - run:
           name: Environment info
           command: |
@@ -24,9 +27,9 @@ jobs:
           command: |
             mkdir build && mkdir artifacts
             cd build
-            cmake ..
-            cmake --build . -j6
-            cmake --install . --prefix ../artifacts
+            CXX=g++-11 CC=gcc-11 cmake ..
+            CXX=g++-11 CC=gcc-11 cmake --build . -j6
+            CXX=g++-11 CC=gcc-11 cmake --install . --prefix ../artifacts
             cd ..
             zip artifacts artifacts/**/*
 
