@@ -36,7 +36,7 @@ jobs:
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
       - name: Install toolchain (Linux)
-        if: runner.os == 'Linux'
+        if: runner.os == 'Linux' && matrix.cxx == 'g++-11'
         shell: bash
         run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
