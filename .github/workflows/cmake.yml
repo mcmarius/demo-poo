@@ -45,7 +45,7 @@ jobs:
           sudo apt-get install gcc-11 g++-11
       - uses: suisei-cn/actions-download-file@v1
         name: Download toolchain (Windows)
-        id: compiler/gcc11
+        id: compilergcc
         if: runner.os == 'Windows' && matrix.cxx == 'g++-11'
         with:
           url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
