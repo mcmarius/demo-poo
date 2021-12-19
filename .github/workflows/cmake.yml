@@ -59,7 +59,7 @@ jobs:
           # mv ${{ steps.downloadgcc.outputs.filename }} compiler
           7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
           ls gcc/mingw64
-          echo "CXX=$(pwd)/gcc/minwg64/bin/g++" >> $GITHUB_ENV
+          echo "CXX=$(pwd)/gcc/minwg64/bin/g++.exe" >> $GITHUB_ENV
       - name: Configure CMake
         #env:
           #CXX: ${{ matrix.cxx }}
