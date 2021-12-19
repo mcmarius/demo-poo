@@ -16,14 +16,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04]
-        cxx: [g++, clang++]
+        cxx: [g++-11, clang++]
         include:
           - os: macos-10.15
             cxx: clang++
           - os: windows-2019
             cxx: cl
           - os: windows-2019
-            cxx: g++
+            cxx: g++-11
             cmake_generator: "\"MinGW Makefiles\""
 
     steps:
@@ -33,8 +33,29 @@ jobs:
         shell: bash
         run: |
           echo $GITHUB_WORKSPACE
+          mkdir $GITHUB_WORKSPACE/compiler
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
+      - name: Install toolchain (Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install gcc-11 g++-11
+      - uses: suisei-cn/actions-download-file@v1
+        name: Download toolchain (Windows)
+        if: runner.os == 'Windows'
+        with:
+          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
+          target: $GITHUB_WORKSPACE/compiler
+      - name: Install toolchain (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        working_directory: ${{ github.workspace }}/compiler
+        run: |
+          7z x winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
+          ls gcc
       - name: Configure CMake
         env:
           CXX: ${{ matrix.cxx }}
