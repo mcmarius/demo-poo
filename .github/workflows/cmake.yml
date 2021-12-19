@@ -47,12 +47,12 @@ jobs:
       - uses: suisei-cn/actions-download-file@v1
         name: Download toolchain (Windows)
         id: downloadgcc
-        if: runner.os == 'Windows' && matrix.cxx == 'g++-11'
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
         with:
           url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
           target: compiler
       - name: Install toolchain (Windows)
-        if: runner.os == 'Windows' && matrix.cxx == 'g++-11'
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
         shell: bash
         # working-directory: ${{ github.workspace }}/compiler
         run: |
@@ -71,6 +71,8 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
+          echo "$PATH"
+          g++ --version
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
       - name: Build
