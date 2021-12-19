@@ -36,6 +36,7 @@ jobs:
           mkdir $GITHUB_WORKSPACE/compiler
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
+          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
       - name: Install toolchain (Linux)
         if: runner.os == 'Linux'
         shell: bash
@@ -55,12 +56,11 @@ jobs:
         shell: bash
         # working-directory: ${{ github.workspace }}/compiler
         run: |
-          ls
           # mv ${{ steps.downloadgcc.outputs.filename }} compiler
-          # cd compiler
-          ls compiler
-          pwd
           7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
+          ls
+          ls gcc
+          echo "CXX=$(pwd)/gcc/bin" >> $GITHUB_ENV
       - name: Configure CMake
         env:
           CXX: ${{ matrix.cxx }}
