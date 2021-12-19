@@ -52,7 +52,7 @@ jobs:
       - name: Install toolchain (Windows)
         if: runner.os == 'Windows'
         shell: bash
-        working_directory: ${{ github.workspace }}/compiler
+        working-directory: ${{ github.workspace }}/compiler
         run: |
           7z x winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
           ls gcc
