@@ -49,17 +49,18 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'g++-11'
         with:
           url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
-          target: gcccompiler
+          target: compiler
       - name: Install toolchain (Windows)
         if: runner.os == 'Windows' && matrix.cxx == 'g++-11'
         shell: bash
-        working-directory: ${{ github.workspace }}/compiler
+        # working-directory: ${{ github.workspace }}/compiler
         run: |
-          cp ${{ steps.downloadgcc.outputs.filename }} .
           ls
-          ls ..
+          # mv ${{ steps.downloadgcc.outputs.filename }} compiler
+          # cd compiler
+          ls compiler
           pwd
-          7z x winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
+          7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
       - name: Configure CMake
         env:
           CXX: ${{ matrix.cxx }}
