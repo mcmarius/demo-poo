@@ -23,7 +23,7 @@ jobs:
           - os: windows-2019
             cxx: cl
           - os: windows-2019
-            cxx: g++-11
+            cxx: g++
             cmake_generator: "\"MinGW Makefiles\""
 
     steps:
@@ -36,7 +36,7 @@ jobs:
           mkdir $GITHUB_WORKSPACE/compiler
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
-          echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
+          # echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
       - name: Install toolchain (Linux)
         if: runner.os == 'Linux'
         shell: bash
@@ -59,11 +59,12 @@ jobs:
           # mv ${{ steps.downloadgcc.outputs.filename }} compiler
           7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
           ls gcc/mingw64
-          echo "CXX=$(pwd)/gcc/minwg64/bin/g++.exe" >> $GITHUB_ENV
-          echo "CC=$(pwd)/gcc/minwg64/bin/gcc.exe" >> $GITHUB_ENV
+          echo "$(pwd)/gcc/minwg64/bin" >> $GITHUB_PATH
+          # echo "CXX=$(pwd)/gcc/minwg64/bin/g++.exe" >> $GITHUB_ENV
+          # echo "CC=$(pwd)/gcc/minwg64/bin/gcc.exe" >> $GITHUB_ENV
       - name: Configure CMake
-        #env:
-          #CXX: ${{ matrix.cxx }}
+        env:
+          CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
