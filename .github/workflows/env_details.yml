@@ -1,0 +1,37 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [env_details] # replace with main (if applicable)
+    tags: '*'
+  pull_request:
+    branches: [master] # replace with main (if applicable)
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    env:
+      BUILD_TYPE: release
+    strategy:
+      fail-fast: false
+      matrix:
+        #os: [ubuntu-20.04]
+        #cxx: [g++-11, clang++]
+        include:
+          #- os: macos-10.15
+          #  cxx: g++-11
+          - os: windows-2019
+          #  cxx: cl
+          #- os: windows-2019
+          #  cxx: g++
+          #  cmake_generator: "\"MinGW Makefiles\""
+
+    steps:
+      - name: List env details
+        shell: bash
+        run: |
+          ls
+          echo "--------"
+          ls  /c/Program\ Files\ \(x86\)/
+          echo "--------"
+          ls  /c/Program\ Files/
