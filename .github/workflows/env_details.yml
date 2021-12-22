@@ -31,7 +31,13 @@ jobs:
         shell: bash
         run: |
           ls
-          echo "--------"
+          echo "program files x86 --------"
           ls  /c/Program\ Files\ \(x86\)/
-          echo "--------"
+          echo "program files --------"
           ls  /c/Program\ Files/
+          echo "program files x86 microsoft sdks --------"
+          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/
+          echo "program files microsoft sdks --------"
+          ls  /c/Program\ Files\/Microsoft\ SDKs/
+          echo "program files x86 windows kits --------"
+          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/
