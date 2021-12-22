@@ -49,3 +49,7 @@ jobs:
           env
           echo "path -----------"
           echo $PATH
+
+      - name: List env details
+        shell: 'msys2 {0}'
+        run: env
