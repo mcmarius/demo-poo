@@ -2,7 +2,7 @@ name: C++ CI
 
 on:
   push:
-    branches: [env_details] # replace with main (if applicable)
+    branches: [misc-gh-actions] # replace with main (if applicable)
     tags: '*'
   pull_request:
     branches: [master] # replace with main (if applicable)
