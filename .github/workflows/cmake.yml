@@ -50,19 +50,20 @@ jobs:
         with:
           path: gcc
           key: ${{ runner.os }}-gcc
-      - name: Download toolchain (Windows)
+      - name: Download toolchain (Windows g++)
         uses: suisei-cn/actions-download-file@v1
         id: downloadgcc
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         with:
           url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
           target: compiler
-      - name: Install toolchain (Windows)
+      - name: Install toolchain (Windows g++)
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         shell: bash
         run: |
           7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
-      - name: Configure CMake
+      - name: Configure CMake (Windows g++)
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
         env:
           CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
@@ -72,6 +73,18 @@ jobs:
         working-directory: ${{ github.workspace }}/build
         run: |
           PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+      - name: Configure CMake
+        if: ! (runner.os == 'Windows' && matrix.cxx == 'g++')
+        env:
+          CXX: ${{ matrix.cxx }}
+        # Use a bash shell so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        # https://github.com/saxbophone/CPP20-Cross-Platform-Template
+        shell: bash
+        working-directory: ${{ github.workspace }}/build
+        run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
       - name: Build
