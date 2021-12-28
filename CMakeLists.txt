@@ -9,7 +9,7 @@ add_executable(proj Nod.cpp Nod.h main.cpp ListaDubluInlantuita.cpp ListaDubluIn
 if(MSVC)
     target_compile_options(proj PRIVATE /W4 /permissive-)
 else()
-    target_compile_options(proj PRIVATE (-Wall -Wextra -pedantic -g)
+    target_compile_options(proj PRIVATE -Wall -Wextra -pedantic -g)
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         target_compile_options(proj PRIVATE -stdlib=libstdc++)
     endif()
