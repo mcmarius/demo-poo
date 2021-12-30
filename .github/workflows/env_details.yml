@@ -47,6 +47,10 @@ jobs:
           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin
           echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools --------"
           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/
+          echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools x64 --------"
+          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/x64/
+          echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools 1033 --------"
+          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/1033/
           echo "program files x86 microsoft sdks windows v7.0A --------"
           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v7.0A/
           echo "program files x86 microsoft sdks/windows kits/10 --------"
