@@ -39,6 +39,8 @@ jobs:
           ls  /c/Program\ Files\/Microsoft\ SDKs/
           echo "program files x86 microsoft sdks --------"
           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/
+          echo "program files x86 microsoft sdks windows --------"
+          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/
           echo "program files x86 microsoft sdks/windows kits/10 --------"
           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows\ Kits/10/
           #echo "program files x86 windows kits --------"
