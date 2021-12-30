@@ -49,13 +49,15 @@ jobs:
           env
           echo "path -----------"
           echo $PATH
+          echo "msvc -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133
 
-      - name: Set up MSYS2
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: mingw64
-          install: >-
-            mingw-w64-x86_64-gcc
-      - name: List env details
-        shell: 'msys2 {0}'
-        run: env
+#       - name: Set up MSYS2
+#         uses: msys2/setup-msys2@v2
+#         with:
+#           msystem: mingw64
+#           install: >-
+#             mingw-w64-x86_64-gcc
+#       - name: List env details
+#         shell: 'msys2 {0}'
+#         run: env
