@@ -51,6 +51,18 @@ jobs:
           echo $PATH
           echo "msvc -----------"
           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133
+          echo "msvc/crt -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/crt
+          echo "msvc/include -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/include
+          echo "msvc/lib -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/lib
+          echo "msvc/bin -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/bin
+          echo "msvc/Auxiliary -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/Auxiliary
+          echo "msvc/atlmfc -----------"
+          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/atlmfc
 
 #       - name: Set up MSYS2
 #         uses: msys2/setup-msys2@v2
