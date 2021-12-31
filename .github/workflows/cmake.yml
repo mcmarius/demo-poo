@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           echo $GITHUB_WORKSPACE
-          mkdir $GITHUB_WORKSPACE/build
+          mkdir -p $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
       - name: Install toolchain (Linux)
         if: runner.os == 'Linux' && matrix.cxx == 'g++-11'
