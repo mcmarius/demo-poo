@@ -57,7 +57,7 @@ jobs:
         id: cache-deps
         with:
           path: |
-            build/_deps
+            build/external
           key: ${{ runner.os }}-${{ matrix.cxx }}
 
       - name: Download toolchain (Windows g++)
