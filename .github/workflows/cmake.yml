@@ -90,7 +90,7 @@ jobs:
       - name: Build
         shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build build --config $BUILD_TYPE
+        run: cmake --build build --config $BUILD_TYPE -j6
 
       - name: Install
         # working-directory: ${{ github.workspace }}/build
