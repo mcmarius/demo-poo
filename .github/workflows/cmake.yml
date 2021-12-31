@@ -57,6 +57,7 @@ jobs:
         id: cache-deps
         with:
           path: |
+            external
             build/external
           key: ${{ runner.os }}-${{ matrix.cxx }}
 
