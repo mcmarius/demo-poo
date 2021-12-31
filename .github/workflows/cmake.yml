@@ -43,13 +43,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install gcc-11 g++-11
 
-      - name: Cache MinGW
+      - name: Cache MinGW and deps (Windows g++)
         uses: actions/cache@v2
         id: cache-mingw
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         with:
-          path: gcc
+          path: |
+            gcc
           key: ${{ runner.os }}-gcc
+
+      - name: Cache deps
+        uses: actions/cache@v2
+        id: cache-deps
+        with:
+          path: |
+            build/_deps
+          key: ${{ runner.os }}-${{ matrix.cxx }}
+
       - name: Download toolchain (Windows g++)
         uses: suisei-cn/actions-download-file@v1
         id: downloadgcc
