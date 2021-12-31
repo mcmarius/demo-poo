@@ -65,6 +65,14 @@ jobs:
           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/
           echo "program files x86 windows kits/10/bin --------"
           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin
+          echo "program files x86 windows kits/10/Include 10.0.22000.0 --------"
+          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22000.0/
+          echo "program files x86 windows kits/10/Lib 10.0.22000.0 --------"
+          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/10.0.22000.0/
+          echo "program files x86 windows kits/10/bin 10.0.22000.0 --------"
+          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/
+          echo "program files x86 windows kits/10/bin x64 --------"
+          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x64/
           echo "env -----------------"
           env
           echo "path -----------"
