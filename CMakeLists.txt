@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
 project(proj)
 
-SET(CMAKE_COMPILER_IS_MINGW 1)
-SET(MINGW 1)
+if(MSVC)
+else()
+  if(WINDOWS)
+    SET(CMAKE_COMPILER_IS_MINGW 1)
+    SET(MINGW 1)
+  endif()
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 
