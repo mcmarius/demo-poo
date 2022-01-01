@@ -60,7 +60,7 @@ jobs:
             external
             build/external
             .git/modules
-          key: ${{ runner.os }}-${{ matrix.cxx }}-${{ hashFiles('.gitmodules') }}
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-${{ hashFiles('.gitmodules') }}
 
       - name: Download toolchain (Windows g++)
         uses: suisei-cn/actions-download-file@v1
