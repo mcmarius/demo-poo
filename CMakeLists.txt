@@ -26,11 +26,11 @@ if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
         option(GIT_SUBMODULE "Check submodules during build" ON)
         if(GIT_SUBMODULE)
                 message(STATUS "Submodule update")
-                execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --recursive
+                execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
                                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                                 RESULT_VARIABLE GIT_SUBMOD_RESULT1)
                 if(NOT GIT_SUBMOD_RESULT1 EQUAL "0")
-                        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+                        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --recursive
                                         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
                                         RESULT_VARIABLE GIT_SUBMOD_RESULT2)
 
