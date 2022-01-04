@@ -51,7 +51,7 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ matrix.os }}-${{ runner.os }}-${{ matrix.cxx }}-$SFML_VERSION
+          key: ${{ matrix.os }}-${{ runner.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Configure CMake
         env:
