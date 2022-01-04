@@ -35,6 +35,8 @@ jobs:
           ls  /c/Program\ Files\ \(x86\)/
           echo "program files --------"
           ls  /c/Program\ Files/
+          echo "programdata"
+          ls /c/ProgramData/
           echo "program files microsoft sdks --------"
           ls  /c/Program\ Files\/Microsoft\ SDKs/
           echo "program files x86 microsoft sdks --------"
