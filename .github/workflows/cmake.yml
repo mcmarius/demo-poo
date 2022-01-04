@@ -66,6 +66,7 @@ jobs:
 
       - name: Copy stdlib (Windows g++)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        shell: bash
         run: |
           cp /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts
 
