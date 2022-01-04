@@ -43,6 +43,8 @@ jobs:
           ls /c/ProgramData/chocolatey/
           echo "programdata/chocolatey/lib -----------"
           ls /c/ProgramData/chocolatey/lib/
+          echo "programdata/chocolatey/lib/mingw -----------"
+          ls /c/ProgramData/chocolatey/lib/mingw/
           echo "program files microsoft sdks --------"
           ls  /c/Program\ Files\/Microsoft\ SDKs/
           echo "program files x86 microsoft sdks --------"
