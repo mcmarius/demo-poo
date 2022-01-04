@@ -104,6 +104,16 @@ jobs:
       - name: g++
         shell: bash
         run: g++ -v --version
+
+      - name: show libs
+        shell: bash
+        run: |
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib/../lib 
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../lib 
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib
+
 #       - name: List env details 2
 #         shell: cmd
 #         run: tree "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133"
