@@ -108,10 +108,15 @@ jobs:
       - name: show libs
         shell: bash
         run: |
+          echo "1 -----------"
           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0
+          echo "2 -----------"
           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib/../lib 
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../lib 
+          echo "3 -----------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib/../lib
+          echo "4 -----------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../lib
+          echo "5 -----------"
           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib
 
 #       - name: List env details 2
