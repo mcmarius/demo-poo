@@ -64,6 +64,11 @@ jobs:
         run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_config_flags}}
 
+      - name: Copy stdlib (Windows g++)
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        run: |
+          cp /c/ProgramData/chocolatey/bin/*.dll $GITHUB_WORKSPACE/artifacts
+
       - name: Build
         working-directory: ${{ github.workspace }}/build
         shell: bash
