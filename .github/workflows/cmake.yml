@@ -40,7 +40,30 @@ jobs:
           mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
 
-      # taken from SFML Github Actions
+      - name: Copy stdlib (Windows g++)
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        shell: bash
+        run: |
+          echo "1 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/
+          echo "2 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/
+          echo "3 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/
+          echo "4 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/
+          echo "5 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/lib/
+          echo "6 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/
+          echo "7 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/x86_64-w64-mingw32/
+          echo "8 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/
+          echo "9 ------------------"
+          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/libstdc++-6.dll
+
+# taken from SFML Github Actions
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
         run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev
