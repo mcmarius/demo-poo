@@ -101,7 +101,9 @@ jobs:
           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/Auxiliary
           echo "msvc/atlmfc -----------"
           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/atlmfc
-
+      - name: g++
+        shell: bash
+        run: g++ -v --version
 #       - name: List env details 2
 #         shell: cmd
 #         run: tree "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.29.30133"
