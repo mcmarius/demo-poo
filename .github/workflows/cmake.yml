@@ -176,7 +176,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # These are optional (defaults displayed)
         with:
-          scandir: $GITHUB_WORKSPACE
+          scandir: ${{ github.workspace }}
           builddir: 'build'
           excludedirs: ''
           extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
