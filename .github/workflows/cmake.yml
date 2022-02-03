@@ -29,17 +29,7 @@ jobs:
             c: clang-11
             cxx: clang++-11
             name: Ubuntu 20.04 Clang 11
-            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
-#          - os: ubuntu-18.04
-#            c: gcc-10
-#            cxx: g++-10
-#            name: Ubuntu 18.04 GCC 10
-#            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
-#          - os: ubuntu-18.04
-#            c: clang-9
-#            cxx: clang++-9
-#            name: Ubuntu 18.04 Clang 11
-#            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
+            cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_SHARED_LIBS=FALSE
           - os: macos-11
             c: clang
             cxx: clang++
@@ -58,7 +48,7 @@ jobs:
           - os: windows-2022
             c: gcc
             cxx: g++
-            name: Windows 2022 GCC 11
+            name: Windows 2022 GCC 10
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: "\"MinGW Makefiles\""
 
@@ -163,13 +153,23 @@ jobs:
         run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
           -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
           -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_config_flags}}
 
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         shell: bash
         run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
+
+      - name: Run clang-tidy
+        uses: HorstBaerbel/action-clang-tidy@1.2
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        # These are optional (defaults displayed)
+        with:
+          scandir: '.'
+          builddir: 'build'
+          excludedirs: ''
+          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
+          cmakeoptions: ''
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
@@ -183,7 +183,7 @@ jobs:
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
-      - name: Copy stdlib (Windows g++)
+      - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         shell: bash
         run: |
