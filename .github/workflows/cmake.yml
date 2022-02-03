@@ -86,7 +86,7 @@ jobs:
           path: tools
           key: tools
 
-      - name: Setup tools
+      - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
 #        if: matrix.cxx == 'clang++' && steps.cache-tools.outputs.cache-hit != 'true'
         shell: bash
@@ -100,6 +100,12 @@ jobs:
           mkdir build
           cmake -S . -B build
           cmake --build build -j6
+
+      - name: Install tools
+          # Right now I am too lazy to figure out caching for this step
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        shell: bash
+        run: |
           sudo cmake --install build
           # echo "$GITHUB_WORKSPACE/tools/cppcheck-2.6/build/bin" >> $GITHUB_PATH
           # adds cppcheck to path; otherwise, refer to cppcheck as ./tools/cppcheck-2.6/build/bin/cppcheck
