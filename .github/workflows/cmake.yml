@@ -12,28 +12,30 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
+      CC: ${{ matrix.c }}
+      CXX: ${{ matrix.cxx }}
       SFML_VERSION: "2021-11-18"
       BUILD_TYPE: Release
     strategy:
       fail-fast: false
       matrix:
         include:
-#          - os: ubuntu-20-04
-#            c: gcc-10
-#            cxx: g++-10
-#            name: Ubuntu 20.04 GCC 10
-#            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
-#          - os: ubuntu-20-04
-#            c: clang-11
-#            cxx: clang++-11
-#            name: Ubuntu 20.04 Clang 11
-#            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
-#          - os: ubuntu-18-04
+          - os: ubuntu-20.04
+            c: gcc-10
+            cxx: g++-10
+            name: Ubuntu 20.04 GCC 10
+            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
+          - os: ubuntu-20.04
+            c: clang-11
+            cxx: clang++-11
+            name: Ubuntu 20.04 Clang 11
+            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
+#          - os: ubuntu-18.04
 #            c: gcc-10
 #            cxx: g++-10
 #            name: Ubuntu 18.04 GCC 10
 #            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
-#          - os: ubuntu-18-04
+#          - os: ubuntu-18.04
 #            c: clang-9
 #            cxx: clang++-9
 #            name: Ubuntu 18.04 Clang 11
@@ -58,7 +60,7 @@ jobs:
             cxx: g++
             name: Windows 2022 GCC 11
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-            cmake_generator: "\"MinGW MakeFiles\""
+            cmake_generator: "\"MinGW Makefiles\""
 
     steps:
       - uses: actions/checkout@v2
@@ -88,6 +90,7 @@ jobs:
       - name: Cache tools
         uses: actions/cache@v2
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+#        if: matrix.cxx == 'clang++'
         id: cache-tools
         with:
           path: tools
@@ -95,6 +98,7 @@ jobs:
 
       - name: Setup tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
+#        if: matrix.cxx == 'clang++' && steps.cache-tools.outputs.cache-hit != 'true'
         shell: bash
         run: |
           mkdir tools/
@@ -117,12 +121,39 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ matrix.os }}-${{ runner.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+
+      - name: Cache MinGW
+        uses: actions/cache@v2
+        id: cache-mingw
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        with:
+          path: gcc
+          key: ${{ runner.os }}-gcc
+
+      - name: Download toolchain (MinGW)
+        uses: suisei-cn/actions-download-file@v1
+        id: downloadgcc
+        if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
+        with:
+          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.2.0-13.0.0-9.0.0-ucrt-r2/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip"
+          target: compiler
+
+      - name: Install toolchain (MinGW)
+        if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r2.zip -ogcc
+
+      - name: Configure CMake (MinGW)
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        shell: bash
+        working-directory: ${{ github.workspace }}/build
+        run: |
+          PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
       - name: Configure CMake
-        env:
-          CC: ${{ matrix.c }}
-          CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
