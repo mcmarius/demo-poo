@@ -176,13 +176,13 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # These are optional (defaults displayed)
         with:
-          scandir: ${{ github.workspace }}
+          scandir: ${{ env.GITHUB_WORKSPACE }}
           builddir: 'build'
           excludedirs: ''
           extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-          cmakeoptions: -S $GITHUB_WORKSPACE -B . \
+          cmakeoptions: -S ${{ env.GITHUB_WORKSPACE }} -B . \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/artifacts \
             ${{matrix.cmake_flags}}
 
       - name: Build
