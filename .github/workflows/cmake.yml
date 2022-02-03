@@ -55,11 +55,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Run clang-tidy
+        uses: HorstBaerbel/action-clang-tidy@1.2
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        # These are optional (defaults displayed)
+        with:
+          scandir: '.'
+          builddir: 'build'
+          excludedirs: ''
+          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
+          cmakeoptions: -S $GITHUB_WORKSPACE -B . \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            ${{matrix.cmake_flags}}
+
       - name: Prepare env
         shell: bash
         run: |
           echo $GITHUB_WORKSPACE
-          mkdir $GITHUB_WORKSPACE/build
+          # mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
 
       # taken from SFML Github Actions
@@ -170,17 +184,6 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         shell: bash
         run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
-
-      - name: Run clang-tidy
-        uses: HorstBaerbel/action-clang-tidy@1.2
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        # These are optional (defaults displayed)
-        with:
-          scandir: '.'
-          builddir: 'build'
-          excludedirs: ''
-          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-          cmakeoptions: ''
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
