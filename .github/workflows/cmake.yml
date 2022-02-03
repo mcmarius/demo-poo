@@ -58,7 +58,7 @@ jobs:
             cxx: g++
             name: Windows 2022 GCC 11
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-            cmake_generator: Ninja
+            cmake_generator: "\"MinGW MakeFiles\""
 
     steps:
       - uses: actions/checkout@v2
