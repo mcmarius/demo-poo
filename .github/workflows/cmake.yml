@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
+    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
       SFML_VERSION: "2021-11-18"
@@ -41,7 +41,7 @@ jobs:
           - os: windows-2022
             c: cl
             cxx: cl
-            name: Windows 2022 MSVC 19.??
+            name: Windows 2022 MSVC 19.30
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
           - os: windows-2022
             c: gcc
@@ -76,14 +76,14 @@ jobs:
 
       - name: Cache tools
         uses: actions/cache@v2
-        if: runner.os == 'Linux' && matrix.config.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         id: cache-tools
         with:
           path: tools
           key: tools
 
       - name: Setup tools
-        if: runner.os == 'Linux' && matrix.config.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
         shell: bash
         run: |
           mkdir tools/
@@ -106,25 +106,25 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ matrix.config.os }}-${{ runner.os }}-${{ matrix.config.cxx }}-${{ env.SFML_VERSION }}
+          key: ${{ matrix.os }}-${{ runner.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Configure CMake
         env:
-          C: ${{ matrix.config.c }}
-          CXX: ${{ matrix.config.cxx }}
+          C: ${{ matrix.c }}
+          CXX: ${{ matrix.cxx }}
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
         shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
-          CMAKE_GENERATOR=${{ matrix.config.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
           -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.config.cmake_config_flags}}
+          -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_config_flags}}
 
       - name: Cppcheck
-        if: runner.os == 'Linux' && matrix.config.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         shell: bash
         run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
 
@@ -141,7 +141,7 @@ jobs:
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
       - name: Copy stdlib (Windows g++)
-        if: runner.os == 'Windows' && matrix.config.cxx == 'g++'
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
         shell: bash
         run: |
           cp /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/x86_64-w64-mingw32/lib/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts
@@ -158,10 +158,10 @@ jobs:
         with:
           type: 'zip'
           path: artifacts
-          filename: release_${{ env.TAG_NAME }}_${{ matrix.config.os }}_${{ matrix.config.cxx }}.zip
+          filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            release_${{ env.TAG_NAME }}_${{ matrix.config.os }}_${{ matrix.config.cxx }}.zip
+            release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
