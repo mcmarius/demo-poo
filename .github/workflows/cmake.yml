@@ -106,6 +106,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         shell: bash
         run: |
+          cd tools/cppcheck-2.6
           sudo cmake --install build
           # echo "$GITHUB_WORKSPACE/tools/cppcheck-2.6/build/bin" >> $GITHUB_PATH
           # adds cppcheck to path; otherwise, refer to cppcheck as ./tools/cppcheck-2.6/build/bin/cppcheck
