@@ -16,7 +16,9 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME})
+
+target_sources(${PROJECT_NAME} PRIVATE main.cpp)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4)
