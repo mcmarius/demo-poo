@@ -33,11 +33,11 @@ jobs:
             cxx: clang++
             name: macOS 11 Apple Clang 13
             cmake_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
-          - os: macos-11
-            c: gcc-11
-            cxx: g++-11
-            name: macOS 11 GCC 11
-            cmake_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
+#          - os: macos-11
+#            c: gcc-11
+#            cxx: g++-11
+#            name: macOS 11 GCC 11
+#            cmake_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
           - os: windows-2022
             c: cl
             cxx: cl
