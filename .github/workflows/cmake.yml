@@ -51,6 +51,7 @@ jobs:
             name: Windows 2022 GCC 10
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: "\"MinGW Makefiles\""
+            # might be able to replace with Ninja since it is bundled by winlibs
 
     steps:
       - uses: actions/checkout@v2
@@ -176,13 +177,13 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # These are optional (defaults displayed)
         with:
-          scandir: ${{ env.GITHUB_WORKSPACE }}
+          scandir: ${{ github.workspace }}
           builddir: 'build'
           excludedirs: ''
           extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-          cmakeoptions: -S ${{ env.GITHUB_WORKSPACE }} -B . \
+          cmakeoptions: -S ${{ github.workspace }} -B . \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=${{ env.GITHUB_WORKSPACE }}/artifacts \
+            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/artifacts \
             ${{matrix.cmake_flags}}
 
       - name: Build
