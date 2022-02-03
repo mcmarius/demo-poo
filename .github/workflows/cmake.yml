@@ -113,20 +113,6 @@ jobs:
           #
           # build other tools here
 
-      - name: Run clang-tidy
-        uses: HorstBaerbel/action-clang-tidy@1.2
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        # These are optional (defaults displayed)
-        with:
-          scandir: '.'
-          builddir: 'build'
-          excludedirs: ''
-          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-          cmakeoptions: -S $GITHUB_WORKSPACE -B . \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            ${{matrix.cmake_flags}}
-
       - name: Cache deps
         uses: actions/cache@v2
         id: cache-deps
@@ -184,6 +170,20 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         shell: bash
         run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
+
+      - name: Run clang-tidy
+        uses: mcmarius/action-clang-tidy@master
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        # These are optional (defaults displayed)
+        with:
+          scandir: '.'
+          builddir: 'build'
+          excludedirs: ''
+          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
+          cmakeoptions: -S $GITHUB_WORKSPACE -B . \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            ${{matrix.cmake_flags}}
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
