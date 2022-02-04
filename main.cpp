@@ -1,8 +1,10 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "SomeClass.h"
 
 int main() {
+    SomeClass c{2};
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 700), "My Window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);

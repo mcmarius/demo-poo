@@ -16,9 +16,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 
-add_executable(${PROJECT_NAME})
-
-target_sources(${PROJECT_NAME} PRIVATE main.cpp)
+add_executable(${PROJECT_NAME} main.cpp SomeClass.cpp)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
@@ -33,7 +31,8 @@ else()
     endif()
 endif()
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${SFML_SOURCE_DIR}/include)
+# use system so clang-tidy does not report warnings from these folders
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 

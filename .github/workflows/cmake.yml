@@ -69,6 +69,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install \
+            clang-tidy \
+            jq \
             libxrandr-dev \
             libxcursor-dev \
             libudev-dev \
@@ -172,19 +174,13 @@ jobs:
         shell: bash
         run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
 
-      - name: Run clang-tidy
-        uses: mcmarius/action-clang-tidy@master
+      - name: Clang-tidy
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        # These are optional (defaults displayed)
-        with:
-          scandir: ${{ github.workspace }}
-          builddir: 'build'
-          excludedirs: ''
-          extensions: 'c,h,C,H,cpp,hpp,cc,hh,c++,h++,cxx,hxx'
-          cmakeoptions: -S ${{ github.workspace }} -B . \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/artifacts \
-            ${{matrix.cmake_flags}}
+        shell: bash
+        run: cat build/compile_commands.json |
+             jq -r '.[] | .file' |             # select source file paths from CMake project; -r to strip quotes
+             grep -v "/build/_deps/" |         # ignore external dependencies
+             xargs clang-tidy -p build
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
