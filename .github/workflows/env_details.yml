@@ -15,6 +15,7 @@ jobs:
         shell: bash
         run: |
           ls -la ${{ github.workspace }}
+          ls -la /github/workspace
           echo $ENV
   build:
     runs-on: ${{ matrix.os }}
