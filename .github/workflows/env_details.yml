@@ -8,6 +8,14 @@ on:
     branches: [master] # replace with main (if applicable)
 
 jobs:
+  debug-ubuntu:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: gh workspace
+        shell: bash
+        run: |
+          ls -la ${{ github.workspace }}
+          echo $ENV
   build:
     runs-on: ${{ matrix.os }}
     env:
