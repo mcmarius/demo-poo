@@ -15,118 +15,119 @@ jobs:
         shell: bash
         run: |
           ls -la ${{ github.workspace }}
+          sudo apt install -y clang-tidy
           clang-tidy --version
           echo $ENV
-  build:
-    runs-on: ${{ matrix.os }}
-    env:
-      BUILD_TYPE: release
-    strategy:
-      fail-fast: false
-      matrix:
-        #os: [ubuntu-20.04]
-        #cxx: [g++-11, clang++]
-        include:
-          #- os: macos-10.15
-          #  cxx: g++-11
-          - os: windows-2019
-          #  cxx: cl
-          #- os: windows-2019
-          #  cxx: g++
-          #  cmake_generator: "\"MinGW Makefiles\""
+#   build:
+#     runs-on: ${{ matrix.os }}
+#     env:
+#       BUILD_TYPE: release
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         #os: [ubuntu-20.04]
+#         #cxx: [g++-11, clang++]
+#         include:
+#           #- os: macos-10.15
+#           #  cxx: g++-11
+#           - os: windows-2019
+#           #  cxx: cl
+#           #- os: windows-2019
+#           #  cxx: g++
+#           #  cmake_generator: "\"MinGW Makefiles\""
 
-    steps:
-      - name: List env details
-        shell: bash
-        run: |
-          ls
-          echo "program files x86 --------"
-          ls  /c/Program\ Files\ \(x86\)/
-          echo "program files --------"
-          ls  /c/Program\ Files/
-          echo "programdata -----------"
-          ls /c/ProgramData/
-          echo "programdata/chocolatey/bin -----------"
-          ls /c/ProgramData/chocolatey/bin/
-          echo "programdata/chocolatey -----------"
-          ls /c/ProgramData/chocolatey/
-          echo "programdata/chocolatey/lib -----------"
-          ls /c/ProgramData/chocolatey/lib/
-          echo "programdata/chocolatey/lib/mingw -----------"
-          ls /c/ProgramData/chocolatey/lib/mingw/
-          echo "program files microsoft sdks --------"
-          ls  /c/Program\ Files\/Microsoft\ SDKs/
-          echo "program files x86 microsoft sdks --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/
-          echo "program files x86 microsoft sdks windows --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/
-          echo "program files x86 microsoft sdks windows v10.0A --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/
-          echo "program files x86 microsoft sdks windows v10.0A bin --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin
-          echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/
-          echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools x64 --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/x64/
-          echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools 1033 --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/1033/
-          echo "program files x86 microsoft sdks windows v7.0A --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v7.0A/
-          echo "program files x86 microsoft sdks/windows kits/10 --------"
-          ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows\ Kits/10/
-          #echo "program files x86 windows kits --------"
-          #ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/
-          echo "program files x86 windows kits/10/ --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/
-          echo "program files x86 windows kits/10/Include --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/
-          echo "program files x86 windows kits/10/Lib --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/
-          echo "program files x86 windows kits/10/bin --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin
-          echo "program files x86 windows kits/10/Include 10.0.22000.0 --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22000.0/
-          echo "program files x86 windows kits/10/Lib 10.0.22000.0 --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/10.0.22000.0/
-          echo "program files x86 windows kits/10/bin 10.0.22000.0 --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/
-          echo "program files x86 windows kits/10/bin x64 --------"
-          ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x64/
-          echo "env -----------------"
-          env
-          echo "path -----------"
-          echo $PATH
-          echo "msvc -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133
-          echo "msvc/crt -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/crt
-          echo "msvc/include -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/include
-          echo "msvc/lib -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/lib
-          echo "msvc/bin -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/bin
-          echo "msvc/Auxiliary -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/Auxiliary
-          echo "msvc/atlmfc -----------"
-          ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/atlmfc
-      - name: g++
-        shell: bash
-        run: g++ -v --version
+#     steps:
+#       - name: List env details
+#         shell: bash
+#         run: |
+#           ls
+#           echo "program files x86 --------"
+#           ls  /c/Program\ Files\ \(x86\)/
+#           echo "program files --------"
+#           ls  /c/Program\ Files/
+#           echo "programdata -----------"
+#           ls /c/ProgramData/
+#           echo "programdata/chocolatey/bin -----------"
+#           ls /c/ProgramData/chocolatey/bin/
+#           echo "programdata/chocolatey -----------"
+#           ls /c/ProgramData/chocolatey/
+#           echo "programdata/chocolatey/lib -----------"
+#           ls /c/ProgramData/chocolatey/lib/
+#           echo "programdata/chocolatey/lib/mingw -----------"
+#           ls /c/ProgramData/chocolatey/lib/mingw/
+#           echo "program files microsoft sdks --------"
+#           ls  /c/Program\ Files\/Microsoft\ SDKs/
+#           echo "program files x86 microsoft sdks --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/
+#           echo "program files x86 microsoft sdks windows --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/
+#           echo "program files x86 microsoft sdks windows v10.0A --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/
+#           echo "program files x86 microsoft sdks windows v10.0A bin --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin
+#           echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/
+#           echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools x64 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/x64/
+#           echo "program files x86 microsoft sdks windows v10.0A bin NETFX 4.8 Tools 1033 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/Bin/NETFX\ 4.8\ Tools/1033/
+#           echo "program files x86 microsoft sdks windows v7.0A --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v7.0A/
+#           echo "program files x86 microsoft sdks/windows kits/10 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows\ Kits/10/
+#           #echo "program files x86 windows kits --------"
+#           #ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/
+#           echo "program files x86 windows kits/10/ --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/
+#           echo "program files x86 windows kits/10/Include --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/
+#           echo "program files x86 windows kits/10/Lib --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/
+#           echo "program files x86 windows kits/10/bin --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin
+#           echo "program files x86 windows kits/10/Include 10.0.22000.0 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Include/10.0.22000.0/
+#           echo "program files x86 windows kits/10/Lib 10.0.22000.0 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/Lib/10.0.22000.0/
+#           echo "program files x86 windows kits/10/bin 10.0.22000.0 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/
+#           echo "program files x86 windows kits/10/bin x64 --------"
+#           ls  /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x64/
+#           echo "env -----------------"
+#           env
+#           echo "path -----------"
+#           echo $PATH
+#           echo "msvc -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133
+#           echo "msvc/crt -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/crt
+#           echo "msvc/include -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/include
+#           echo "msvc/lib -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/lib
+#           echo "msvc/bin -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/bin
+#           echo "msvc/Auxiliary -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/Auxiliary
+#           echo "msvc/atlmfc -----------"
+#           ls /c/Program\ Files\ \(x86\)/Microsoft\ Visual\ Studio/2019/Enterprise/VC/Tools/MSVC/14.29.30133/atlmfc
+#       - name: g++
+#         shell: bash
+#         run: g++ -v --version
 
-      - name: show libs
-        shell: bash
-        run: |
-          echo "1 -----------"
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0
-          echo "2 -----------"
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc
-          echo "3 -----------"
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib/../lib
-          echo "4 -----------"
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../lib
-          echo "5 -----------"
-          ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib
+#       - name: show libs
+#         shell: bash
+#         run: |
+#           echo "1 -----------"
+#           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0
+#           echo "2 -----------"
+#           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc
+#           echo "3 -----------"
+#           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib/../lib
+#           echo "4 -----------"
+#           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../lib
+#           echo "5 -----------"
+#           ls /c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/lib
 
 #       - name: List env details 2
 #         shell: cmd
