@@ -9,7 +9,7 @@ SomeClass *getC() {
 
 int main() {
     SomeClass *c = getC();
-    std::cout << c;
+    std::cout << c << "\n";
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 700), "My Window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);
