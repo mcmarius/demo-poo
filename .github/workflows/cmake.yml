@@ -204,7 +204,7 @@ jobs:
           DISPLAY: :99.0
         with:
           run: |
-            cat date.txt | ./artifacts/bin/demo-sfml &
+            ./artifacts/bin/demo-sfml &
             xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
           working-directory: ${{github.workspace}}
 
@@ -215,7 +215,7 @@ jobs:
           DISPLAY: :99.0
         with:
           run: |
-            valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
+            valgrind --leak-check=full --error-exitcode=1 ./artifacts/bin/demo-sfml &
             xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
           working-directory: ${{github.workspace}}
 
