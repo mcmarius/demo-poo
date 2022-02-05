@@ -89,7 +89,10 @@ jobs:
       - name: Install X11 dependencies on MacOS
         if: runner.os == 'macOS'
         run: |
-          brew --cask install xquartz
+          brew update
+          brew cleanup
+          brew cask cleanup
+          brew cask install xquartz
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -157,18 +160,12 @@ jobs:
         working-directory: ${{ github.workspace }}/build
         run: |
           PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
-          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            ${{matrix.cmake_flags}}
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_flags}}
 
       - name: Configure CMake
         working-directory: ${{ github.workspace }}/build
         run: |
-          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
-            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            ${{matrix.cmake_flags}}
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_flags}}
 
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
