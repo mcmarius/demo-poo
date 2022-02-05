@@ -135,6 +135,16 @@ jobs:
             build/_deps
           key: cache-1-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
+      - name: Cache deps (MinGW Ninja)
+        uses: actions/cache@v2
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        id: cache-deps-ninja
+        with:
+          path: |
+            build/.ninja_deps
+            build/.ninja_log
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache
+
       - name: Cache MinGW
         uses: actions/cache@v2
         id: cache-mingw
