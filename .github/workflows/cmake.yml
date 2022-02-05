@@ -94,8 +94,8 @@ jobs:
           brew update
           brew cleanup
           # brew upgrade
-          brew cleanup --cask
-          brew install --cask xquartz
+          brew cleanup
+          brew install xquartz
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -203,7 +203,7 @@ jobs:
         # if: matrix.cxx == 'clang++-11'
         # NOTE: update executable name if it is changed in CMakeLists.txt
         env:
-          DISPLAY: :0
+          DISPLAY: :99.0
         run: |
           # ASAN_OPTIONS=detect_leaks=1 # this env var is only required for macOS
           cat date.txt | ./artifacts/bin/demo-sfml &
@@ -213,7 +213,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
         # NOTE: update executable name if it is changed in CMakeLists.txt
         env:
-          DISPLAY: :1
+          DISPLAY: :99.0
         run: |
           # without --show-leak-kinds=all --track-origins=yes since there might be many leaks in external libs 
           valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
