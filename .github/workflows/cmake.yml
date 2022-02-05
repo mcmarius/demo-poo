@@ -91,8 +91,9 @@ jobs:
         run: |
           brew update
           brew cleanup
-          brew cask cleanup
-          brew cask install xquartz
+          brew upgrade
+          brew --cask cleanup
+          brew --cask install xquartz
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -157,15 +158,19 @@ jobs:
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
-        working-directory: ${{ github.workspace }}/build
         run: |
           PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
-          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_flags}}
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            ${{matrix.cmake_flags}}
 
       - name: Configure CMake
-        working-directory: ${{ github.workspace }}/build
         run: |
-          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts ${{matrix.cmake_flags}}
+          CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            ${{matrix.cmake_flags}}
 
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
@@ -181,12 +186,10 @@ jobs:
             xargs clang-tidy -p build
 
       - name: Build
-        working-directory: ${{ github.workspace }}/build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . --config $BUILD_TYPE -j6
+        run: cmake --build build --config $BUILD_TYPE -j6
 
       - name: Install
-        # working-directory: ${{ github.workspace }}/build
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
