@@ -88,14 +88,15 @@ jobs:
             libgl1-mesa-dev \
             libegl1-mesa-dev
 
-      - name: Install X11 dependencies on MacOS
-        if: runner.os == 'macOS'
-        run: |
-          brew update
-          brew cleanup
-          # brew upgrade
-          brew cleanup
-          brew install xquartz
+#      - name: Install X11 dependencies on MacOS
+#        if: runner.os == 'macOS'
+#        run: |
+#          brew update
+#          brew cleanup
+#          # brew upgrade
+#          brew cleanup
+#          brew install xquartz
+#          brew install xdotool
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -195,29 +196,52 @@ jobs:
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
-      - name: Sanitizers
-        # run one sanitizer for each OS to avoid extra binaries;
-        # memory on Linux clang, address on macOS clang
-        # if: runner.os != 'Windows'
-        if: runner.os == 'macOS' || runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        # if: matrix.cxx == 'clang++-11'
-        # NOTE: update executable name if it is changed in CMakeLists.txt
-        env:
-          DISPLAY: :99.0
-        run: |
-          # ASAN_OPTIONS=detect_leaks=1 # this env var is only required for macOS
-          cat date.txt | ./artifacts/bin/demo-sfml &
-          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
 
-      - name: Valgrind
-        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
-        # NOTE: update executable name if it is changed in CMakeLists.txt
+      - name: Test
+        uses: GabrielBB/xvfb-action@v1
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         env:
           DISPLAY: :99.0
-        run: |
-          # without --show-leak-kinds=all --track-origins=yes since there might be many leaks in external libs 
-          valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
-          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+        with:
+          run: |
+            cat date.txt | ./artifacts/bin/demo-sfml &
+            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+          working-directory: ${{github.workspace}}
+
+      - name: Test 2
+        uses: GabrielBB/xvfb-action@v1
+        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
+        env:
+          DISPLAY: :99.0
+        with:
+          run: |
+            valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
+            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+          working-directory: ${{github.workspace}}
+
+#      - name: Sanitizers
+#        # run one sanitizer for each OS to avoid extra binaries;
+#        # memory on Linux clang, address on macOS clang
+#        # if: runner.os != 'Windows'
+#        if: runner.os == 'macOS' # || runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+#        # if: matrix.cxx == 'clang++-11'
+#        # NOTE: update executable name if it is changed in CMakeLists.txt
+#        env:
+#          DISPLAY: :99.0
+#          ASAN_OPTIONS=detect_leaks=1
+#        run: |
+#          cat date.txt | ./artifacts/bin/demo-sfml &
+#          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+
+#      - name: Valgrind
+#        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
+#        # NOTE: update executable name if it is changed in CMakeLists.txt
+#        env:
+#          DISPLAY: :99.0
+#        run: |
+#          # without --show-leak-kinds=all --track-origins=yes since there might be many leaks in external libs
+#          valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
+#          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
 
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
