@@ -35,7 +35,6 @@ else()
 endif()
 
 # sanitizers
-
 if(APPLE)
     # first check Apple since Apple is also a kind of Unix
     target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)

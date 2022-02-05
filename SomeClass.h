@@ -10,6 +10,7 @@ class SomeClass {
     int x = 123;
 public:
     explicit SomeClass(int x);
+    SomeClass(){}
 };
 
 
