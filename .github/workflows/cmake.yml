@@ -76,6 +76,8 @@ jobs:
           sudo apt-get install \
             clang-tidy \
             valgrind \
+            xorg \
+            openbox \
             xdotool \
             libxrandr-dev \
             libxcursor-dev \
@@ -91,9 +93,9 @@ jobs:
         run: |
           brew update
           brew cleanup
-          brew upgrade
-          brew --cask cleanup
-          brew --cask install xquartz
+          # brew upgrade
+          brew cleanup --cask
+          brew install --cask xquartz
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -204,17 +206,17 @@ jobs:
           DISPLAY: :0
         run: |
           # ASAN_OPTIONS=detect_leaks=1 # this env var is only required for macOS
-          cat date.txt | ./artifacts/bin/demo-poo &
+          cat date.txt | ./artifacts/bin/demo-sfml &
           xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
 
       - name: Valgrind
-        if: runner.os == 'Linux' && matrix.cxx == 'g++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
         # NOTE: update executable name if it is changed in CMakeLists.txt
         env:
           DISPLAY: :1
         run: |
           # without --show-leak-kinds=all --track-origins=yes since there might be many leaks in external libs 
-          valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-poo &
+          valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/demo-sfml &
           xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
 
       - name: Copy stdlib (MinGW)
