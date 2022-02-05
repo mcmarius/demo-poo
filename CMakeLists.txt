@@ -35,19 +35,19 @@ else()
 endif()
 
 # sanitizers
-if(APPLE)
-    # first check Apple since Apple is also a kind of Unix
-    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-elseif(UNIX)
-    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-#        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-#        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
-        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
-    endif()
-endif()
+#if(APPLE)
+#    # first check Apple since Apple is also a kind of Unix
+#    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+#    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+#elseif(UNIX)
+#    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+##        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+##        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+#    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+#        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
+#        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
+#    endif()
+#endif()
 
 # use system so clang-tidy does not report warnings from these folders
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
