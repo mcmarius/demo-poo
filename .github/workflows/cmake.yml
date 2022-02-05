@@ -56,9 +56,8 @@ jobs:
             cxx: g++
             name: Windows 2022 GCC 10
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-            cmake_generator: Ninja
-            # "\"MinGW Makefiles\""
-            # might be able to replace with Ninja since it is bundled by WinLibs
+            cmake_generator: "\"MinGW Makefiles\""
+            # might be able to replace with Ninja since it is bundled by WinLibs; need to figure out how though...
 
     steps:
       - uses: actions/checkout@v2
