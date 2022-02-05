@@ -133,7 +133,7 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+          key: cache-1-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Cache MinGW
         uses: actions/cache@v2
