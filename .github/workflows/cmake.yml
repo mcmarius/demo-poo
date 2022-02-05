@@ -11,6 +11,12 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        # Use a bash shell, so we can use the same syntax for environment variable
+        # access regardless of the host operating system
+        # https://github.com/saxbophone/CPP20-Cross-Platform-Template
+        shell: bash
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
@@ -51,19 +57,18 @@ jobs:
             name: Windows 2022 GCC 10
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: "\"MinGW Makefiles\""
-            # might be able to replace with Ninja since it is bundled by winlibs
+            # might be able to replace with Ninja since it is bundled by WinLibs
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Prepare env
-        shell: bash
         run: |
           echo $GITHUB_WORKSPACE
           # mkdir $GITHUB_WORKSPACE/build
           mkdir $GITHUB_WORKSPACE/artifacts
 
-      # taken from SFML Github Actions
+        # taken from SFML GitHub Actions
       - name: Install Linux Dependencies
         if: runner.os == 'Linux'
         run: |
@@ -71,6 +76,8 @@ jobs:
           sudo apt-get install \
             clang-tidy \
             jq \
+            valgrind \
+            xdotool \
             libxrandr-dev \
             libxcursor-dev \
             libudev-dev \
@@ -83,7 +90,6 @@ jobs:
       - name: Cache tools
         uses: actions/cache@v2
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-#        if: matrix.cxx == 'clang++'
         id: cache-tools
         with:
           path: tools
@@ -91,8 +97,6 @@ jobs:
 
       - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
-#        if: matrix.cxx == 'clang++' && steps.cache-tools.outputs.cache-hit != 'true'
-        shell: bash
         run: |
           mkdir tools/
           wget https://github.com/danmar/cppcheck/archive/2.6.zip
@@ -105,16 +109,15 @@ jobs:
           cmake --build build -j6
 
       - name: Install tools
-          # Right now I am too lazy to figure out caching for this step
+        # this step is fast, no need for caching
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        shell: bash
         run: |
           cd tools/cppcheck-2.6
           sudo cmake --install build
           # echo "$GITHUB_WORKSPACE/tools/cppcheck-2.6/build/bin" >> $GITHUB_PATH
           # adds cppcheck to path; otherwise, refer to cppcheck as ./tools/cppcheck-2.6/build/bin/cppcheck
           #
-          # build other tools here
+          # build/install other tools here
 
       - name: Cache deps
         uses: actions/cache@v2
@@ -142,13 +145,11 @@ jobs:
 
       - name: Install toolchain (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
-        shell: bash
         run: |
           7z x compiler/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.7z -ogcc
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
-        shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
           PATH="$(pwd)/../gcc/mingw64/bin:$PATH"
@@ -158,10 +159,6 @@ jobs:
             ${{matrix.cmake_flags}}
 
       - name: Configure CMake
-        # Use a bash shell so we can use the same syntax for environment variable
-        # access regardless of the host operating system
-        # https://github.com/saxbophone/CPP20-Cross-Platform-Template
-        shell: bash
         working-directory: ${{ github.workspace }}/build
         run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B . \
@@ -171,39 +168,63 @@ jobs:
 
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        shell: bash
-        run: cppcheck --project=build/compile_commands.json -ibuild --suppress='*:build/*' --error-exitcode=1
+        run: cppcheck \
+               --enable=all \
+               --project=build/compile_commands.json \
+               -ibuild \
+               --suppress='*:build/*' \
+               --suppress=missingIncludeSystem \
+               --suppress=unmatchedSuppression \
+               --error-exitcode=1
 
       - name: Clang-tidy
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        shell: bash
+        # config from https://gist.github.com/jfm535/7581ccadbd539303d8bed2f46f973108
         run: |
           cat build/compile_commands.json |
-          jq -r '.[] | .file' |             # select source file paths from CMake project; -r to strip quotes
-          grep -v "/build/_deps/" |         # ignore external dependencies
-          xargs clang-tidy -p build
+            jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
+            grep -v "/build/_deps/" |       # ignore external dependencies
+            xargs clang-tidy -p build
 
       - name: Build
         working-directory: ${{ github.workspace }}/build
-        shell: bash
         # Execute the build.  You can specify a specific target with "--target <NAME>"
         run: cmake --build . --config $BUILD_TYPE -j6
 
       - name: Install
         # working-directory: ${{ github.workspace }}/build
-        shell: bash
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
+      - name: Sanitizers
+        # run one sanitizer for each OS to avoid extra binaries
+        # address on Linux gcc, memory on linux clang, UB on macOS clang
+#        if: runner.os != 'Windows'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        # NOTE: update executable name if it is changed in CMakeLists.txt
+        run: |
+          cat date.txt | ./artifacts/bin/demo-poo &
+          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+
+      - name: Valgrind
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        # NOTE: update executable name if it is changed in CMakeLists.txt
+        run: |
+          valgrind \
+            --leak-check=full \
+            --show-leak-kinds=all \
+            --track-origins=yes \
+            --error-exitcode=1 \
+            cat date.txt | ./artifacts/bin/demo-poo &
+          xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
-        shell: bash
         run: |
           cp gcc/mingw64/bin/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts
 
       - name: Set Tag Name
         if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
         # trim prefix from ref to get tag name
         run: echo "TAG_NAME=${GITHUB_REF#'refs/tags/'}" >> $GITHUB_ENV
 

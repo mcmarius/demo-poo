@@ -3,3 +3,7 @@
 //
 
 #include "SomeClass.h"
+
+SomeClass::SomeClass(int x) {
+    this->x = x;
+}

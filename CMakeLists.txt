@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
+
+# NOTE: update executable name in .github/workflows/cmake.yml when changing executable name in this file
+# for now, the project name is used as the executable name
 project(demo-sfml)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -15,20 +18,34 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SFML)
 
-
+# NOTE: update executable name in .github/workflows/cmake.yml when changing name here
 add_executable(${PROJECT_NAME} main.cpp SomeClass.cpp)
 
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -g -Werror)
-    message(${CMAKE_CXX_COMPILER_ID})
+
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
     elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -stdlib=libstdc++)
     elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
         target_compile_options(${PROJECT_NAME} PRIVATE -stdlib=libc++)
     endif()
+endif()
+
+# sanitizers
+if(UNIX)
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address)
+    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory)
+        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory)
+    endif()
+elseif(APPLE)
+    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=undefined)
+    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=undefined)
 endif()
 
 # use system so clang-tidy does not report warnings from these folders

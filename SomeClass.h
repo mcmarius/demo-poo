@@ -9,9 +9,7 @@
 class SomeClass {
     int x = 123;
 public:
-    SomeClass(int x) {
-        this->x = x;
-    }
+    explicit SomeClass(int x);
 };
 
 
