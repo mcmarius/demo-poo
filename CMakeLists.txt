@@ -21,6 +21,7 @@ FetchContent_MakeAvailable(SFML)
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
 add_executable(${PROJECT_NAME} main.cpp SomeClass.cpp)
 
+message("Compiler: ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 else()
