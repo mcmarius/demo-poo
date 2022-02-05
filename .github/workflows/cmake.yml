@@ -46,17 +46,17 @@ jobs:
           #   cxx: g++-11
           #   name: macOS 11 GCC 11
           #   cmake_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
-          - os: windows-2022
-            c: cl
-            cxx: cl
-            name: Windows 2022 MSVC 19.30
-            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-          - os: windows-2022
-            c: gcc
-            cxx: g++
-            name: Windows 2022 GCC 10
-            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-            cmake_generator: "\"MinGW Makefiles\""
+#          - os: windows-2022
+#            c: cl
+#            cxx: cl
+#            name: Windows 2022 MSVC 19.30
+#            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
+#          - os: windows-2022
+#            c: gcc
+#            cxx: g++
+#            name: Windows 2022 GCC 10
+#            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
+#            cmake_generator: "\"MinGW Makefiles\""
             # might be able to replace with Ninja since it is bundled by WinLibs
 
     steps:
@@ -75,7 +75,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             clang-tidy \
-            # jq \  # already installed
             valgrind \
             xdotool \
             libxrandr-dev \
@@ -86,6 +85,11 @@ jobs:
             libvorbis-dev \
             libgl1-mesa-dev \
             libegl1-mesa-dev
+
+      - name: Install X11 dependencies on MacOS
+        if: runner.os == 'macOS'
+        run: |
+          brew --cask install xquartz
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -125,7 +129,7 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+          key: ${{ runner.os }}-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Cache MinGW
         uses: actions/cache@v2
@@ -193,7 +197,7 @@ jobs:
         # run one sanitizer for each OS to avoid extra binaries;
         # memory on Linux clang, address on macOS clang
         # if: runner.os != 'Windows'
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'macOS' || runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # if: matrix.cxx == 'clang++-11'
         # NOTE: update executable name if it is changed in CMakeLists.txt
         env:
