@@ -57,8 +57,7 @@ jobs:
             name: Windows 2022 GCC 10
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: Ninja
-            # "\"MinGW Makefiles\""
-            # might be able to replace with Ninja since it is bundled by WinLibs; need to figure out how though...
+            # other generator: "\"MinGW Makefiles\""
 
     steps:
       - uses: actions/checkout@v2
@@ -134,7 +133,7 @@ jobs:
         with:
           path: |
             build/_deps
-          key: ${{ runner.os }}-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Cache MinGW
         uses: actions/cache@v2
@@ -161,7 +160,6 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         run: |
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
-          ls -l gcc/mingw64/bin
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
