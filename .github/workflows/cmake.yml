@@ -46,17 +46,18 @@ jobs:
           #   cxx: g++-11
           #   name: macOS 11 GCC 11
           #   cmake_flags: -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE
-#          - os: windows-2022
-#            c: cl
-#            cxx: cl
-#            name: Windows 2022 MSVC 19.30
-#            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-#          - os: windows-2022
-#            c: gcc
-#            cxx: g++
-#            name: Windows 2022 GCC 10
-#            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
-#            cmake_generator: "\"MinGW Makefiles\""
+          - os: windows-2022
+            c: cl
+            cxx: cl
+            name: Windows 2022 MSVC 19.30
+            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
+          - os: windows-2022
+            c: gcc
+            cxx: g++
+            name: Windows 2022 GCC 10
+            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
+            cmake_generator: Ninja
+            # "\"MinGW Makefiles\""
             # might be able to replace with Ninja since it is bundled by WinLibs
 
     steps:
@@ -75,10 +76,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install \
             clang-tidy \
-            valgrind \
-            xorg \
-            openbox \
-            xdotool \
             libxrandr-dev \
             libxcursor-dev \
             libudev-dev \
@@ -87,6 +84,10 @@ jobs:
             libvorbis-dev \
             libgl1-mesa-dev \
             libegl1-mesa-dev
+        # valgrind \
+        #  xorg \
+        #  openbox \
+        #  xdotool \
 
 #      - name: Install X11 dependencies on MacOS
 #        if: runner.os == 'macOS'
@@ -197,27 +198,27 @@ jobs:
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
 
-      - name: Test
-        uses: GabrielBB/xvfb-action@v1
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-        env:
-          DISPLAY: :99.0
-        with:
-          run: |
-            ./artifacts/bin/demo-sfml &
-            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
-          working-directory: ${{github.workspace}}
-
-      - name: Test 2
-        uses: GabrielBB/xvfb-action@v1
-        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
-        env:
-          DISPLAY: :99.0
-        with:
-          run: |
-            valgrind --leak-check=full --error-exitcode=1 ./artifacts/bin/demo-sfml &
-            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
-          working-directory: ${{github.workspace}}
+#      - name: Test
+#        uses: GabrielBB/xvfb-action@v1
+#        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+#        env:
+#          DISPLAY: :99.0
+#        with:
+#          run: |
+#            ./artifacts/bin/demo-sfml &
+#            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+#          working-directory: ${{github.workspace}}
+#
+#      - name: Test 2
+#        uses: GabrielBB/xvfb-action@v1
+#        if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
+#        env:
+#          DISPLAY: :99.0
+#        with:
+#          run: |
+#            valgrind --leak-check=full --error-exitcode=1 ./artifacts/bin/demo-sfml &
+#            xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
+#          working-directory: ${{github.workspace}}
 
 #      - name: Sanitizers
 #        # run one sanitizer for each OS to avoid extra binaries;
