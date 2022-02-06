@@ -130,6 +130,7 @@ jobs:
       - name: Cache deps
         uses: actions/cache@v2
         id: cache-deps
+        # make this cache dependent on cmake generator
         with:
           path: |
             build/_deps
@@ -139,6 +140,7 @@ jobs:
         uses: actions/cache@v2
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         id: cache-deps-ninja
+        # make this cache dependent on cmake generator
         with:
           path: |
             build/.ninja_deps
@@ -208,6 +210,8 @@ jobs:
             grep -v "/build/_deps/" |       # ignore external dependencies
             xargs clang-tidy -p build
 
+# Running a (headless) GUI app - postponed for now
+#
 # https://github.com/GabrielBB/xvfb-action
 # https://github.com/Laguna1989/JamTemplateCpp/blob/master/.github/workflows/test_verification.yml
 # https://github.com/mviereck/x11docker
