@@ -200,8 +200,9 @@ jobs:
         # if: runner.os != 'Windows'
         if: startsWith(matrix.cxx, 'clang++')
         # NOTE: update executable name if it is changed in CMakeLists.txt
-        env:
-          ASAN_OPTIONS: detect_leaks=1
+        # detect_leaks is not supported on macOS
+        # env:
+        # ASAN_OPTIONS: detect_leaks=1
         run: |
           cat date.txt | ./artifacts/bin/proj
 
