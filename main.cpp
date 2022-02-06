@@ -110,7 +110,7 @@ int main() {
         std::cout << *nod_next << "\n";
     //n2->g();
     delete n;
-    // delete n2;
+    delete n2;
     std::cout << "\n\n";
     std::cout << sizeof(Nod) << " " << sizeof(BasicNod) << std::endl;
     ListaDubluInlantuita lista;
