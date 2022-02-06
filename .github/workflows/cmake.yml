@@ -217,7 +217,7 @@ jobs:
         # NOTE: update executable name if it is changed in CMakeLists.txt
         run: |
           # remove --show-leak-kinds=all --track-origins=yes if there are many leaks in external libs
-          valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 cat date.txt | ./artifacts/bin/proj
+          cate date.txt | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./artifacts/bin/proj
 
       - name: Move artifacts
         run: |
