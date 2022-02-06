@@ -22,48 +22,49 @@ jobs:
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
+      BUILD_TYPE: Debug
 
     strategy:
       fail-fast: false
       matrix:
         include:
-        - os: ubuntu-20.04
-          c: clang-11
-          cxx: clang++-11
-          name: Ubuntu 20.04 Clang 11
-          cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+          - os: ubuntu-20.04
+            c: clang-11
+            cxx: clang++-11
+            name: Ubuntu 20.04 Clang 11
+            cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-        - os: ubuntu-20.04
-          c: gcc-10
-          cxx: g++-10
-          name: Ubuntu 20.04 GCC 10
-          # cmake_flags:
+          - os: ubuntu-20.04
+            c: gcc-10
+            cxx: g++-10
+            name: Ubuntu 20.04 GCC 10
+            # cmake_flags:
 
-        - os: macos-11
-          c: clang
-          cxx: clang++
-          name: macOS 11 Apple Clang 13
-          # cmake_flags:
+          - os: macos-11
+            c: clang
+            cxx: clang++
+            name: macOS 11 Apple Clang 13
+            # cmake_flags:
 
-        - os: macos-11
-          c: gcc-11
-          cxx: g++-11
-          name: macOS 11 GCC 11
-           # cmake_flags:
+          - os: macos-11
+            c: gcc-11
+            cxx: g++-11
+            name: macOS 11 GCC 11
+            # cmake_flags:
 
-        - os: windows-2022
-          c: cl
-          cxx: cl
-          name: Windows 2022 MSVC 19.30
-          # cmake_flags:
+          - os: windows-2022
+            c: cl
+            cxx: cl
+            name: Windows 2022 MSVC 19.30
+            # cmake_flags:
 
-        - os: windows-2022
-          c: gcc
-          cxx: g++
-          name: Windows 2022 GCC 10
-          # cmake_flags:
-          cmake_generator: Ninja
-          # other generator: "\"MinGW Makefiles\""
+          - os: windows-2022
+            c: gcc
+            cxx: g++
+            name: Windows 2022 GCC 10
+            # cmake_flags:
+            cmake_generator: Ninja
+            # other generator: "\"MinGW Makefiles\""
 
     steps:
       - uses: actions/checkout@v2
@@ -74,7 +75,7 @@ jobs:
           mkdir $GITHUB_WORKSPACE/artifacts
 
       - name: Install Linux Dependencies
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install clang-tidy valgrind
@@ -154,6 +155,7 @@ jobs:
         run: |
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
             ${{matrix.cmake_flags}}
 
@@ -161,16 +163,17 @@ jobs:
         if: ${{ !(runner.os == 'Windows' && matrix.cxx == 'g++') }}
         run: |
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
             ${{matrix.cmake_flags}}
 
       - name: Build
         # Execute the build using N jobs (-jN). You can specify a specific target with "--target <NAME>"
-        run: cmake --build build -j6
+        run: cmake --build build --config $BUILD_TYPE -j6
 
       - name: Install
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
-        run: cmake --install build --prefix artifacts
+        run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
@@ -209,6 +212,10 @@ jobs:
           # without --show-leak-kinds=all --track-origins=yes since there might be many leaks in external libs
           valgrind --leak-check=full --error-exitcode=1 cat date.txt | ./artifacts/bin/proj
 
+      - name: Move artifacts
+        run: |
+          mv artifacts/bin bin
+
       - name: Set Tag Name
         if: startsWith(github.ref, 'refs/tags/')
         # trim prefix from ref to get tag name
@@ -219,12 +226,12 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           type: 'zip'
-          path: artifacts
-          filename: release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+          path: bin
+          filename: $BUILD_TYPE_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            release_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+            $BUILD_TYPE_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip

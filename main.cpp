@@ -3,8 +3,9 @@
 //
 
 #include <iostream>
+#include <concepts>
+
 #include "ListaDubluInlantuita.h"
-// #include <type_traits>
 
 class VNod : public Nod {
 public:
