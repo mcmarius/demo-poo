@@ -4,7 +4,7 @@
 
 #include "ListaDubluInlantuita.h"
 
-std::istream &operator>>(std::istream &is, const ListaDubluInlantuita &lista) {
+std::istream &operator>>(std::istream &is, [[maybe_unused]] ListaDubluInlantuita &lista) {
     return is;
 }
 
@@ -57,11 +57,11 @@ void ListaDubluInlantuita::add(int info, int poz) {
     nod->prev = new_nod;
 }
 
-void ListaDubluInlantuita::remove(int poz) {
+void ListaDubluInlantuita::remove([[maybe_unused]] int poz) {
 }
 
-ListaDubluInlantuita operator+(const ListaDubluInlantuita &a, const ListaDubluInlantuita &b) {
-    return ListaDubluInlantuita();
+ListaDubluInlantuita operator+([[maybe_unused]] const ListaDubluInlantuita &a, [[maybe_unused]] const ListaDubluInlantuita &b) {
+    return ListaDubluInlantuita{};
 }
 
 ListaDubluInlantuita::ListaDubluInlantuita() {
