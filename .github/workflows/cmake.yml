@@ -11,15 +11,18 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+
     defaults:
       run:
         # Use a bash shell, so we can use the same syntax for environment variable
         # access regardless of the host operating system
         # https://github.com/saxbophone/CPP20-Cross-Platform-Template
         shell: bash
+
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -29,26 +32,31 @@ jobs:
           cxx: clang++-11
           name: Ubuntu 20.04 Clang 11
           cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
         - os: ubuntu-20.04
           c: gcc-10
           cxx: g++-10
           name: Ubuntu 20.04 GCC 10
           # cmake_flags:
+
         - os: macos-11
           c: clang
           cxx: clang++
           name: macOS 11 Apple Clang 13
           # cmake_flags:
-         - os: macos-11
-           c: gcc-11
-           cxx: g++-11
-           name: macOS 11 GCC 11
+
+        - os: macos-11
+          c: gcc-11
+          cxx: g++-11
+          name: macOS 11 GCC 11
            # cmake_flags:
+
         - os: windows-2022
           c: cl
           cxx: cl
           name: Windows 2022 MSVC 19.30
           # cmake_flags:
+
         - os: windows-2022
           c: gcc
           cxx: g++
