@@ -200,6 +200,25 @@ jobs:
             grep -v "/build/_deps/" |       # ignore external dependencies
             xargs clang-tidy -p build
 
+      - name: Setup memory sanitizer
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        run: |
+          sudo apt install libc++-11-dev libc++abi-11-dev ninja-build
+          git clone --depth=1 https://github.com/llvm/llvm-project
+          cd llvm-project
+          mkdir build; cd build
+          sudo ln -s /usr/bin/clang-11 /usr/bin/clang
+          sudo ln -s /usr/bin/clang++-11 /usr/bin/clang++
+          CC=clang-11 CXX=clang++-11 cmake -GNinja ../llvm \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
+            -DCMAKE_C_COMPILER=clang \
+            -DCMAKE_CXX_COMPILER=clang++ \
+            -DLLVM_USE_SANITIZER=MemoryWithOrigins \
+            -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
+
+          cmake --build . -- cxx cxxabi
+
       - name: Sanitizers
         # run one sanitizer for each OS to avoid extra binaries;
         # memory on Linux clang, address on macOS clang
