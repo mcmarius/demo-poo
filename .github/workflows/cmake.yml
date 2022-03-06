@@ -38,7 +38,7 @@ jobs:
             c: clang-12
             cxx: clang++-12
             name: Ubuntu 20.04 Clang 12
-            # cmake_flags:
+            cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -221,8 +221,8 @@ jobs:
           git clone --depth=1 https://github.com/llvm/llvm-project
           cd llvm-project
           mkdir build; cd build
-          sudo ln -s /usr/bin/clang-11 /usr/bin/clang
-          sudo ln -s /usr/bin/clang++-11 /usr/bin/clang++
+          sudo ln -s -f /usr/bin/clang-11 /usr/bin/clang
+          sudo ln -s -f /usr/bin/clang++-11 /usr/bin/clang++
           CC=clang-11 CXX=clang++-11 cmake -GNinja ../llvm \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
