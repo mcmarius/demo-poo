@@ -2,8 +2,9 @@
 // Created by marius on 19/03/2020.
 //
 
-#include <iostream>
 #include <concepts>
+#include <fstream>
+#include <iostream>
 
 #include "ListaDubluInlantuita.h"
 
@@ -123,4 +124,10 @@ int main() {
 //    std::cout<<lista;
 //    lista.add(3, 1);
 //    std::cout<<lista;
+
+    std::string nume;
+    int x;
+    std::ifstream in{"date.txt"};
+    in >> x >> nume;
+    std::cout << nume;
 }
