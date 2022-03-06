@@ -205,9 +205,9 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # config from https://gist.github.com/jfm535/7581ccadbd539303d8bed2f46f973108
         run: |
-          # cat build/compile_commands.json |
           # clang-tidy is not able to follow symbolic links: https://bugs.llvm.org/show_bug.cgi?id=47460
-          sed "s|$(which clang++-11)|$(realpath $(which clang++-11))|g" build/compile_commands.json |
+          sed -i "s|$(which clang++-11)|$(realpath $(which clang++-11))|g" build/compile_commands.json
+          cat build/compile_commands.json |
             jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
             grep -v "/build/_deps/" |       # ignore external dependencies
             xargs clang-tidy -p build
