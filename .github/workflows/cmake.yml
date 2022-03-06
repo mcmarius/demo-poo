@@ -102,7 +102,7 @@ jobs:
         id: cache-tools
         with:
           path: tools
-          key: tools
+          key: tools-cppcheck-2.6-clang-11
 
       - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
@@ -231,7 +231,7 @@ jobs:
             -DLLVM_USE_SANITIZER=MemoryWithOrigins \
             -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
 
-          cmake --build . -- cxx cxxabi
+          cmake --build . -- cxx cxxabi -j6
 
       - name: Sanitizers
         # run one sanitizer for each OS to avoid extra binaries;
