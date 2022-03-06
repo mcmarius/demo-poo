@@ -84,7 +84,17 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install clang-tidy valgrind
+          sudo apt-get install clang-tidy valgrind ninja-build
+
+      - name: Install libc++ (Linux Clang 11)
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        run: |
+          sudo apt-get install libc++-11-dev libc++abi-11-dev
+
+      - name: Install libc++ (Linux Clang 10)
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-10'
+        run: |
+          sudo apt-get install libc++-10-dev libc++abi-10-dev
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -203,7 +213,7 @@ jobs:
       - name: Setup memory sanitizer
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         run: |
-          sudo apt install libc++-11-dev libc++abi-11-dev ninja-build
+          cd tools
           git clone --depth=1 https://github.com/llvm/llvm-project
           cd llvm-project
           mkdir build; cd build
