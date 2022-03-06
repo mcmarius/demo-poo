@@ -35,9 +35,9 @@ jobs:
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
           - os: ubuntu-20.04
-            c: clang-10
-            cxx: clang++-10
-            name: Ubuntu 20.04 Clang 10
+            c: clang-12
+            cxx: clang++-12
+            name: Ubuntu 20.04 Clang 12
             # cmake_flags:
 
           - os: ubuntu-20.04
@@ -91,10 +91,10 @@ jobs:
         run: |
           sudo apt-get install libc++-11-dev libc++abi-11-dev
 
-      - name: Install libc++ (Linux Clang 10)
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-10'
+      - name: Install libc++ (Linux Clang 12)
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         run: |
-          sudo apt-get install libc++-10-dev libc++abi-10-dev
+          sudo apt-get install libc++-12-dev libc++abi-12-dev
 
       - name: Cache tools
         uses: actions/cache@v2
@@ -205,7 +205,9 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # config from https://gist.github.com/jfm535/7581ccadbd539303d8bed2f46f973108
         run: |
-          cat build/compile_commands.json |
+          # cat build/compile_commands.json |
+          # clang-tidy is not able to follow symbolic links: https://bugs.llvm.org/show_bug.cgi?id=47460
+          sed "s|$(which clang++-11)|$(realpath $(which clang++-11))|g" build/compile_commands.json |
             jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
             grep -v "/build/_deps/" |       # ignore external dependencies
             xargs clang-tidy -p build
