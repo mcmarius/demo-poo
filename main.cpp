@@ -129,5 +129,6 @@ int main() {
     int x;
     std::ifstream in{"date.txt"};
     in >> x >> nume;
-    std::cout << nume;
+    for(int i = 0; i < x; i++)
+        std::cout << nume;
 }
