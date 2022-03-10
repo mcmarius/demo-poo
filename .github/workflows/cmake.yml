@@ -88,9 +88,9 @@ jobs:
             libgl1-mesa-dev \
             libegl1-mesa-dev
         # valgrind \
-        #  xorg \
-        #  openbox \
-        #  xdotool \
+            xorg \
+            openbox \
+            xdotool
 
       - name: Install clang-tidy and libc++ (Linux Clang 12)
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
