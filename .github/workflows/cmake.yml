@@ -280,8 +280,7 @@ jobs:
 #          DISPLAY: :99.0
         with:
           run: |
-            sleep 4 && xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4 &
-            ./artifacts/bin/demo-sfml
+            ./run.sh
           working-directory: ${{github.workspace}}
 
       - name: Test 3
@@ -291,8 +290,7 @@ jobs:
 #          DISPLAY: :99.0
         with:
           run: |
-            sleep 4 && xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4 &
-            valgrind --leak-check=full --error-exitcode=1 ./artifacts/bin/demo-sfml
+            ./run_valgrind.sh
           working-directory: ${{github.workspace}}
 
 #      - name: Sanitizers
