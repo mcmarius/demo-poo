@@ -5,13 +5,13 @@
 #include <thread>
 #include "SomeClass.h"
 
-SomeClass *getC() {
-    return new SomeClass{2};
-}
+// SomeClass *getC() {
+//     return new SomeClass{2};
+// }
 
 int main() {
-    SomeClass *c = getC();
-    std::cout << c << "\n";
+    // SomeClass *c = getC();
+    // std::cout << c << "\n";
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 700), "My Window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);
