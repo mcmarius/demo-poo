@@ -285,7 +285,8 @@ jobs:
            DISPLAY: :99.0
         with:
           run: |
-            ./artifacts/bin/demo-sfml
+            ./run.sh
+            # ./artifacts/bin/demo-sfml
           working-directory: ${{github.workspace}}
 
       - name: Test 3
