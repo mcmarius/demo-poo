@@ -297,7 +297,7 @@ jobs:
           DISPLAY: :99.0
         with:
           run: |
-            valgrind --leak-check=full --error-exitcode=0 ./artifacts/bin/demo-sfml
+            ./run_valgrind.sh
           working-directory: ${{github.workspace}}
 
 #      - name: Sanitizers
