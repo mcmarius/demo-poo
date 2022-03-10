@@ -263,7 +263,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         env:
-           MSAN_OPTIONS=halt_on_error=0
+           MSAN_OPTIONS: halt_on_error=0
 #          DISPLAY: :99.0
         with:
           run: |
@@ -275,7 +275,7 @@ jobs:
         uses: GabrielBB/xvfb-action@v1
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         env:
-           ASAN_OPTIONS=halt_on_error=0
+           ASAN_OPTIONS: halt_on_error=0
 #          DISPLAY: :99.0
         with:
           run: |
