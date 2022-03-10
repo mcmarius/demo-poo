@@ -19,15 +19,21 @@ int main() {
     while(window.isOpen()) {
         sf::Event e;
         while(window.pollEvent(e)) {
-            if(e.type == sf::Event::Closed)
+            switch(e.type) {
+            case sf::Event::Closed)
                 window.close();
-            if(e.type == sf::Event::Resized)
+                break;
+            case sf::Event::Resized)
                 std::cout << "New width: " << window.getSize().x << '\n'
                           << "New height: " << window.getSize().y << '\n';
+                break;
+            case sf::Event::KeyPressed:
+                std::cout << "Received key " << (event.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
+                break;
         }
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(8000ms);
-        return 0;
+        break;
 
         window.clear();
         window.display();

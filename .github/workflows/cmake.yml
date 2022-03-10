@@ -264,18 +264,16 @@ jobs:
           chmod +x ./run.sh
           chmod +x ./run_valgrind.sh
 
-#       - name: Test 1
-#         uses: GabrielBB/xvfb-action@v1
-#         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
-#         env:
-#            MSAN_OPTIONS: halt_on_error=0
-# #          DISPLAY: :99.0
-#         with:
-#           run: |
-#             sleep 4 && xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4 &
-#             ./artifacts/bin/demo-sfml
-#             xdotool search --name "My Window" windowactivate --sync %1 key Alt+F4
-#           working-directory: ${{github.workspace}}
+      - name: Test 1
+        uses: GabrielBB/xvfb-action@v1
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        env:
+           MSAN_OPTIONS: halt_on_error=0
+#          DISPLAY: :99.0
+        with:
+          run: |
+            ./run.sh
+          working-directory: ${{github.workspace}}
 
       - name: Test 2
         uses: GabrielBB/xvfb-action@v1
