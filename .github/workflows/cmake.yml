@@ -259,6 +259,12 @@ jobs:
 # https://github.com/Laguna1989/JamTemplateCpp/blob/master/.github/workflows/test_verification.yml
 # https://github.com/mviereck/x11docker
 
+        - name: Make scripts executable
+          if: runner.os == 'Linux'
+          run: |
+            chmod +x ./run.sh
+            chmod +x ./run_valgrind.sh
+
 #       - name: Test 1
 #         uses: GabrielBB/xvfb-action@v1
 #         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
