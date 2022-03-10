@@ -16,6 +16,19 @@ FetchContent_Declare(
   GIT_TAG        2888d9c56eba4dedb93a84a3c57957e4a907d428 # master as of 2021-11-18
 )
 
+function(sfml_set_custom_stdlib target)
+    if(APPLE)
+    elseif(UNIX)
+        if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+            target_compile_options(${target} PRIVATE "-stdlib=libc++")
+            target_link_libraries(${target} PRIVATE "-stdlib=libc++")
+    endif()
+endfunction()
+
+sfml_set_stdlib(sfml-system)
+sfml_set_stdlib(sfml-window)
+sfml_set_stdlib(sfml-graphics)
+
 FetchContent_MakeAvailable(SFML)
 
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
