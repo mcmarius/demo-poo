@@ -32,6 +32,11 @@ jobs:
             name: Ubuntu 20.04 Clang 11
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_SHARED_LIBS=FALSE
           - os: ubuntu-20.04
+            c: clang-12
+            cxx: clang++-12
+            name: Ubuntu 20.04 Clang 12
+            cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DBUILD_SHARED_LIBS=FALSE
+          - os: ubuntu-20.04
             c: gcc-10
             cxx: g++-10
             name: Ubuntu 20.04 GCC 10
@@ -74,7 +79,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install \
-            clang-tidy \
             libxrandr-dev \
             libxcursor-dev \
             libudev-dev \
@@ -87,6 +91,17 @@ jobs:
         #  xorg \
         #  openbox \
         #  xdotool \
+
+      - name: Install clang-tidy and libc++ (Linux Clang 12)
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
+        run: |
+          sudo apt-get update
+          sudo apt-get install clang-tidy libc++-12-dev libc++abi-12-dev
+      - name: Install ninja libc++ (Linux Clang 11)
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build libc++-11-dev libc++abi-11-dev
 
 #      - name: Install X11 dependencies on MacOS
 #        if: runner.os == 'macOS'
@@ -209,6 +224,25 @@ jobs:
             jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
             grep -v "/build/_deps/" |       # ignore external dependencies
             xargs clang-tidy -p build
+
+      - name: Setup memory sanitizer
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
+        run: |
+          cd tools
+          git clone --depth=1 https://github.com/llvm/llvm-project
+          cd llvm-project
+          mkdir build; cd build
+          sudo ln -s -f /usr/bin/clang-11 /usr/bin/clang
+          sudo ln -s -f /usr/bin/clang++-11 /usr/bin/clang++
+          CC=clang-11 CXX=clang++-11 cmake -GNinja ../llvm \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DLLVM_ENABLE_PROJECTS="libcxx;libcxxabi" \
+            -DCMAKE_C_COMPILER=clang \
+            -DCMAKE_CXX_COMPILER=clang++ \
+            -DLLVM_USE_SANITIZER=MemoryWithOrigins \
+            -DCMAKE_BUILD_WITH_INSTALL_RPATH=true
+          cmake --build . -j6 -- cxx cxxabi
+
 
 # Running a (headless) GUI app - postponed for now
 #
