@@ -41,7 +41,7 @@ int main() {
         window.clear();
         window.display();
         ++nr;
-        if(nr > 10'000'000)
+        if(nr > 100'000)
             break;
     }
 
