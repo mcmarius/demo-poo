@@ -23,32 +23,39 @@ add_executable(${PROJECT_NAME} main.cpp SomeClass.cpp)
 
 message("Compiler: ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX /permissive-)
 else()
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -g -Werror)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 
     if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        target_compile_options(${PROJECT_NAME} PRIVATE -stdlib=libstdc++)
-    elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         target_compile_options(${PROJECT_NAME} PRIVATE -stdlib=libc++)
+        target_link_options(${PROJECT_NAME} PRIVATE -stdlib=libc++)
     endif()
 endif()
 
 # sanitizers
-#if(APPLE)
-#    # first check Apple since Apple is also a kind of Unix
-#    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-#    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-#elseif(UNIX)
-#    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-##        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-##        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-#    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-#        target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
-#        target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined)
-#    endif()
-#endif()
+if(APPLE)
+    # if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    # first check Apple since Apple is also a kind of Unix
+    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+    # endif()
+elseif(UNIX)
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+        # we cannot mix sanitizers with Valgrind
+    elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+        if("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "12.")
+            # check leaks on Linux since macOS does not support the leaks sanitizer yet
+            # leaks sanitizer is enabled by default on Linux, so we do not need to enable it explicitly
+            target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+            target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+        else()
+            target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined -fsanitize-memory-track-origins)
+            target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=memory,undefined -fsanitize-memory-track-origins -Wl,-rpath,tools/llvm-project/build/lib)
+        endif()
+    endif()
+endif()
 
 # use system so clang-tidy does not report warnings from these folders
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
