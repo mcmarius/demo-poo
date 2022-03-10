@@ -26,9 +26,9 @@ function(sfml_set_custom_stdlib target)
     endif()
 endfunction()
 
-sfml_set_stdlib(sfml-system)
-sfml_set_stdlib(sfml-window)
-sfml_set_stdlib(sfml-graphics)
+sfml_set_custom_stdlib(sfml-system)
+sfml_set_custom_stdlib(sfml-window)
+sfml_set_custom_stdlib(sfml-graphics)
 
 FetchContent_MakeAvailable(SFML)
 
