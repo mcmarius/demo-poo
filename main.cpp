@@ -1,8 +1,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <chrono>
-#include <thread>
+// #include <chrono>
+// #include <thread>
 #include "SomeClass.h"
 
 SomeClass *getC() {
@@ -15,6 +15,7 @@ int main() {
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 700), "My Window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);
+    long long nr = 0;
 
     while(window.isOpen()) {
         sf::Event e;
@@ -34,12 +35,14 @@ int main() {
                 break;
             }
         }
-        using namespace std::chrono_literals;
-        std::this_thread::sleep_for(8000ms);
+        // using namespace std::chrono_literals;
+        // std::this_thread::sleep_for(8000ms);
 
         window.clear();
         window.display();
-        break;
+        ++nr;
+        if(nr > 1'000'000'000)
+            break;
     }
 
     return 0;
