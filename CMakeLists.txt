@@ -22,6 +22,7 @@ function(sfml_set_custom_stdlib target)
         if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
             target_compile_options(${target} PRIVATE "-stdlib=libc++")
             target_link_libraries(${target} PRIVATE "-stdlib=libc++")
+        endif()
     endif()
 endfunction()
 
