@@ -285,7 +285,7 @@ jobs:
            DISPLAY: :99.0
         with:
           run: |
-            ./run.sh
+            ./artifacts/bin/demo-sfml
           working-directory: ${{github.workspace}}
 
       - name: Test 3
@@ -295,7 +295,7 @@ jobs:
           DISPLAY: :99.0
         with:
           run: |
-            ./run_valgrind.sh
+            valgrind --leak-check=full --error-exitcode=0 ./artifacts/bin/demo-sfml
           working-directory: ${{github.workspace}}
 
 #      - name: Sanitizers
