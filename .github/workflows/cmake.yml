@@ -21,7 +21,7 @@ jobs:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
       SFML_VERSION: "2021-11-18"
-      BUILD_TYPE: Release
+      BUILD_TYPE: Debug
     strategy:
       fail-fast: false
       matrix:
@@ -126,7 +126,7 @@ jobs:
         id: cache-tools
         with:
           path: tools
-          key: tools
+          key: tools-cppcheck-sanitizers
 
       - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
