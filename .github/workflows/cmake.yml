@@ -156,7 +156,7 @@ jobs:
         with:
           path: |
             build/_deps
-          key: cache-1-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
+          key: cache-${{ env.BUILD_TYPE }}-${{ matrix.os }}-${{ matrix.cxx }}-${{ env.SFML_VERSION }}
 
       - name: Cache deps (MinGW Ninja)
         uses: actions/cache@v2
