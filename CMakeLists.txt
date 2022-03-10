@@ -26,11 +26,11 @@ function(sfml_set_custom_stdlib target)
     endif()
 endfunction()
 
+FetchContent_MakeAvailable(SFML)
+
 sfml_set_custom_stdlib(sfml-system)
 sfml_set_custom_stdlib(sfml-window)
 sfml_set_custom_stdlib(sfml-graphics)
-
-FetchContent_MakeAvailable(SFML)
 
 # NOTE: update executable name in .github/workflows/cmake.yml when changing name here
 add_executable(${PROJECT_NAME} main.cpp SomeClass.cpp)
