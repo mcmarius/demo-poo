@@ -28,7 +28,9 @@ int main() {
                           << "New height: " << window.getSize().y << '\n';
                 break;
             case sf::Event::KeyPressed:
-                std::cout << "Received key " << (event.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
+                std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
+                break;
+            default:
                 break;
             }
         }
