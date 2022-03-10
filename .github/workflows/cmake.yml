@@ -86,8 +86,7 @@ jobs:
             libflac-dev \
             libvorbis-dev \
             libgl1-mesa-dev \
-            libegl1-mesa-dev
-        # valgrind \
+            libegl1-mesa-dev \
             xorg \
             openbox \
             xdotool
