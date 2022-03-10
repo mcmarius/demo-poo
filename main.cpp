@@ -20,10 +20,10 @@ int main() {
         sf::Event e;
         while(window.pollEvent(e)) {
             switch(e.type) {
-            case sf::Event::Closed)
+            case sf::Event::Closed:
                 window.close();
                 break;
-            case sf::Event::Resized)
+            case sf::Event::Resized:
                 std::cout << "New width: " << window.getSize().x << '\n'
                           << "New height: " << window.getSize().y << '\n';
                 break;
