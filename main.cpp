@@ -30,6 +30,7 @@ int main() {
             case sf::Event::KeyPressed:
                 std::cout << "Received key " << (event.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
                 break;
+            }
         }
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(8000ms);
