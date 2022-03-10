@@ -1,6 +1,8 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "SomeClass.h"
 
 SomeClass *getC() {
@@ -23,6 +25,9 @@ int main() {
                 std::cout << "New width: " << window.getSize().x << '\n'
                           << "New height: " << window.getSize().y << '\n';
         }
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(8000ms);
+        return 0;
 
         window.clear();
         window.display();
