@@ -98,7 +98,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install clang-tidy libc++-12-dev libc++abi-12-dev \
             libxkbcommon-x11-0 \
-            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
 
       - name: Install ninja libc++ (Linux Clang 11)
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
@@ -110,7 +110,9 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'g++-10'
         run: |
           sudo apt-get update
-          sudo apt-get install valgrind
+          sudo apt-get install valgrind \
+            libxkbcommon-x11-0 \
+            libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
 
 #      - name: Install X11 dependencies on MacOS
 #        if: runner.os == 'macOS'
