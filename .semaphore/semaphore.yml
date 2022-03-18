@@ -14,10 +14,10 @@ blocks:
         - name: Build
           commands:
             - checkout
-            - '#sudo add-apt-repository ppa:ubuntu-toolchain-r/test'
-            - '#sudo apt-get update'
-            - '#sudo apt-get install zip gcc-11 g++-11 cmake valgrind'
-            - cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=artifacts -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+            - 'sudo add-apt-repository ppa:ubuntu-toolchain-r/test'
+            - sudo apt-get update
+            - sudo apt-get install zip gcc-11 g++-11 cmake valgrind
+            - CC=gcc-11 CXX=g++-11 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=artifacts -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
             - cmake --build build --config Debug -j6
             - cmake --install build --config Debug --prefix artifacts
             - '#cat date.txt | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./artifacts/bin/proj'
