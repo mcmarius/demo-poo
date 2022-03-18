@@ -1,0 +1,28 @@
+version: v1.0
+name: Multi-platform pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+execution_time_limit:
+  minutes: 10
+blocks:
+  - name: Linux GCC
+    dependencies: []
+    task:
+      jobs:
+        - name: Build
+          commands:
+            - checkout
+            - 'sudo add-apt-repository ppa:ubuntu-toolchain-r/test'
+            - sudo apt-get update
+            - sudo apt-get install zip gcc-11 g++-11 cmake valgrind
+            - cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=artifacts -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+            - cmake --build build --config Debug -j6
+            - cmake --install build --config Debug --prefix artifacts
+            - cat date.txt | valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./artifacts/bin/proj
+            - mv artifacts/bin bin
+      agent:
+        machine:
+          type: e1-standard-2
+          os_image: ubuntu2004
