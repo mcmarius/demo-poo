@@ -20,7 +20,7 @@ jobs:
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
-      SFML_VERSION: "2021-11-18"
+      SFML_VERSION: "2022-04-21"
       BUILD_TYPE: Debug
     strategy:
       fail-fast: false
@@ -59,7 +59,7 @@ jobs:
           - os: windows-2022
             c: gcc
             cxx: g++
-            name: Windows 2022 GCC 10
+            name: Windows 2022 GCC 11
             cmake_flags: -DBUILD_SHARED_LIBS=TRUE
             cmake_generator: Ninja
             # other generator: "\"MinGW Makefiles\""
@@ -179,20 +179,20 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         with:
           path: gcc
-          key: ${{ runner.os }}-gcc-10
+          key: ${{ runner.os }}-gcc-11
 
       - name: Download toolchain (MinGW)
         uses: suisei-cn/actions-download-file@v1
         id: downloadgcc
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         with:
-          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/10.3.0-12.0.0-9.0.0-r2/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.7z"
+          url: "https://github.com/brechtsanders/winlibs_mingw/releases/download/11.3.0-14.0.1-10.0.0-msvcrt-r1/winlibs-x86_64-posix-seh-gcc-11.3.0-mingw-w64msvcrt-10.0.0-r1.7z"
           target: compiler
 
       - name: Install toolchain (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         run: |
-          7z x compiler/winlibs-x86_64-posix-seh-gcc-10.3.0-mingw-w64-9.0.0-r2.7z -ogcc
+          7z x compiler/winlibs-x86_64-posix-seh-gcc-11.3.0-mingw-w64msvcrt-10.0.0-r1.7z -ogcc
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
