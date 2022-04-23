@@ -289,7 +289,7 @@ jobs:
            DISPLAY: :99.0
         with:
           run: |
-            ./run.sh
+            ./scripts/run.sh
           working-directory: ${{github.workspace}}
 
       - name: Test 3
@@ -299,7 +299,7 @@ jobs:
           DISPLAY: :99.0
         with:
           run: |
-            ./run_valgrind.sh
+            ./scripts/run_valgrind.sh
           working-directory: ${{github.workspace}}
 
 #      - name: Sanitizers
