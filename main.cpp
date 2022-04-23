@@ -15,7 +15,6 @@ int main() {
     sf::RenderWindow window;
     window.create(sf::VideoMode(800, 700), "My Window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);
-    long long nr = 0;
 
     while(window.isOpen()) {
         sf::Event e;
@@ -40,9 +39,6 @@ int main() {
 
         window.clear();
         window.display();
-        ++nr;
-        if(nr > 2'000)
-            break;
     }
 
     return 0;
