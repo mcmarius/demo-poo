@@ -171,7 +171,8 @@ jobs:
           path: |
             build/.ninja_deps
             build/.ninja_log
-          key: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache
+          key: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache-${{ hashFiles('CMakeLists.txt') }}
+          restore-keys: ${{ matrix.os }}-${{ matrix.cxx }}-ninja-cache-
 
       - name: Cache MinGW
         uses: actions/cache@v2
@@ -266,7 +267,7 @@ jobs:
       - name: Make scripts executable
         if: runner.os == 'Linux'
         run: |
-          chmod +x .scripts/run.sh scripts/run_valgrind.sh
+          chmod +x scripts/run.sh scripts/run_valgrind.sh
 
       # too many memory errors in external libs
       # - name: Test 1
