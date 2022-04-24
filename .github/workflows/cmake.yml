@@ -137,6 +137,7 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
         run: |
           cd libs
+          chmod +x ./build_deps.sh
           ./build_deps.sh
 
       - name: Cache Ninja deps
