@@ -202,6 +202,7 @@ jobs:
       - name: Build/install deps (Windows)
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: |
+          # TODO https://github.com/openssl/openssl/blob/master/.github/workflows/windows.yml
           BOOST_LIBS="--with-date_time --with-regex --with-system"
           OPENSSL_ROOT_DIR="C:/Strawberry/c/lib/"
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
