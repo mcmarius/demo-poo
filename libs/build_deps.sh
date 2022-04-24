@@ -31,9 +31,16 @@ install_boost() {
   rm -rf boost_1_78_0.tar.gz
   #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
-  (cd boost_$BOOST_VER && \
-    ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
-    ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+  if [ $BOOST_TOOLSET == "msvc" ];
+  then
+    (cd boost_$BOOST_VER && \
+      ./bootstrap.bat --with-toolset=$BOOST_TOOLSET && \
+      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+  else
+    (cd boost_$BOOST_VER && \
+      ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
+      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+  fi
 }
 
 # install_openssl() {

@@ -74,15 +74,15 @@ jobs:
             boost_use_static: ON
             build_shared_libs: OFF
 
-          - os: macos-11
-            c: gcc-11
-            cxx: g++-11
-            name: macOS 11 GCC 11
-            # cmake_flags:
-            boost_link: static
-            boost_toolset: gcc
-            boost_use_static: ON
-            build_shared_libs: OFF
+          # - os: macos-11
+          #   c: gcc-11
+          #   cxx: g++-11
+          #   name: macOS 11 GCC 11
+          #   # cmake_flags:
+          #   boost_link: static
+          #   boost_toolset: gcc
+          #   boost_use_static: ON
+          #   build_shared_libs: OFF
 
           - os: windows-2022
             c: cl
