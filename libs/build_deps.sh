@@ -5,6 +5,10 @@ set -e
 #   https://github.com/ivanmejiarocha/micro-service/blob/master/libs/build_dependencies.sh
 #   https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm
 
+# WIP: https://gist.github.com/Shauren/5c28f646bf7a28b470a8
+# https://github.com/boostorg/type_erasure/issues/16
+# meh: https://gist.github.com/zrsmithson/0b72e0cb58d0cb946fc48b5c88511da8
+
 BOOST_MV="1"
 BOOST_mV="78"
 BOOST_pV="0"
@@ -57,17 +61,18 @@ install_cpprestsdk(){
 	#if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	#	export CXX=g++-4.9
 	#fi
+  # -DBoost_NO_WARN_NEW_VERSIONS=1 \
 	(cd "$restsdkBuildDir" && \
     cmake ../Release \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS \
+      -DWERROR=OFF \
       -DBUILD_TESTS=OFF \
       -DBUILD_SAMPLES=OFF \
       -DCMAKE_INSTALL_PREFIX=install_dir \
       -DBOOST_ROOT=$libDir/boost_1_78_0/install_dir \
       -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
-      -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
-      -DBoost_NO_WARN_NEW_VERSIONS=1 && \
+      -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC && \
     cmake --build . -j$(nproc) && \
     cmake --install . --prefix install_dir) || exit
 	#(cd "$restsdkBuildDir" && make)

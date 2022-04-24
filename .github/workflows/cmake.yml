@@ -44,15 +44,15 @@ jobs:
             boost_use_static: ON
             build_shared_libs: OFF
 
-          # - os: ubuntu-20.04
-          #   c: clang-10
-          #   cxx: clang++-10
-          #   name: Ubuntu 20.04 Clang 10
-          #   # cmake_flags:
-          #   boost_link: static
-          #   boost_toolset: clang
-          #   boost_use_static: ON
-          #   build_shared_libs: OFF
+          - os: ubuntu-20.04
+            c: clang-10
+            cxx: clang++-10
+            name: Ubuntu 20.04 Clang 10
+            # cmake_flags:
+            boost_link: static
+            boost_toolset: clang
+            boost_use_static: ON
+            build_shared_libs: OFF
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -74,37 +74,37 @@ jobs:
             boost_use_static: ON
             build_shared_libs: OFF
 
-          # - os: macos-11
-          #   c: gcc-11
-          #   cxx: g++-11
-          #   name: macOS 11 GCC 11
-          #   # cmake_flags:
-          #   boost_link: static
-          #   boost_toolset: gcc
-          #   boost_use_static: ON
-          #   build_shared_libs: OFF
-
-          # - os: windows-2022
-          #   c: cl
-          #   cxx: cl
-          #   name: Windows 2022 MSVC 19.30
-          #   # cmake_flags:
-          #   boost_link: shared
-          #   boost_toolset: msvc
-          #   boost_use_static: OFF
-          #   build_shared_libs: ON
+          - os: macos-11
+            c: gcc-11
+            cxx: g++-11
+            name: macOS 11 GCC 11
+            # cmake_flags:
+            boost_link: static
+            boost_toolset: gcc
+            boost_use_static: ON
+            build_shared_libs: OFF
 
           - os: windows-2022
-            c: gcc
-            cxx: g++
-            name: Windows 2022 GCC 10
+            c: cl
+            cxx: cl
+            name: Windows 2022 MSVC 19.30
             # cmake_flags:
-            cmake_generator: Ninja
-            # other generator: "\"MinGW Makefiles\""
             boost_link: shared
-            boost_toolset: gcc
+            boost_toolset: msvc
             boost_use_static: OFF
             build_shared_libs: ON
+
+          # - os: windows-2022
+          #   c: gcc
+          #   cxx: g++
+          #   name: Windows 2022 GCC 10
+          #   # cmake_flags:
+          #   cmake_generator: Ninja
+          #   # other generator: "\"MinGW Makefiles\""
+          #   boost_link: shared
+          #   boost_toolset: gcc
+          #   boost_use_static: OFF
+          #   build_shared_libs: ON
 
     steps:
       - uses: actions/checkout@v2
