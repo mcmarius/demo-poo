@@ -37,12 +37,12 @@ jobs:
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
             boost_link: static
 
-          - os: ubuntu-20.04
-            c: clang-10
-            cxx: clang++-10
-            name: Ubuntu 20.04 Clang 10
-            # cmake_flags:
-            boost_link: static
+          # - os: ubuntu-20.04
+          #   c: clang-10
+          #   cxx: clang++-10
+          #   name: Ubuntu 20.04 Clang 10
+          #   # cmake_flags:
+          #   boost_link: static
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -65,12 +65,12 @@ jobs:
             # cmake_flags:
             boost_link: static
 
-          - os: windows-2022
-            c: cl
-            cxx: cl
-            name: Windows 2022 MSVC 19.30
-            # cmake_flags:
-            boost_link: shared
+          # - os: windows-2022
+          #   c: cl
+          #   cxx: cl
+          #   name: Windows 2022 MSVC 19.30
+          #   # cmake_flags:
+          #   boost_link: shared
 
           - os: windows-2022
             c: gcc
