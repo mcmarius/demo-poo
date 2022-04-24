@@ -22,6 +22,8 @@ jobs:
     env:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
+      BOOST_LINK: ${{ matrix.boost_link }}
+      CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
 
     strategy:
@@ -33,36 +35,42 @@ jobs:
             cxx: clang++-11
             name: Ubuntu 20.04 Clang 11
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+            boost_link: static
 
           - os: ubuntu-20.04
             c: clang-10
             cxx: clang++-10
             name: Ubuntu 20.04 Clang 10
             # cmake_flags:
+            boost_link: static
 
           - os: ubuntu-20.04
             c: gcc-10
             cxx: g++-10
             name: Ubuntu 20.04 GCC 10
             # cmake_flags:
+            boost_link: static
 
           - os: macos-11
             c: clang
             cxx: clang++
             name: macOS 11 Apple Clang 13
             # cmake_flags:
+            boost_link: static
 
           - os: macos-11
             c: gcc-11
             cxx: g++-11
             name: macOS 11 GCC 11
             # cmake_flags:
+            boost_link: static
 
           - os: windows-2022
             c: cl
             cxx: cl
             name: Windows 2022 MSVC 19.30
             # cmake_flags:
+            boost_link: shared
 
           - os: windows-2022
             c: gcc
@@ -71,6 +79,7 @@ jobs:
             # cmake_flags:
             cmake_generator: Ninja
             # other generator: "\"MinGW Makefiles\""
+            boost_link: shared
 
     steps:
       - uses: actions/checkout@v2
@@ -115,14 +124,20 @@ jobs:
           cd tools/cppcheck-2.6
           sudo cmake --install build
 
-#      - name: Cache deps
-#        uses: actions/cache@v2
-#        id: cache-deps
-#        # make this depend on the dependency version
-#        with:
-#          path: |
-#            build/_deps
-#          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+     - name: Cache deps
+       uses: actions/cache@v2
+       id: cache-deps
+       # make this depend on the dependency version
+       with:
+         path: |
+           libs
+         key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+
+      - name: Build/install deps
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          cd libs
+          ./build_deps.sh
 
       - name: Cache Ninja deps
         uses: actions/cache@v2
