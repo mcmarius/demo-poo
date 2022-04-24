@@ -11,7 +11,7 @@ BOOST_pV="0"
 BOOST_DOT_VER=$BOOST_MV.$BOOST_mV.$BOOST_pV
 BOOST_VER=$BOOST_MV\_$BOOST_mV\_$BOOST_pV
 RESTSDK_VERSION="v2.10.18"
-PQXX_VERSION="7.7.0"
+PQXX_VERSION="7.7.3"
 DEFAULT_LIB_DIRECTORY_PATH=$(pwd) #"."
 #OPENSSL_ROOT_DIR="/usr/local/opt/openssl"
 #MAKE_COMMAND=mingw32-make
@@ -29,8 +29,7 @@ install_boost() {
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
   (cd boost_$BOOST_VER && \
     ./bootstrap.sh && \
-    ./b2 --with-system --with-date_time --with-regex variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0 && \
-    ./b2 install --prefix=install_dir)
+    ./b2 --with-system --with-date_time --with-regex variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
 }
 
 # install_openssl() {
@@ -52,7 +51,7 @@ install_cpprestsdk(){
    #   rm -rf "$restsdkDir"
    #fi
 
-	#git clone https://github.com/Microsoft/cpprestsdk.git "$restsdkDir"
+	git clone --depth=20 https://github.com/Microsoft/cpprestsdk.git "$restsdkDir"
 	(cd $restsdkDir && (git checkout tags/$RESTSDK_VERSION -b $RESTSDK_VERSION || git checkout tags/$RESTSDK_VERSION) && git submodule update --init)
 	mkdir -p "$restsdkBuildDir"
 	#if [[ "$OSTYPE" == "linux-gnu" ]]; then
@@ -80,7 +79,7 @@ install_postgresql(){
   #  rm -rf "$postgresqlDir"
   #fi
 
-  #git clone https://github.com/jtv/libpqxx "$postgresqlDir"
+  git clone --depth=20 https://github.com/jtv/libpqxx "$postgresqlDir"
   (cd "$postgresqlDir" && git checkout tags/$PQXX_VERSION -b $PQXX_VERSION || git checkout tags/$PQXX_VERSION)
   mkdir -p "$postgresqlBuildDir"
   (cd "$postgresqlBuildDir" && \
