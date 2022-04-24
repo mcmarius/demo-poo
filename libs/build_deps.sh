@@ -29,7 +29,7 @@ install_boost() {
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
   (cd boost_$BOOST_VER && \
     ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
-    ./b2 --with-atomic --with-chrono --with-date_time --with-filesystem --with-random --with-regex --with-system --with-thread toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+    ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
 }
 
 # install_openssl() {
@@ -65,7 +65,7 @@ install_cpprestsdk(){
       -DBUILD_SAMPLES=OFF \
       -DCMAKE_INSTALL_PREFIX=install_dir \
       -DBOOST_ROOT=$libDir/boost_1_78_0/install_dir \
-      -DBoost_USE_STATIC_LIBS=$BOOST_STATIC \
+      -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
       -DBoost_NO_WARN_NEW_VERSIONS=1 && \
     cmake --build . -j$(nproc) && \
     cmake --install . --prefix install_dir) || exit

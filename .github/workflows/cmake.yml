@@ -25,6 +25,7 @@ jobs:
       BOOST_LINK: ${{ matrix.boost_link }}
       BOOST_TOOLSET: ${{ matrix.boost_toolset }}
       BOOST_USE_STATIC: ${{ matrix.boost_use_static }}
+      BOOST_LIBS: --with-atomic --with-chrono --with-date_time --with-filesystem --with-random --with-regex --with-system --with-thread
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
       BUILD_SHARED_LIBS: ${{ matrix.build_shared_libs }}
@@ -191,8 +192,17 @@ jobs:
           key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
 
       - name: Build/install deps
-        if: steps.cache-deps.outputs.cache-hit != 'true'
+        if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os != 'Windows'
         run: |
+          PATH="$(pwd)/gcc/mingw64/bin:$PATH"
+          cd libs
+          chmod +x ./build_deps.sh
+          ./build_deps.sh
+
+      - name: Build/install deps (Windows)
+        if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: |
+          BOOST_LIBS=--with-date_time --with-regex --with-system
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           cd libs
           chmod +x ./build_deps.sh
