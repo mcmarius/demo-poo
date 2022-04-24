@@ -24,8 +24,10 @@ jobs:
       CXX: ${{ matrix.cxx }}
       BOOST_LINK: ${{ matrix.boost_link }}
       BOOST_TOOLSET: ${{ matrix.boost_toolset }}
+      BOOST_USE_STATIC: ${{ matrix.boost_use_static }}
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
+      BUILD_SHARED_LIBS: ${{ matrix.build_shared_libs }}
 
     strategy:
       fail-fast: false
@@ -38,6 +40,8 @@ jobs:
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
             boost_link: static
             boost_toolset: clang
+            boost_use_static: ON
+            build_shared_libs: OFF
 
           # - os: ubuntu-20.04
           #   c: clang-10
@@ -46,6 +50,8 @@ jobs:
           #   # cmake_flags:
           #   boost_link: static
           #   boost_toolset: clang
+          #   boost_use_static: ON
+          #   build_shared_libs: OFF
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -54,6 +60,8 @@ jobs:
             # cmake_flags:
             boost_link: static
             boost_toolset: gcc
+            boost_use_static: ON
+            build_shared_libs: OFF
 
           - os: macos-11
             c: clang
@@ -62,6 +70,8 @@ jobs:
             # cmake_flags:
             boost_link: static
             boost_toolset: clang
+            boost_use_static: ON
+            build_shared_libs: OFF
 
           # - os: macos-11
           #   c: gcc-11
@@ -70,6 +80,8 @@ jobs:
           #   # cmake_flags:
           #   boost_link: static
           #   boost_toolset: gcc
+          #   boost_use_static: ON
+          #   build_shared_libs: OFF
 
           # - os: windows-2022
           #   c: cl
@@ -78,6 +90,8 @@ jobs:
           #   # cmake_flags:
           #   boost_link: shared
           #   boost_toolset: msvc
+          #   boost_use_static: OFF
+          #   build_shared_libs: ON
 
           - os: windows-2022
             c: gcc
@@ -88,6 +102,8 @@ jobs:
             # other generator: "\"MinGW Makefiles\""
             boost_link: shared
             boost_toolset: gcc
+            boost_use_static: OFF
+            build_shared_libs: ON
 
     steps:
       - uses: actions/checkout@v2
