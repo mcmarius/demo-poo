@@ -24,12 +24,12 @@ install_boost() {
   #fi
   curl -L -O https://boostorg.jfrog.io/artifactory/main/release/$BOOST_DOT_VER/source/boost_$BOOST_VER.tar.gz
   tar -xzf boost_$BOOST_VER.tar.gz
-  #rm -rf boost_1_78_0.tar.gz
+  rm -rf boost_1_78_0.tar.gz
   #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
   (cd boost_$BOOST_VER && \
-    ./bootstrap.sh && \
-    ./b2 --with-system --with-date_time --with-regex variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+    ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
+    ./b2 --with-atomic --with-chrono --with-date_time --with-filesystem --with-random --with-regex --with-system --with-thread toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
 }
 
 # install_openssl() {

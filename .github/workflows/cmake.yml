@@ -23,6 +23,7 @@ jobs:
       CC: ${{ matrix.c }}
       CXX: ${{ matrix.cxx }}
       BOOST_LINK: ${{ matrix.boost_link }}
+      BOOST_TOOLSET: ${{ matrix.boost_toolset }}
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
 
@@ -36,6 +37,7 @@ jobs:
             name: Ubuntu 20.04 Clang 11
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
             boost_link: static
+            boost_toolset: clang
 
           # - os: ubuntu-20.04
           #   c: clang-10
@@ -43,6 +45,7 @@ jobs:
           #   name: Ubuntu 20.04 Clang 10
           #   # cmake_flags:
           #   boost_link: static
+            boost_toolset: clang
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -50,6 +53,7 @@ jobs:
             name: Ubuntu 20.04 GCC 10
             # cmake_flags:
             boost_link: static
+            boost_toolset: gcc
 
           - os: macos-11
             c: clang
@@ -57,13 +61,15 @@ jobs:
             name: macOS 11 Apple Clang 13
             # cmake_flags:
             boost_link: static
+            boost_toolset: clang
 
-          - os: macos-11
-            c: gcc-11
-            cxx: g++-11
-            name: macOS 11 GCC 11
-            # cmake_flags:
-            boost_link: static
+          # - os: macos-11
+          #   c: gcc-11
+          #   cxx: g++-11
+          #   name: macOS 11 GCC 11
+          #   # cmake_flags:
+          #   boost_link: static
+          #   boost_toolset: gcc
 
           # - os: windows-2022
           #   c: cl
@@ -71,6 +77,7 @@ jobs:
           #   name: Windows 2022 MSVC 19.30
           #   # cmake_flags:
           #   boost_link: shared
+            boost_toolset: msvc
 
           - os: windows-2022
             c: gcc
@@ -80,6 +87,7 @@ jobs:
             cmake_generator: Ninja
             # other generator: "\"MinGW Makefiles\""
             boost_link: shared
+            boost_toolset: gcc
 
     steps:
       - uses: actions/checkout@v2
@@ -124,22 +132,6 @@ jobs:
           cd tools/cppcheck-2.6
           sudo cmake --install build
 
-      - name: Cache deps
-        uses: actions/cache@v2
-        id: cache-deps
-        # make this depend on the dependency version
-        with:
-          path: |
-            libs
-          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
-
-      - name: Build/install deps
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-        run: |
-          cd libs
-          chmod +x ./build_deps.sh
-          ./build_deps.sh
-
       - name: Cache Ninja deps
         uses: actions/cache@v2
         if: matrix.cmake_generator == 'Ninja'
@@ -171,6 +163,25 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'g++' && steps.cache-mingw.outputs.cache-hit != 'true'
         run: |
           7z x compiler/winlibs-x86_64-posix-seh-gcc-11.2.0-mingw-w64ucrt-9.0.0-r4.7z -ogcc
+
+
+      - name: Cache deps
+        uses: actions/cache@v2
+        id: cache-deps
+        # make this depend on the dependency version
+        with:
+          path: |
+            libs
+          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+
+      - name: Build/install deps
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          PATH="$(pwd)/gcc/mingw64/bin:$PATH"
+          cd libs
+          chmod +x ./build_deps.sh
+          ./build_deps.sh
+
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
