@@ -5,6 +5,11 @@ set -e
 #   https://github.com/ivanmejiarocha/micro-service/blob/master/libs/build_dependencies.sh
 #   https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm
 
+BOOST_MV="1"
+BOOST_mV="78"
+BOOST_pV="0"
+BOOST_DOT_VER="$BOOST_MV.$BOOST_mV.$BOOST_pV"
+BOOST_VER="$BOOST_MV\_$BOOST_mV\_$BOOST_pV"
 RESTSDK_VERSION="v2.10.18"
 PQXX_VERSION="7.7.0"
 DEFAULT_LIB_DIRECTORY_PATH=$(pwd) #"."
@@ -17,12 +22,12 @@ install_boost() {
   #if [ -d boost_1_78_0 ]; then
   #    rm -rf boost_1_78_0
   #fi
-  #curl -L -O https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz
-  #tar -xzf boost_1_78_0.tar.gz
+  curl -L -O https://boostorg.jfrog.io/artifactory/main/release/$BOOST_DOT_VER/source/boost_$BOOST_VER.tar.gz
+  tar -xzf boost_$BOOST_VER.tar.gz
   #rm -rf boost_1_78_0.tar.gz
   #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
-  (cd boost_1_78_0 && \
+  (cd boost_$BOOST_VER && \
     ./bootstrap.sh && \
     ./b2 --with-system --with-date_time --with-regex variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0 && \
     ./b2 install --prefix=install_dir)
