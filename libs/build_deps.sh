@@ -66,6 +66,7 @@ install_cpprestsdk(){
       -DCMAKE_INSTALL_PREFIX=install_dir \
       -DBOOST_ROOT=$libDir/boost_1_78_0/install_dir \
       -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
+      -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
       -DBoost_NO_WARN_NEW_VERSIONS=1 && \
     cmake --build . -j$(nproc) && \
     cmake --install . --prefix install_dir) || exit

@@ -202,7 +202,7 @@ jobs:
       - name: Build/install deps (Windows)
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: |
-          BOOST_LIBS=--with-date_time --with-regex --with-system
+          BOOST_LIBS="--with-date_time --with-regex --with-system"
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           cd libs
           chmod +x ./build_deps.sh
