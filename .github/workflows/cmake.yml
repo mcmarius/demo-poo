@@ -203,6 +203,7 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: |
           BOOST_LIBS="--with-date_time --with-regex --with-system"
+          OPENSSL_ROOT_DIR="C:/Strawberry/c/lib/"
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           cd libs
           chmod +x ./build_deps.sh
