@@ -124,14 +124,14 @@ jobs:
           cd tools/cppcheck-2.6
           sudo cmake --install build
 
-     - name: Cache deps
-       uses: actions/cache@v2
-       id: cache-deps
-       # make this depend on the dependency version
-       with:
-         path: |
-           libs
-         key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+      - name: Cache deps
+        uses: actions/cache@v2
+        id: cache-deps
+        # make this depend on the dependency version
+        with:
+          path: |
+            libs
+          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
 
       - name: Build/install deps
         if: steps.cache-deps.outputs.cache-hit != 'true'
