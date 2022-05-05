@@ -102,8 +102,8 @@ install_postgresql(){
       -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
       -DSKIP_BUILD_TEST=on \
       -DCMAKE_INSTALL_PREFIX=install_dir && \
-    cmake --build . -j6 && \
-    cmake --install . --prefix install_dir) || exit
+    cmake --build . -j6 --config Release && \
+    cmake --install . --config Release --prefix install_dir) || exit
   #(cd "$postgresqlBuildDir" && make)
 }
 

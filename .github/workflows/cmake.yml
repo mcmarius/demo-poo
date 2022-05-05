@@ -225,9 +225,9 @@ jobs:
         working-directory: libs/zlib
         run: |
           # -DCMAKE_INSTALL_PREFIX=install_dir 
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DZLIB_COMPAT=ON -DZLIB_ENABLE_TESTS=OFF
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DZLIB_COMPAT=ON -DZLIB_ENABLE_TESTS=OFF -A x64
           cmake --build build --config Release
-          cmake --install build
+          cmake --install build --config Release
           #--prefix install_dir
 
       - uses: actions/checkout@v2
