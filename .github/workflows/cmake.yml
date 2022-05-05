@@ -90,7 +90,7 @@ jobs:
             c: cl
             cxx: cl
             name: Windows 2022 MSVC 19.30
-            cmake_flags: -DOPENSSL_ROOT_DIR=libs/openssl
+            # cmake_flags: #-DOPENSSL_ROOT_DIR=libs/openssl
             boost_link: shared
             boost_toolset: msvc
             boost_use_static: OFF
@@ -240,6 +240,12 @@ jobs:
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/openssl/_build
         run: nmake # verbose, so no /S here
+        shell: cmd
+
+      - name: OpenSSL install (Windows MSVC)
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        working-directory: libs/openssl/_build
+        run: nmake install
         shell: cmd
 
 
