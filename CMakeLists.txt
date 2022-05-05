@@ -134,9 +134,9 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${Boost_LIBRARY_DIRS} ${CPPRESTS
 
 if (APPLE)
     #target_link_directories(${PROJECT_NAME} PRIVATE ${ZIP_LIBRARY})
-    target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation")
-    target_link_libraries(${PROJECT_NAME} "-framework Security")
-    #target_link_libraries(${PROJECT_NAME} ${LIBRARIES_SEARCH_PATHS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework CoreFoundation")
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Security")
+    #target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBRARIES_SEARCH_PATHS})
     if(GITHUB_ACTIONS)
         target_link_directories(${PROJECT_NAME} PRIVATE ${LIBRARIES_SEARCH_PATHS})
     else()
