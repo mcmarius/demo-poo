@@ -84,7 +84,7 @@ install_cpprestsdk(){
     cmake --install . --config Release --prefix install_dir) || exit
   if [ "$BOOST_TOOLSET" == "msvc" ];
   then
-    cp $restsdkBuildDir/install_dir/cpprest143_2_10.lib $restsdkBuildDir/install_dir/cpprest.lib
+    cp $restsdkBuildDir/install_dir/lib/cpprest143_2_10.lib $restsdkBuildDir/install_dir/lib/cpprest.lib
   fi
 	#(cd "$restsdkBuildDir" && make)
 }
