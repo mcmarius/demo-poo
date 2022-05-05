@@ -125,7 +125,7 @@ endif()
 #target_link_libraries(${PROJECT_NAME} <SomeLib>)
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${HEADER_SEARCH_PATHS})
-target_link_directories(${PROJECT_NAME} PRIVATE ${Boost_LIBRARY_DIRS} ${CPPRESTSDK_LIB_DIR} ${PQXX_LIB_DIR)
+target_link_directories(${PROJECT_NAME} PRIVATE ${Boost_LIBRARY_DIRS} ${CPPRESTSDK_LIB_DIR} ${PQXX_LIB_DIR})
 
 if (APPLE)
     target_link_directories(${PROJECT_NAME} PRIVATE ${ZIP_LIBRARY})
