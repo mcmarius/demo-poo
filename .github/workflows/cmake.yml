@@ -29,11 +29,8 @@ jobs:
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
       BUILD_SHARED_LIBS: ${{ matrix.build_shared_libs }}
-      BOOST_MAJOR: "1"
-      BOOST_MINOR: "78"
-      BOOST_PATCH: "0"
-      BOOST_DOT_VER: ${{ env.BOOST_MAJOR }}.${{ env.BOOST_MINOR }}.${{ env.BOOST_PATCH }}
-      BOOST_VER: ${{ env.BOOST_MAJOR }}_${{ env.BOOST_MINOR }}_${{ env.BOOST_PATCH }}
+      BOOST_DOT_VER: "1.78.0"
+      BOOST_VER: "1_78_0"
 
     strategy:
       fail-fast: false
