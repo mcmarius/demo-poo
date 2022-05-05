@@ -76,6 +76,7 @@ jobs:
             boost_use_static: ON
             build_shared_libs: OFF
             OPENSSL_ROOT_DIR: /usr/local/opt/openssl@1.1
+            ZIP_LIBRARY_PATH: /usr/local/Cellar/zlib/1.2.12/lib/
 
           # - os: macos-11
           #   c: gcc-11
@@ -87,16 +88,16 @@ jobs:
           #   boost_use_static: ON
           #   build_shared_libs: OFF
 
-          # FIXME!!!
-          # - os: windows-2022
-          #   c: cl
-          #   cxx: cl
-          #   name: Windows 2022 MSVC 19.30
-          #   # cmake_flags:
-          #   boost_link: shared
-          #   boost_toolset: msvc
-          #   boost_use_static: OFF
-          #   build_shared_libs: ON
+          - os: windows-2022
+            c: cl
+            cxx: cl
+            name: Windows 2022 MSVC 19.30
+            # cmake_flags:
+            boost_link: shared
+            boost_toolset: msvc
+            boost_use_static: OFF
+            build_shared_libs: ON
+            OPENSSL_ROOT_DIR: libs/openssl
 
           # - os: windows-2022
           #   c: gcc
@@ -203,12 +204,50 @@ jobs:
           chmod +x ./build_deps.sh
           ./build_deps.sh
 
+
+      # use a separate cache so we do not need to rebuild all deps
+      - name: Cache openssl
+        uses: actions/cache@v2
+        id: cache-openssl
+        if: runner.os == 'Windows'
+        with:
+          path: |
+            libs/openssl
+          key: cache-openssl-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+
+      - uses: actions/checkout@v2
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        with:
+          repository: openssl/openssl
+          ref: OpenSSL_1_1_1o
+          path: libs/openssl
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+
+      - uses: shogo82148/actions-setup-perl@v1
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+
+      - name: OpenSSL (Windows MSVC): prepare the build directory
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        run: mkdir -p libs/openssl/_build
+
+      - name: OpenSSL config (Windows MSVC)
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        working-directory: libs/openssl/_build
+        run: |
+          perl ../Configure --banner=Configured no-makedepend no-bulk no-deprecated no-fips no-asm -DOPENSSL_SMALL_FOOTPRINT VC-WIN64A
+          perl configdata.pm --dump
+      - name: OpenSSL build (Windows MSVC)
+        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        working-directory: libs/openssl/_build
+        run: nmake # verbose, so no /S here
+
+
       - name: Build/install deps (Windows)
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: |
           # TODO https://github.com/openssl/openssl/blob/master/.github/workflows/windows.yml
           BOOST_LIBS="--with-date_time --with-log --with-program_options --with-regex --with-system"
-          #OPENSSL_ROOT_DIR="C:/Strawberry/c/lib/"
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           cd libs
           chmod +x ./build_deps.sh
@@ -234,6 +273,7 @@ jobs:
             -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
             -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
             -DOPENSSL_ROOT_DIR=${{ matrix.OPENSSL_ROOT_DIR }} \
+            -DZIP_LIBRARY_PATH=${{ matrix.ZIP_LIBRARY_PATH }}
             -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 
