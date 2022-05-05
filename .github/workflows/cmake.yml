@@ -224,9 +224,11 @@ jobs:
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/zlib
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=install_dir -DZLIB_COMPAT=ON -DZLIB_ENABLE_TESTS=OFF
+          # -DCMAKE_INSTALL_PREFIX=install_dir 
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DZLIB_COMPAT=ON -DZLIB_ENABLE_TESTS=OFF
           cmake --build build --config Release
-          cmake --install build --prefix install_dir
+          cmake --install build
+          #--prefix install_dir
 
       - uses: actions/checkout@v2
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
@@ -267,12 +269,11 @@ jobs:
 
       - name: Build/install deps (Windows)
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        working_directory: libs
         run: |
           # TODO https://github.com/openssl/openssl/blob/master/.github/workflows/windows.yml
           BOOST_LIBS="--with-date_time --with-log --with-program_options --with-regex --with-system"
-          ZLIB_ROOT=libs/zlib/install_dir
-          PATH="$(pwd)/gcc/mingw64/bin:$PATH"
-          cd libs
+          #PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           chmod +x ./build_deps.sh
           ./build_deps.sh
 

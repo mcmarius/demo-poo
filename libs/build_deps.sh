@@ -108,7 +108,7 @@ install_postgresql(){
 }
 
 mkdir -p "$libDir"
+install_postgresql
 install_boost
 # install_openssl
 install_cpprestsdk
-install_postgresql
