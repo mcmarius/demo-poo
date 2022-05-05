@@ -70,13 +70,11 @@ jobs:
             c: clang
             cxx: clang++
             name: macOS 11 Apple Clang 13
-            # cmake_flags:
+            cmake_flags: -DZIP_LIBRARY_PATH=/usr/local/Cellar/zlib/1.2.12/lib/ -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
             boost_link: static
             boost_toolset: clang
             boost_use_static: ON
             build_shared_libs: OFF
-            OPENSSL_ROOT_DIR: /usr/local/opt/openssl@1.1
-            ZIP_LIBRARY_PATH: /usr/local/Cellar/zlib/1.2.12/lib/
 
           # - os: macos-11
           #   c: gcc-11
@@ -92,12 +90,11 @@ jobs:
             c: cl
             cxx: cl
             name: Windows 2022 MSVC 19.30
-            # cmake_flags:
+            cmake_flags: -DOPENSSL_ROOT_DIR=libs/openssl
             boost_link: shared
             boost_toolset: msvc
             boost_use_static: OFF
             build_shared_libs: ON
-            OPENSSL_ROOT_DIR: libs/openssl
 
           # - os: windows-2022
           #   c: gcc
@@ -272,8 +269,6 @@ jobs:
             -DBOOST_ROOT=libs/boost_$BOOST_VER/install_dir \
             -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
             -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
-            -DOPENSSL_ROOT_DIR=${{ matrix.OPENSSL_ROOT_DIR }} \
-            -DZIP_LIBRARY_PATH=${{ matrix.ZIP_LIBRARY_PATH }}
             -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 
