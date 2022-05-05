@@ -192,7 +192,7 @@ jobs:
         with:
           path: |
             libs
-          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}-1
 
       - name: Build/install deps
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os != 'Windows'
