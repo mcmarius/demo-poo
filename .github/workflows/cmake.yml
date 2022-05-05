@@ -32,8 +32,8 @@ jobs:
       BOOST_MAJOR: "1"
       BOOST_MINOR: "78"
       BOOST_PATCH: "0"
-      BOOST_DOT_VER: $BOOST_MAJOR.$BOOST_MINOR.$BOOST_PATCH
-      BOOST_VER: $BOOST_MAJOR_$BOOST_MINOR_$BOOST_PATCH
+      BOOST_DOT_VER: ${{ env.BOOST_MAJOR }}.${{ env.BOOST_MINOR }}.${{ env.BOOST_PATCH }}
+      BOOST_VER: ${{ env.BOOST_MAJOR }}_${{ env.BOOST_MINOR }}_${{ env.BOOST_PATCH }}
 
     strategy:
       fail-fast: false
