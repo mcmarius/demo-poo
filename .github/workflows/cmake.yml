@@ -84,15 +84,16 @@ jobs:
           #   boost_use_static: ON
           #   build_shared_libs: OFF
 
-          - os: windows-2022
-            c: cl
-            cxx: cl
-            name: Windows 2022 MSVC 19.30
-            # cmake_flags:
-            boost_link: shared
-            boost_toolset: msvc
-            boost_use_static: OFF
-            build_shared_libs: ON
+          # FIXME!!!
+          # - os: windows-2022
+          #   c: cl
+          #   cxx: cl
+          #   name: Windows 2022 MSVC 19.30
+          #   # cmake_flags:
+          #   boost_link: shared
+          #   boost_toolset: msvc
+          #   boost_use_static: OFF
+          #   build_shared_libs: ON
 
           # - os: windows-2022
           #   c: gcc
@@ -204,7 +205,7 @@ jobs:
         run: |
           # TODO https://github.com/openssl/openssl/blob/master/.github/workflows/windows.yml
           BOOST_LIBS="--with-date_time --with-regex --with-system"
-          OPENSSL_ROOT_DIR="C:/Strawberry/c/lib/"
+          #OPENSSL_ROOT_DIR="C:/Strawberry/c/lib/"
           PATH="$(pwd)/gcc/mingw64/bin:$PATH"
           cd libs
           chmod +x ./build_deps.sh
@@ -226,6 +227,10 @@ jobs:
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
+            -DBOOST_ROOT=$libDir/boost_$BOOST_VER/install_dir \
+            -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
+            -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
+            -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 
       - name: Build

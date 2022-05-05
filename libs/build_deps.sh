@@ -23,12 +23,12 @@ DEFAULT_LIB_DIRECTORY_PATH=$(pwd) #"."
 libDir=${1:-$DEFAULT_LIB_DIRECTORY_PATH}
 
 install_boost() {
-  #if [ -d boost_1_78_0 ]; then
-  #    rm -rf boost_1_78_0
+  #if [ -d boost_$BOOST_VER ]; then
+  #    rm -rf boost_$BOOST_VER
   #fi
   curl -L -O https://boostorg.jfrog.io/artifactory/main/release/$BOOST_DOT_VER/source/boost_$BOOST_VER.tar.gz
   tar -xzf boost_$BOOST_VER.tar.gz
-  rm -rf boost_1_78_0.tar.gz
+  rm -rf boost_$BOOST_VER.tar.gz
   #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
   if [ $BOOST_TOOLSET == "msvc" ];
@@ -77,7 +77,7 @@ install_cpprestsdk(){
       -DBUILD_TESTS=OFF \
       -DBUILD_SAMPLES=OFF \
       -DCMAKE_INSTALL_PREFIX=install_dir \
-      -DBOOST_ROOT=$libDir/boost_1_78_0/install_dir \
+      -DBOOST_ROOT=$libDir/boost_$BOOST_VER/install_dir \
       -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
       -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC && \
     cmake --build . -j$(nproc) && \
