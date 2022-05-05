@@ -80,8 +80,8 @@ install_cpprestsdk(){
       -DBOOST_ROOT="$libDir"/boost_"$BOOST_VER"/install_dir \
       -DBoost_USE_STATIC_LIBS="$BOOST_USE_STATIC" \
       -DBoost_USE_STATIC_RUNTIME="$BOOST_USE_STATIC" && \
-    cmake --build . -j6 && \
-    cmake --install . --prefix install_dir) || exit
+    cmake --build . -j6 --config Release && \
+    cmake --install . --config Release --prefix install_dir) || exit
 	#(cd "$restsdkBuildDir" && make)
 }
 
@@ -108,7 +108,7 @@ install_postgresql(){
 }
 
 mkdir -p "$libDir"
-install_postgresql
 install_boost
 # install_openssl
 install_cpprestsdk
+install_postgresql
