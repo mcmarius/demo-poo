@@ -33,13 +33,13 @@ install_boost() {
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
   if [ "$BOOST_TOOLSET" == "msvc" ];
   then
-    (cd boost_$BOOST_VER && \
-      ./bootstrap.bat --with-toolset="$BOOST_TOOLSET" && \
-      ./b2 "$BOOST_LIBS" toolset="$BOOST_TOOLSET" variant=release link="$BOOST_LINK" address-model=64 runtime-link="$BOOST_LINK" install --prefix=install_dir -d0)
+    cd boost_$BOOST_VER && \
+      ./bootstrap.bat --with-toolset=$BOOST_TOOLSET && \
+      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0
   else
-    (cd boost_"$BOOST_VER" && \
-      ./bootstrap.sh --with-toolset="$BOOST_TOOLSET" && \
-      ./b2 "$BOOST_LIBS" toolset="$BOOST_TOOLSET" variant=release link="$BOOST_LINK" address-model=64 runtime-link="$BOOST_LINK" install --prefix=install_dir -d0)
+    cd boost_$BOOST_VER && \
+      ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
+      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0
   fi
 }
 
@@ -80,7 +80,7 @@ install_cpprestsdk(){
       -DBOOST_ROOT="$libDir"/boost_"$BOOST_VER"/install_dir \
       -DBoost_USE_STATIC_LIBS="$BOOST_USE_STATIC" \
       -DBoost_USE_STATIC_RUNTIME="$BOOST_USE_STATIC" && \
-    cmake --build . -j$(nproc) && \
+    cmake --build . -j"$(nproc)" && \
     cmake --install . --prefix install_dir) || exit
 	#(cd "$restsdkBuildDir" && make)
 }
@@ -101,7 +101,7 @@ install_postgresql(){
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
       -DCMAKE_INSTALL_PREFIX=install_dir && \
-    cmake --build . -j$(nproc) && \
+    cmake --build . -j"$(nproc)" && \
     cmake --install . --prefix install_dir) || exit
   #(cd "$postgresqlBuildDir" && make)
 }
