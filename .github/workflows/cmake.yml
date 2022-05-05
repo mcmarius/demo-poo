@@ -75,6 +75,7 @@ jobs:
             boost_toolset: clang
             boost_use_static: ON
             build_shared_libs: OFF
+            OPENSSL_ROOT_DIR: /usr/local/opt/openssl@1.1
 
           # - os: macos-11
           #   c: gcc-11
@@ -232,6 +233,7 @@ jobs:
             -DBOOST_ROOT=libs/boost_$BOOST_VER/install_dir \
             -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
             -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
+            -DOPENSSL_ROOT_DIR=${{ matrix.OPENSSL_ROOT_DIR }} \
             -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 

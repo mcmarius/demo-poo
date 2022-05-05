@@ -136,7 +136,7 @@ if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-W1, -F/Library/Frameworks")
 else()
     #target_link_directories(${PROJECT_NAME} PRIVATE ${CPPRESTSDK_LIB_DIR} ${PQXX_LIB_DIR} ${LIBRARIES_SEARCH_PATHS})
-    target_link_libraries(${PROJECT_NAME} PRIVATE OPENSSL_LIBS cpprest pqxx pq)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENSSL_LIBS} cpprest pqxx pq)
 endif()
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
