@@ -7,7 +7,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(Boost_USE_MULTITHREADED TRUE)
 
-find_package(Boost REQUIRED COMPONENTS system thread log program_options chrono)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    find_package(Boost REQUIRED COMPONENTS system thread log program_options chrono)
+endif()
 find_package(Threads REQUIRED)
 
 option(GITHUB_ACTIONS "Running on GitHub Actions" OFF)

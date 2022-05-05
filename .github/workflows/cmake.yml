@@ -29,6 +29,11 @@ jobs:
       CMAKE_GENERATOR: ${{ matrix.cmake_generator }}
       BUILD_TYPE: Debug
       BUILD_SHARED_LIBS: ${{ matrix.build_shared_libs }}
+      BOOST_MV: "1"
+      BOOST_mV: "78"
+      BOOST_pV: "0"
+      BOOST_DOT_VER: $BOOST_MV.$BOOST_mV.$BOOST_pV
+      BOOST_VER: $BOOST_MV_$BOOST_mV_$BOOST_pV
 
     strategy:
       fail-fast: false

@@ -9,11 +9,11 @@ set -e
 # https://github.com/boostorg/type_erasure/issues/16
 # meh: https://gist.github.com/zrsmithson/0b72e0cb58d0cb946fc48b5c88511da8
 
-BOOST_MV="1"
-BOOST_mV="78"
-BOOST_pV="0"
-BOOST_DOT_VER=$BOOST_MV.$BOOST_mV.$BOOST_pV
-BOOST_VER="$BOOST_MV"_"$BOOST_mV"_$BOOST_pV
+# BOOST_MV="1"
+# BOOST_mV="78"
+# BOOST_pV="0"
+# BOOST_DOT_VER=$BOOST_MV.$BOOST_mV.$BOOST_pV
+# BOOST_VER="$BOOST_MV"_"$BOOST_mV"_$BOOST_pV
 RESTSDK_VERSION="v2.10.18"
 PQXX_VERSION="7.7.3"
 DEFAULT_LIB_DIRECTORY_PATH=$(pwd) #"."
