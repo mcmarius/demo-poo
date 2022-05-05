@@ -13,7 +13,7 @@ BOOST_MV="1"
 BOOST_mV="78"
 BOOST_pV="0"
 BOOST_DOT_VER=$BOOST_MV.$BOOST_mV.$BOOST_pV
-BOOST_VER=$BOOST_MV\_$BOOST_mV\_$BOOST_pV
+BOOST_VER="$BOOST_MV"_"$BOOST_mV"_$BOOST_pV
 RESTSDK_VERSION="v2.10.18"
 PQXX_VERSION="7.7.3"
 DEFAULT_LIB_DIRECTORY_PATH=$(pwd) #"."
@@ -31,15 +31,15 @@ install_boost() {
   rm -rf boost_$BOOST_VER.tar.gz
   #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64
    #./b2 --with-system --with-date_time --with-regex variant=release link=shared toolset=gcc address-model=64 architecture=x64 runtime-link=shared install --prefix=install2 -d0
-  if [ $BOOST_TOOLSET == "msvc" ];
+  if [ "$BOOST_TOOLSET" == "msvc" ];
   then
     (cd boost_$BOOST_VER && \
-      ./bootstrap.bat --with-toolset=$BOOST_TOOLSET && \
-      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+      ./bootstrap.bat --with-toolset="$BOOST_TOOLSET" && \
+      ./b2 "$BOOST_LIBS" toolset="$BOOST_TOOLSET" variant=release link="$BOOST_LINK" address-model=64 runtime-link="$BOOST_LINK" install --prefix=install_dir -d0)
   else
-    (cd boost_$BOOST_VER && \
-      ./bootstrap.sh --with-toolset=$BOOST_TOOLSET && \
-      ./b2 $BOOST_LIBS toolset=$BOOST_TOOLSET variant=release link=$BOOST_LINK address-model=64 runtime-link=$BOOST_LINK install --prefix=install_dir -d0)
+    (cd boost_"$BOOST_VER" && \
+      ./bootstrap.sh --with-toolset="$BOOST_TOOLSET" && \
+      ./b2 "$BOOST_LIBS" toolset="$BOOST_TOOLSET" variant=release link="$BOOST_LINK" address-model=64 runtime-link="$BOOST_LINK" install --prefix=install_dir -d0)
   fi
 }
 
@@ -63,7 +63,7 @@ install_cpprestsdk(){
    #fi
 
 	git clone --depth=20 https://github.com/Microsoft/cpprestsdk.git "$restsdkDir"
-	(cd $restsdkDir && (git checkout tags/$RESTSDK_VERSION -b $RESTSDK_VERSION || git checkout tags/$RESTSDK_VERSION) && git submodule update --init)
+	(cd "$restsdkDir" && (git checkout tags/"$RESTSDK_VERSION" -b "$RESTSDK_VERSION" || git checkout tags/"$RESTSDK_VERSION") && git submodule update --init)
 	mkdir -p "$restsdkBuildDir"
 	#if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	#	export CXX=g++-4.9
@@ -72,14 +72,14 @@ install_cpprestsdk(){
 	(cd "$restsdkBuildDir" && \
     cmake ../Release \
       -DCMAKE_BUILD_TYPE=Release \
-      -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS \
+      -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
       -DWERROR=OFF \
       -DBUILD_TESTS=OFF \
       -DBUILD_SAMPLES=OFF \
       -DCMAKE_INSTALL_PREFIX=install_dir \
-      -DBOOST_ROOT=$libDir/boost_$BOOST_VER/install_dir \
-      -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
-      -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC && \
+      -DBOOST_ROOT="$libDir"/boost_"$BOOST_VER"/install_dir \
+      -DBoost_USE_STATIC_LIBS="$BOOST_USE_STATIC" \
+      -DBoost_USE_STATIC_RUNTIME="$BOOST_USE_STATIC" && \
     cmake --build . -j$(nproc) && \
     cmake --install . --prefix install_dir) || exit
 	#(cd "$restsdkBuildDir" && make)
@@ -94,12 +94,12 @@ install_postgresql(){
   #fi
 
   git clone --depth=20 https://github.com/jtv/libpqxx "$postgresqlDir"
-  (cd "$postgresqlDir" && git checkout tags/$PQXX_VERSION -b $PQXX_VERSION || git checkout tags/$PQXX_VERSION)
+  (cd "$postgresqlDir" && git checkout tags/"$PQXX_VERSION" -b "$PQXX_VERSION" || git checkout tags/"$PQXX_VERSION")
   mkdir -p "$postgresqlBuildDir"
   (cd "$postgresqlBuildDir" && \
     cmake ../ \
       -DCMAKE_BUILD_TYPE=Release \
-      -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS \
+      -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
       -DCMAKE_INSTALL_PREFIX=install_dir && \
     cmake --build . -j$(nproc) && \
     cmake --install . --prefix install_dir) || exit
