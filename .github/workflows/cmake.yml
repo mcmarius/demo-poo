@@ -232,7 +232,7 @@ jobs:
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/openssl/_build
         run: |
-          perl ../Configure --banner=Configured no-makedepend no-bulk no-deprecated no-fips no-asm -DOPENSSL_SMALL_FOOTPRINT VC-WIN64A
+          perl ../Configure --banner=Configured no-makedepend no-deprecated no-asm -DOPENSSL_SMALL_FOOTPRINT VC-WIN64A
           perl configdata.pm --dump
       - name: OpenSSL build (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
