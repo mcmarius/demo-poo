@@ -269,7 +269,7 @@ jobs:
 
       - name: Build/install deps (Windows)
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os == 'Windows'
-        working_directory: libs
+        working-directory: libs
         run: |
           # TODO https://github.com/openssl/openssl/blob/master/.github/workflows/windows.yml
           BOOST_LIBS="--with-date_time --with-log --with-program_options --with-regex --with-system"
