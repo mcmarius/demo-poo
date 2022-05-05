@@ -26,6 +26,10 @@ find_package(OpenSSL)
 find_package(PostgreSQL)
 
 
+
+add_executable(${PROJECT_NAME} Nod.cpp Nod.h main.cpp ListaDubluInlantuita.cpp ListaDubluInlantuita.h Lista.cpp Lista.h)
+
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     message("-- configuring clang options")
     target_compile_options(${PROJECT_NAME} PRIVATE "-arch x86_64 -DBOOST_LOG_DYN_LINK -Wno-deprecated-declarations")
@@ -68,8 +72,6 @@ endif()
 #)
 #
 #FetchContent_MakeAvailable(SomeLib)
-
-add_executable(${PROJECT_NAME} Nod.cpp Nod.h main.cpp ListaDubluInlantuita.cpp ListaDubluInlantuita.h Lista.cpp Lista.h)
 
 message("Compiler: ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 if(MSVC)

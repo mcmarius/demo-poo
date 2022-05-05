@@ -100,6 +100,7 @@ install_postgresql(){
     cmake ../ \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
+      -DSKIP_BUILD_TEST=on \
       -DCMAKE_INSTALL_PREFIX=install_dir && \
     cmake --build . -j"$(nproc)" && \
     cmake --install . --prefix install_dir) || exit
