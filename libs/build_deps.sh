@@ -80,7 +80,7 @@ install_cpprestsdk(){
       -DBOOST_ROOT="$libDir"/boost_"$BOOST_VER"/install_dir \
       -DBoost_USE_STATIC_LIBS="$BOOST_USE_STATIC" \
       -DBoost_USE_STATIC_RUNTIME="$BOOST_USE_STATIC" && \
-    cmake --build . -j"$(nproc)" && \
+    cmake --build . -j6 && \
     cmake --install . --prefix install_dir) || exit
 	#(cd "$restsdkBuildDir" && make)
 }
@@ -102,7 +102,7 @@ install_postgresql(){
       -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
       -DSKIP_BUILD_TEST=on \
       -DCMAKE_INSTALL_PREFIX=install_dir && \
-    cmake --build . -j"$(nproc)" && \
+    cmake --build . -j6 && \
     cmake --install . --prefix install_dir) || exit
   #(cd "$postgresqlBuildDir" && make)
 }

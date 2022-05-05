@@ -7,7 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(Boost_USE_MULTITHREADED TRUE)
 
-#find_package(Boost REQUIRED COMPONENTS system thread log program_options chrono)
+find_package(Boost REQUIRED COMPONENTS system thread log program_options chrono)
 find_package(Threads REQUIRED)
 
 option(GITHUB_ACTIONS "Running on GitHub Actions" OFF)
@@ -32,7 +32,11 @@ add_executable(${PROJECT_NAME} Nod.cpp Nod.h main.cpp ListaDubluInlantuita.cpp L
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     message("-- configuring clang options")
-    target_compile_options(${PROJECT_NAME} PRIVATE -arch=x86_64 -DBOOST_LOG_DYN_LINK -Wno-deprecated-declarations)
+    if(NOT GITHUB_ACTIONS)
+        target_compile_options(${PROJECT_NAME} PRIVATE -arch=x86_64 -DBOOST_LOG_DYN_LINK -Wno-deprecated-declarations)
+    else()
+        target_compile_options(${PROJECT_NAME} PRIVATE -DBOOST_LOG_DYN_LINK -Wno-deprecated-declarations)
+    endif()
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     message("-- configuring gcc options")
     target_compile_options(${PROJECT_NAME} PRIVATE -DBOOST_LOG_DYN_LINK)

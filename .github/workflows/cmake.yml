@@ -227,7 +227,7 @@ jobs:
           CMAKE_GENERATOR=${{ matrix.cmake_generator }} cmake -S $GITHUB_WORKSPACE -B build \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
             -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts \
-            -DBOOST_ROOT=$libDir/boost_$BOOST_VER/install_dir \
+            -DBOOST_ROOT=libs/boost_$BOOST_VER/install_dir \
             -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
             -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
             -DGITHUB_ACTIONS=ON \
