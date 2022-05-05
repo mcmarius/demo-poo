@@ -296,6 +296,7 @@ jobs:
             -DBOOST_ROOT=libs/boost_$BOOST_VER/install_dir \
             -DBoost_USE_STATIC_LIBS=$BOOST_USE_STATIC \
             -DBoost_USE_STATIC_RUNTIME=$BOOST_USE_STATIC \
+            -DCPPRESTSDK_LIB_DIR=libs/cpprestsdk/build.release/install_dir/lib \
             -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 

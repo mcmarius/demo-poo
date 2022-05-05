@@ -82,6 +82,10 @@ install_cpprestsdk(){
       -DBoost_USE_STATIC_RUNTIME="$BOOST_USE_STATIC" && \
     cmake --build . -j6 --config Release && \
     cmake --install . --config Release --prefix install_dir) || exit
+  if [ "$BOOST_TOOLSET" == "msvc" ];
+  then
+    cp $restsdkBuildDir/install_dir/cpprest143_2_10.lib $restsdkBuildDir/install_dir/cpprest.lib
+  fi
 	#(cd "$restsdkBuildDir" && make)
 }
 
