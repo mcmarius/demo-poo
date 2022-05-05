@@ -221,11 +221,9 @@ jobs:
 
       - uses: ilammy/msvc-dev-cmd@v1
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
-        shell: cmd
 
       - uses: shogo82148/actions-setup-perl@v1
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
-        shell: cmd
 
       - name: OpenSSL prepare the build directory (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
