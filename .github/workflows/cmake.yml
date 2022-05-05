@@ -227,7 +227,7 @@ jobs:
       - uses: shogo82148/actions-setup-perl@v1
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
 
-      - name: OpenSSL (Windows MSVC): prepare the build directory
+      - name: OpenSSL prepare the build directory (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         run: mkdir -p libs/openssl/_build
 
