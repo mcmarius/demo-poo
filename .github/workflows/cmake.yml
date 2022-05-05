@@ -70,7 +70,7 @@ jobs:
             c: clang
             cxx: clang++
             name: macOS 11 Apple Clang 13
-            cmake_flags: -DZIP_LIBRARY_PATH=/usr/local/Cellar/zlib/1.2.12/lib/ -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
+            cmake_flags: -DZIP_ROOT=/usr/local/Cellar/zlib/1.2.12/ -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
             boost_link: static
             boost_toolset: clang
             boost_use_static: ON
@@ -218,11 +218,14 @@ jobs:
           repository: openssl/openssl
           ref: OpenSSL_1_1_1o
           path: libs/openssl
+
       - uses: ilammy/msvc-dev-cmd@v1
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        shell: cmd
 
       - uses: shogo82148/actions-setup-perl@v1
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        shell: cmd
 
       - name: OpenSSL prepare the build directory (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
@@ -231,13 +234,15 @@ jobs:
       - name: OpenSSL config (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/openssl/_build
+        shell: cmd
         run: |
-          perl ../Configure --banner=Configured no-makedepend no-deprecated no-asm -DOPENSSL_SMALL_FOOTPRINT VC-WIN64A
+          perl ..\Configure --banner=Configured no-makedepend no-deprecated no-asm -DOPENSSL_SMALL_FOOTPRINT VC-WIN64A
           perl configdata.pm --dump
       - name: OpenSSL build (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/openssl/_build
         run: nmake # verbose, so no /S here
+        shell: cmd
 
 
       - name: Build/install deps (Windows)
