@@ -375,9 +375,9 @@ jobs:
           files: |
             ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
 
-      # - name: Upload Artifact
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
-      #     path: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
-      #     retention-days: 10
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+          path: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+          retention-days: 10
