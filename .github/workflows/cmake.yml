@@ -261,7 +261,7 @@ jobs:
         shell: cmd
 
       - name: OpenSSL install (Windows MSVC)
-        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        #if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
         working-directory: libs/openssl/_build
         run: nmake install
         shell: cmd
