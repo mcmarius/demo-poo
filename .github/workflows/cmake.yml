@@ -238,10 +238,10 @@ jobs:
           path: libs/openssl
 
       - uses: ilammy/msvc-dev-cmd@v1
-        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        if: runner.os == 'Windows'
 
       - uses: shogo82148/actions-setup-perl@v1
-        if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        if: runner.os == 'Windows'
 
       - name: OpenSSL prepare the build directory (Windows MSVC)
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
@@ -261,7 +261,7 @@ jobs:
         shell: cmd
 
       - name: OpenSSL install (Windows MSVC)
-        #if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
+        if: runner.os == 'Windows'
         working-directory: libs/openssl/_build
         run: nmake install
         shell: cmd
@@ -375,9 +375,9 @@ jobs:
           files: |
             ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
-          path: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
-          retention-days: 10
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+      #     path: ${{ env.BUILD_TYPE }}_${{ env.TAG_NAME }}_${{ matrix.os }}_${{ matrix.cxx }}.zip
+      #     retention-days: 10
