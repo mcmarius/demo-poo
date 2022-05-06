@@ -308,6 +308,11 @@ jobs:
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: cmake --install build --config $BUILD_TYPE --prefix artifacts
 
+      - name: Copy pqxx dll
+        if: runner.os == 'Windows' && matrix.cxx == 'cl'
+        run: |
+          cp libs/libpqxx/build.release/install_dir/bin/pqxx.dll artifacts/bin/pqxx.dll
+
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         # static linking might not work with MinGW, might be easier this way

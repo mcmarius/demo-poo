@@ -148,7 +148,6 @@ elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENSSL_LIBS} cpprest pqxx PostgreSQL::PostgreSQL)
 else()
     # link pqxx dynamically on windows
-    install(FILES ${PQXX_LIB_DIR}/../bin/pqxx.dll DESTINATION bin)
     target_link_libraries(${PROJECT_NAME} PRIVATE ${OPENSSL_LIBS} cpprest PostgreSQL::PostgreSQL)
 endif()
 
