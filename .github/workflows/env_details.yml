@@ -14,10 +14,18 @@ jobs:
       - name: gh workspace
         shell: bash
         run: |
-          ls -la ${{ github.workspace }}
-          sudo apt install -y clang-tidy
-          clang-tidy --version
-          env
+          #ls -la ${{ github.workspace }}
+          #sudo apt install -y clang-tidy
+          #clang-tidy --version
+          #env
+          ls
+          cp $(where ucrtbased.dll) .
+          where ucrtbased.dll
+          where VCRUNTIME140_1D.dll
+          where MSVCP140D.dll
+          where VCRUNTIME140D.dll
+          ls
+
 #   build:
 #     runs-on: ${{ matrix.os }}
 #     env:
