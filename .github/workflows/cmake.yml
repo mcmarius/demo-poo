@@ -312,6 +312,10 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
         run: |
           cp libs/libpqxx/build.release/install_dir/bin/pqxx.dll artifacts/bin/pqxx.dll
+          cp $(where ucrtbased.dll) artifacts/bin/
+          cp $(where VCRUNTIME140_1D.dll) artifacts/bin/
+          cp $(where MSVCP140D.dll) artifacts/bin/
+          cp $(where VCRUNTIME140D.dll) artifacts/bin/
 
       - name: Copy stdlib (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
