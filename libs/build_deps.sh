@@ -98,7 +98,7 @@ install_postgresql(){
   #fi
 
   git clone --depth=20 https://github.com/jtv/libpqxx "$postgresqlDir"
-  #(cd "$postgresqlDir" && git checkout tags/"$PQXX_VERSION" -b "$PQXX_VERSION" || git checkout tags/"$PQXX_VERSION")
+  (cd "$postgresqlDir" && git checkout tags/"$PQXX_VERSION" -b "$PQXX_VERSION" || git checkout tags/"$PQXX_VERSION")
   #mkdir -p "$postgresqlBuildDir"
   #(cd "$postgresqlBuildDir" && \
   #  cmake ../ \
