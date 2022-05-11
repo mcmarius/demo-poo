@@ -98,16 +98,16 @@ install_postgresql(){
   #fi
 
   git clone --depth=20 https://github.com/jtv/libpqxx "$postgresqlDir"
-  (cd "$postgresqlDir" && git checkout tags/"$PQXX_VERSION" -b "$PQXX_VERSION" || git checkout tags/"$PQXX_VERSION")
-  mkdir -p "$postgresqlBuildDir"
-  (cd "$postgresqlBuildDir" && \
-    cmake ../ \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
-      -DSKIP_BUILD_TEST=on \
-      -DCMAKE_INSTALL_PREFIX=install_dir && \
-    cmake --build . -j6 --config Release && \
-    cmake --install . --config Release --prefix install_dir) || exit
+  #(cd "$postgresqlDir" && git checkout tags/"$PQXX_VERSION" -b "$PQXX_VERSION" || git checkout tags/"$PQXX_VERSION")
+  #mkdir -p "$postgresqlBuildDir"
+  #(cd "$postgresqlBuildDir" && \
+  #  cmake ../ \
+  #    -DCMAKE_BUILD_TYPE=Release \
+  #    -DBUILD_SHARED_LIBS="$BUILD_SHARED_LIBS" \
+  #    -DSKIP_BUILD_TEST=on \
+  #    -DCMAKE_INSTALL_PREFIX=install_dir && \
+  #  cmake --build . -j6 --config Release && \
+  #  cmake --install . --config Release --prefix install_dir) || exit
   #(cd "$postgresqlBuildDir" && make)
 }
 
@@ -115,4 +115,5 @@ mkdir -p "$libDir"
 install_boost
 # install_openssl
 install_cpprestsdk
-#install_postgresql
+install_postgresql
+

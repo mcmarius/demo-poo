@@ -277,10 +277,6 @@ jobs:
           chmod +x ./build_deps.sh
           ./build_deps.sh
 
-      - name: Delete pqxx build dir
-        run: |
-          rm -rf libs/pqxx/build.release/
-
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
         run: |
