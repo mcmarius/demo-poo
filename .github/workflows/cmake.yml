@@ -299,6 +299,11 @@ jobs:
             -DGITHUB_ACTIONS=ON \
             ${{ matrix.cmake_flags }}
 
+      - name: Windows patch
+        run: |
+          cp build/libpqxx/include/pqxx/*.h libs/libpqxx/include/
+          ls libs/libpqxx/include
+
       - name: Build
         # Execute the build using N jobs (-jN). You can specify a specific target with "--target <NAME>"
         run: cmake --build build --config $BUILD_TYPE -j6
