@@ -44,7 +44,13 @@ endif()
 
 set(CPPRESTSDK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/cpprestsdk/Release/include CACHE PATH "CPP Rest SDK include dir")
 #set(PQXX_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/libpqxx/include CACHE PATH "PQXX include dir")
-set(SKIP_BUILD_TEST on)
+
+if(UNIX)
+  SET(BUILD_SHARED_LIBS OFF)
+else()
+  SET(BUILD_SHARED_LIBS ON)
+endif()
+set(SKIP_BUILD_TEST ON)
 add_subdirectory(libs/libpqxx)
 
 set(HEADER_SEARCH_PATHS ${CPPRESTSDK_INCLUDE_DIR} ${PQXX_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR})

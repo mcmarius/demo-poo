@@ -115,4 +115,4 @@ mkdir -p "$libDir"
 install_boost
 # install_openssl
 install_cpprestsdk
-install_postgresql
+#install_postgresql

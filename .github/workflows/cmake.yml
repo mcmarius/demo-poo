@@ -277,6 +277,9 @@ jobs:
           chmod +x ./build_deps.sh
           ./build_deps.sh
 
+      - name: Delete pqxx build dir
+        run: |
+          rm -rf libs/pqxx/build.release/
 
       - name: Configure CMake (MinGW)
         if: runner.os == 'Windows' && matrix.cxx == 'g++'
@@ -325,7 +328,7 @@ jobs:
 
       - name: Cppcheck
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
-        run: cppcheck --enable=all --project=build/compile_commands.json -ibuild --suppress='*:build/*' --suppress=missingIncludeSystem --suppress=unmatchedSuppression --error-exitcode=1
+        run: cppcheck --enable=all --project=build/compile_commands.json -ibuild --suppress='*:libs/*' --suppress='*:build/*' --suppress=missingIncludeSystem --suppress=unmatchedSuppression --error-exitcode=1
 
       - name: Clang-tidy
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
