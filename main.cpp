@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <concepts>
+#include <pqxx/pqxx>
 
 #include "ListaDubluInlantuita.h"
 
