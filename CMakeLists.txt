@@ -43,7 +43,9 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 set(CPPRESTSDK_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/cpprestsdk/Release/include CACHE PATH "CPP Rest SDK include dir")
+set(PQXX_INCLUDE_DIR_gen ${PROJECT_BINARY_DIR}/libpqxx/include CACHE PATH "PQXX include dir (generated)")
 set(PQXX_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/libs/libpqxx/include CACHE PATH "PQXX include dir")
+
 
 if(UNIX)
   SET(BUILD_SHARED_LIBS OFF)
@@ -53,7 +55,7 @@ endif()
 set(SKIP_BUILD_TEST ON)
 add_subdirectory(libs/libpqxx)
 
-set(HEADER_SEARCH_PATHS ${CPPRESTSDK_INCLUDE_DIR} ${PQXX_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR})
+set(HEADER_SEARCH_PATHS ${CPPRESTSDK_INCLUDE_DIR} ${PQXX_INCLUDE_DIR_gen} ${PQXX_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR})
 
 set(CPPRESTSDK_LIB_DIR ${PROJECT_SOURCE_DIR}/libs/cpprestsdk/build.release/Binaries CACHE PATH "CPP Rest SDK lib dir")
 #set(PQXX_LIB_DIR ${PROJECT_SOURCE_DIR}/libs/libpqxx/build.release/src CACHE PATH "PQXX lib dir")

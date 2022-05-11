@@ -310,7 +310,7 @@ jobs:
       - name: Copy pqxx dll
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
         run: |
-          #cp libs/libpqxx/build.release/install_dir/bin/pqxx.dll artifacts/bin/pqxx.dll
+          cp libs/libpqxx/src/Debug/pqxx.dll artifacts/bin/pqxx.dll
           cp libs/libpqxx artifacts/bin/libpqxx
           cp $(where ucrtbased.dll) artifacts/bin/
           cp $(where VCRUNTIME140_1D.dll) artifacts/bin/
@@ -334,6 +334,7 @@ jobs:
           cat build/compile_commands.json |
             jq -r '.[] | .file' |           # select source file paths from CMake project; -r to strip quotes
             grep -v "/build/_deps/" |       # ignore external dependencies
+            grep -v "/libs/" |              # ignore external dependencies
             xargs clang-tidy -p build
 
       - name: Sanitizers
