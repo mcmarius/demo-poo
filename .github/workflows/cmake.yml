@@ -314,7 +314,8 @@ jobs:
       - name: Copy pqxx dll
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
         run: |
-          cp libs/libpqxx/build.release/install_dir/bin/pqxx.dll artifacts/bin/pqxx.dll
+          #cp libs/libpqxx/build.release/install_dir/bin/pqxx.dll artifacts/bin/pqxx.dll
+          cp libs/libpqxx artifacts/bin/libpqxx
           cp $(where ucrtbased.dll) artifacts/bin/
           cp $(where VCRUNTIME140_1D.dll) artifacts/bin/
           cp $(where MSVCP140D.dll) artifacts/bin/
