@@ -191,7 +191,7 @@ jobs:
         with:
           path: |
             libs
-          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}-1
+          key: cache-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}-2
 
       - name: Build/install deps
         if: steps.cache-deps.outputs.cache-hit != 'true' && runner.os != 'Windows'
@@ -203,15 +203,15 @@ jobs:
 
 
       # use a separate cache so we do not need to rebuild all deps
-      - name: Cache zlib and openssl
-        uses: actions/cache@v2
-        id: cache-openssl
-        if: runner.os == 'Windows'
-        with:
-          path: |
-            libs/openssl
-            libs/zlib
-          key: cache-openssl-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
+      #- name: Cache zlib and openssl
+      #  uses: actions/cache@v2
+      #  id: cache-openssl
+      #  if: runner.os == 'Windows'
+      #  with:
+      #    path: |
+      #      libs/openssl
+      #      libs/zlib
+      #    key: cache-openssl-${{ matrix.cmake_generator }}-${{ matrix.os }}-${{ matrix.cxx }}
 
       - uses: actions/checkout@v2
         if: steps.cache-openssl.outputs.cache-hit != 'true' && runner.os == 'Windows'
