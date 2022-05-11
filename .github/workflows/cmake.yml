@@ -37,24 +37,24 @@ jobs:
       matrix:
         include:
           - os: ubuntu-20.04
-            c: clang-11
-            cxx: clang++-11
-            name: Ubuntu 20.04 Clang 11
+            c: clang-12
+            cxx: clang++-12
+            name: Ubuntu 20.04 Clang 12
             cmake_flags: -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
             boost_link: static
             boost_toolset: clang
             boost_use_static: ON
             build_shared_libs: OFF
 
-          - os: ubuntu-20.04
-            c: clang-10
-            cxx: clang++-10
-            name: Ubuntu 20.04 Clang 10
-            # cmake_flags:
-            boost_link: static
-            boost_toolset: clang
-            boost_use_static: ON
-            build_shared_libs: OFF
+          # - os: ubuntu-20.04
+          #   c: clang-10
+          #   cxx: clang++-10
+          #   name: Ubuntu 20.04 Clang 10
+          #   # cmake_flags:
+          #   boost_link: static
+          #   boost_toolset: clang
+          #   boost_use_static: ON
+          #   build_shared_libs: OFF
 
           - os: ubuntu-20.04
             c: gcc-10
@@ -124,14 +124,14 @@ jobs:
 
       - name: Cache tools
         uses: actions/cache@v2
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         id: cache-tools
         with:
           path: tools
           key: tools
 
       - name: Build tools
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12' && steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           mkdir tools/
           wget https://github.com/danmar/cppcheck/archive/2.6.zip
@@ -145,7 +145,7 @@ jobs:
 
       - name: Install tools
         # this step is fast, no need for caching
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         # build/install other tools in these steps
         run: |
           cd tools/cppcheck-2.6
@@ -324,11 +324,11 @@ jobs:
           cp gcc/mingw64/bin/libstdc++-6.dll $GITHUB_WORKSPACE/artifacts/bin
 
       - name: Cppcheck
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         run: cppcheck --enable=all --project=build/compile_commands.json -ibuild --suppress='*:build/*' --suppress=missingIncludeSystem --suppress=unmatchedSuppression --error-exitcode=1
 
       - name: Clang-tidy
-        if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
+        if: runner.os == 'Linux' && matrix.cxx == 'clang++-12'
         # config from https://gist.github.com/jfm535/7581ccadbd539303d8bed2f46f973108
         run: |
           cat build/compile_commands.json |

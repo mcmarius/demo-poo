@@ -113,7 +113,7 @@ elseif(UNIX)
         # target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
         # target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
     elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-        if("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "10.")
+        if("${CMAKE_CXX_COMPILER_VERSION}" MATCHES "12.")
             # check leaks on Linux since macOS does not support the leaks sanitizer yet
             # leaks sanitizer seems is enabled by default on Linux (according to docs),
             # so we do not enable it explicitly
