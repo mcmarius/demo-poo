@@ -300,15 +300,9 @@ jobs:
             ${{ matrix.cmake_flags }}
 
       - name: Windows patch
+        if: runner.os == 'Windows'
         run: |
-          ls build
-          ls build/libs/libpqxx
-          #cp build/libs/libpqxx/include/pqxx/*.h libs/libpqxx/include/
           cp build/libs/libpqxx/include/pqxx/*.h libs/libpqxx/include/pqxx/
-          #cp build/libs/libpqxx/include/pqxx/*.h libs/libpqxx/include/pqxx/internal/
-          #mkdir -p libs/libpqxx/include/pqxx/internal/pqxx/
-          #cp build/libs/libpqxx/include/pqxx/*.h libs/libpqxx/include/pqxx/internal/pqxx/
-          ls libs/libpqxx/include/pqxx
 
       - name: Build
         # Execute the build using N jobs (-jN). You can specify a specific target with "--target <NAME>"
