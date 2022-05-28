@@ -135,7 +135,7 @@ int main() {
     // start generate salt
     // important e ca salt-ul să fie unic, nu contează că nu e random
     // se stochează ca text clar, lângă parola hashed
-    static int64_t nr = 1;
+    static uint64_t nr = 1u;
     auto salt = ""s;
     //unsigned char bytes[8];
     auto bytes = static_cast<unsigned char*>(static_cast<void*>(&nr));

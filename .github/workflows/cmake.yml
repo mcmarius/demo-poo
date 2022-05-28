@@ -92,17 +92,17 @@ jobs:
         id: cache-tools
         with:
           path: tools
-          key: tools
+          key: tools-cppcheck-2.7
 
       - name: Build tools
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11' && steps.cache-tools.outputs.cache-hit != 'true'
         run: |
           mkdir tools/
-          wget https://github.com/danmar/cppcheck/archive/2.6.zip
-          unzip 2.6.zip
-          rm 2.6.zip
-          mv cppcheck-2.6 tools/cppcheck-2.6
-          cd tools/cppcheck-2.6
+          wget https://github.com/danmar/cppcheck/archive/2.7.zip
+          unzip 2.7.zip
+          rm 2.7.zip
+          mv cppcheck-2.7 tools/cppcheck-2.7
+          cd tools/cppcheck-2.7
           mkdir build
           cmake -S . -B build
           cmake --build build -j6
@@ -112,7 +112,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.cxx == 'clang++-11'
         # build/install other tools in these steps
         run: |
-          cd tools/cppcheck-2.6
+          cd tools/cppcheck-2.7
           sudo cmake --install build
 
 #      - name: Cache deps
