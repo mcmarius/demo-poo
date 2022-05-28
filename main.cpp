@@ -4,8 +4,12 @@
 
 #include <iostream>
 #include <concepts>
+#include <cinttypes>
+#include <digestpp.hpp>
 
 #include "ListaDubluInlantuita.h"
+
+using namespace std::string_literals;
 
 class VNod : public Nod {
 public:
@@ -123,4 +127,24 @@ int main() {
 //    std::cout<<lista;
 //    lista.add(3, 1);
 //    std::cout<<lista;
+
+
+    std::string hashed;
+    //hashed = digestpp::sha3(512).absorb("ParolaMea5$Care3Suf!ci€nTdeL00ng4"s).hexdigest();
+
+    // start generate salt
+    // important e ca salt-ul să fie unic, nu contează că nu e random
+    // se stochează ca text clar, lângă parola hashed
+    static int64_t nr = 1;
+    auto salt = ""s;
+    //unsigned char bytes[8];
+    auto bytes = static_cast<unsigned char*>(static_cast<void*>(&nr));
+    for(unsigned i = 0; i < 16; i++) {
+        salt += bytes[i%8];
+    }
+    ++nr;
+    // end generate salt
+
+    hashed = digestpp::blake2b(512).set_salt(salt).absorb("ParolaMea5$Care3Suf!ci€nTdeL00ng4"s).hexdigest();
+    std::cout << hashed << "\n";
 }
