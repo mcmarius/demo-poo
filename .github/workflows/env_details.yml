@@ -15,30 +15,7 @@ jobs:
       - name: gh workspace
         shell: bash
         run: |
-          echo $PATH
-          echo "add_subdirectory(libpqxx)" > CMakeLists.txt
-          git clone --depth 20 https://github.com/jtv/libpqxx
-          cd libpqxx
-          git checkout 7.7.3
-          cd ..
-          mkdir build
-          cd build
-          CXX=cl cmake ..
-          ls
-          ls libpqxx
-          ls libpqxx/include
-          ls libpqxx/include/pqxx
-          #ls -la ${{ github.workspace }}
-          #sudo apt install -y clang-tidy
-          #clang-tidy --version
-          #env
-          ls
-          cp $(where ucrtbased.dll) .
-          where ucrtbased.dll
-          where VCRUNTIME140_1D.dll
-          where MSVCP140D.dll
-          where VCRUNTIME140D.dll
-          ls
+          C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe
 
 #   build:
 #     runs-on: ${{ matrix.os }}
