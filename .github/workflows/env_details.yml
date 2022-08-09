@@ -8,13 +8,14 @@ on:
     branches: [master] # replace with main (if applicable)
 
 jobs:
-  debug-ubuntu:
+  debug-envs:
     #runs-on: ubuntu-20.04
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - name: gh workspace
         shell: bash
         run: |
+          cl /version
           echo "add_subdirectory(libpqxx)" > CMakeLists.txt
           git clone --depth 20 https://github.com/jtv/libpqxx
           cd libpqxx
