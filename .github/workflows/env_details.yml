@@ -16,6 +16,7 @@ jobs:
         shell: bash
         run: |
           "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
+          cat main.cpp
 
 #   build:
 #     runs-on: ${{ matrix.os }}
