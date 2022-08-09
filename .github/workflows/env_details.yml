@@ -15,7 +15,7 @@ jobs:
       - name: gh workspace
         shell: bash
         run: |
-          cl /version
+          echo $PATH
           echo "add_subdirectory(libpqxx)" > CMakeLists.txt
           git clone --depth 20 https://github.com/jtv/libpqxx
           cd libpqxx
