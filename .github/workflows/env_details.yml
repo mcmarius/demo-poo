@@ -22,6 +22,11 @@ jobs:
           where appverif
           where vswhere
           vswhere
+          vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          vspath=$(vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath)
+          defaultvcver="$vspath/VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt"
+          echo $defaultvcver
+          cat $defaultvcver
           #cat main.cpp
 
 #   build:
