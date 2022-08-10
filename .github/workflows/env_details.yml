@@ -20,13 +20,7 @@ jobs:
           ls -l
           env
           where appverif
-          where vswhere
-          vswhere
-          vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-          vspath=$(vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath)
-          defaultvcver="$vspath/VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt"
-          echo $defaultvcver
-          cat $defaultvcver
+          cat "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/Microsoft.VCToolsVersion.default.txt"
           #cat main.cpp
 
 #   build:
