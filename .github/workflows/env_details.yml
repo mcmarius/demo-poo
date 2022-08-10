@@ -20,6 +20,8 @@ jobs:
           ls -l
           env
           where appverif
+          where vswhere
+          vswhere
           #cat main.cpp
 
 #   build:
