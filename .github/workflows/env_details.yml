@@ -15,8 +15,19 @@ jobs:
       - name: gh workspace
         shell: bash
         run: |
+          echo "which gcc"
+          which gcc
+          echo "which g++"
+          which g++
+          echo "where gcc"
           where gcc
-          ls -l $(where gcc)
+          echo "where g++"
+          where g++
+          echo "whereis gcc"
+          whereis gcc
+          echo "whereis g++"
+          whereis g++
+          ls -l "C:/ProgramData/Chocolatey/bin"
 
 
 # "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
