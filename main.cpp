@@ -92,6 +92,16 @@ public:
     }
 };
 
+class MyBase {};
+class MyDer1 : public MyBase {};
+class MyDer2 : public MyBase {};
+class MyCont {
+  std::vector<MyBase*> elems {
+      new MyDer1{},
+      new MyDer2{}
+  };
+};
+
 int main() {
     //abc<BasicNod> a;
     abc<abc<VNod>> a;
