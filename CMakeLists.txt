@@ -116,11 +116,15 @@ endfunction()
 
 # external dependencies with find_package
 
-find_package(Threads REQUIRED)
+find_package(Filesystem REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(Threads REQUIRED)
+
 if(UNIX)
     find_package(PNG REQUIRED)
-    if(NOT APPLE)
+    if(APPLE)
+        find_package(GLUT REQUIRED)
+    else()
         find_package(X11)
     endif()
 endif()
@@ -130,7 +134,7 @@ endif()
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
     main.cpp
-    ext/olcPixelGameEngine.cpp
+    olcPixelGameEngine.cpp
 )
 
 ###############################################################################
@@ -167,13 +171,19 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 #target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL std::filesystem)
 
 if(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE PNG::PNG)
-    if(NOT APPLE)
+    if(APPLE)
+        target_link_libraries(${PROJECT_NAME} PRIVATE GLUT::GLUT)
+    else()
         target_link_libraries(${PROJECT_NAME} PRIVATE X11)
     endif()
+endif()
+
+if(WIN32 AND NOT MSVC)
+    target_link_libraries(${PROJECT_NAME} PRIVATE gdiplus Shlwapi dwmapi)
 endif()
 
 ###############################################################################
