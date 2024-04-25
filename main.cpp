@@ -50,13 +50,13 @@ public:
 	}
 
 public:
-	bool OnUserCreate() override
+	[[maybe_unused]] bool OnUserCreate() override
 	{
 		// Called once at the start, so create things here
 		return true;
 	}
 
-	bool OnUserUpdate(float) override
+	[[maybe_unused]] bool OnUserUpdate([[maybe_unused]] float fElapsedTime) override
 	{
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
