@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <concepts>
+#include <olcPixelGameEngine.h>
 
 #include "ListaDubluInlantuita.h"
 
