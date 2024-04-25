@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <concepts>
+//#define OLC_PGE_APPLICATION
+
 #include <olcPixelGameEngine.h>
 
 template <typename T>

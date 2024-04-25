@@ -117,6 +117,7 @@ endfunction()
 # external dependencies with find_package
 
 find_package(Threads REQUIRED)
+find_package(OpenGL REQUIRED)
 if(UNIX)
     find_package(PNG REQUIRED)
     if(NOT APPLE)
@@ -166,11 +167,13 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 #target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL)
 
-if(APPLE)
-elseif(UNIX)
-    target_link_libraries(${PROJECT_NAME} PRIVATE X11)
+if(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE PNG::PNG)
+    if(NOT APPLE)
+        target_link_libraries(${PROJECT_NAME} PRIVATE X11)
+    endif()
 endif()
 
 ###############################################################################
