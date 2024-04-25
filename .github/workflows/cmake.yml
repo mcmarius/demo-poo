@@ -134,7 +134,7 @@ jobs:
       CXX: ${{ matrix.cxx }}
 
       # NOTE: also update in CMakeLists FetchContent
-      SFML_VERSION: "2023-11-04-2.6.1"
+      # SOME_LIB_VERSION: "2023-11-04-2.6.1"
 
       # NOTE: replace with another version if this one does not work
       # For more versions, see https://winlibs.com or
@@ -164,7 +164,7 @@ jobs:
             c: gcc-12
             cxx: g++-12
             name: "ASan: Ubuntu 22.04 GCC 12"
-            cmake_flags: "-DUSE_ASAN=ON -DBUILD_SHARED_LIBS=FALSE"
+            cmake_flags: "-DUSE_ASAN=ON"
             cmake_generator: Ninja
             # This env runs address sanitizers
             runs_asan: true
@@ -173,7 +173,7 @@ jobs:
             c: gcc-11
             cxx: g++-11
             name: "Valgrind: Ubuntu 22.04 GCC 11"
-            cmake_flags: -DBUILD_SHARED_LIBS=FALSE
+            # cmake_flags:
             cmake_generator: Ninja
             # This env runs valgrind
             runs_valgrind: true
@@ -182,7 +182,7 @@ jobs:
             c: clang
             cxx: clang++
             name: "ASan: macOS 12 Apple Clang 14"
-            cmake_flags: "-DUSE_ASAN=ON -DSFML_BUILD_FRAMEWORKS=FALSE -DSFML_DEPENDENCIES_INSTALL_PREFIX=$GITHUB_WORKSPACE/artifacts -DBUILD_SHARED_LIBS=FALSE"
+            cmake_flags: "-DUSE_ASAN=ON"
             # cmake_generator:
             # This env runs address sanitizers
             # runs_asan: true
@@ -198,7 +198,7 @@ jobs:
             c: cl
             cxx: cl
             name: "ASan: Windows 2022 MSVC 19.38"
-            cmake_flags: "-DUSE_ASAN=ON -DBUILD_SHARED_LIBS=TRUE"
+            cmake_flags: "-DUSE_ASAN=ON"
             # cmake_generator: Ninja
             # This env runs address sanitizers
             # runs_asan: true
@@ -207,7 +207,7 @@ jobs:
             c: gcc
             cxx: g++
             name: "Windows 2022 MinGW GCC 12"
-            cmake_flags: -DBUILD_SHARED_LIBS=TRUE
+            # cmake_flags:
             cmake_generator: Ninja
 
     steps:

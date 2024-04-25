@@ -11,7 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
 option(USE_ASAN "Use Address Sanitizer" OFF)
 option(USE_MSAN "Use Memory Sanitizer" OFF)
-option(BUILD_SHARED_LIBS "Build SFML as shared library" FALSE)
+
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "install_dir" CACHE PATH "..." FORCE)
@@ -92,25 +92,18 @@ endfunction()
 # external dependencies with FetchContent
 #include(FetchContent)
 
-# NOTE: Also update SFML_VERSION env var in .github/workflows/cmake.yml:126
+# NOTE: Also update env var in .github/workflows/cmake.yml:137 (if applicable)
 #FetchContent_Declare(
-#  SFML
-#  GIT_REPOSITORY https://github.com/SFML/SFML.git
-#  GIT_TAG        2.6.1
-  # GIT_TAG        69ea0cd863aed1d4092b970b676924a716ff718b # 2.6.1
-  # GIT_TAG        origin/master
-#  GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
+#    SomeLib
+#    GIT_REPOSITORY https://github.com/<SomeLib>/<SomeLib>.git
+#    GIT_TAG        <some_git_tag>
+#    GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
 #)
 
 
-#FetchContent_MakeAvailable(SFML)
+#FetchContent_MakeAvailable(SomeLib)
 
-#if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
-#else()
-#    set_custom_stdlib_and_sanitizers(sfml-system false)
-#    set_custom_stdlib_and_sanitizers(sfml-window false)
-#    set_custom_stdlib_and_sanitizers(sfml-graphics false)
-#endif()
+
 
 ###############################################################################
 
@@ -168,8 +161,6 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 
 # use SYSTEM so cppcheck/clang-tidy does not report warnings from these directories
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext)
-#target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
-#target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL)
 
 if(UNIX)
