@@ -50,12 +50,14 @@ public:
 	}
 
 public:
+    // cppcheck-suppress unusedFunction
 	[[maybe_unused]] bool OnUserCreate() override
 	{
 		// Called once at the start, so create things here
 		return true;
 	}
 
+    // cppcheck-suppress unusedFunction
 	[[maybe_unused]] bool OnUserUpdate([[maybe_unused]] float fElapsedTime) override
 	{
 		// Called once per frame, draws random coloured pixels
