@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <concepts>
+#include <olcPixelGameEngine.h>
 
 template <typename T>
 concept Printable = requires(const T& v, std::ostream& os) {
@@ -55,7 +56,7 @@ public:
 		return true;
 	}
 
-	bool OnUserUpdate(float fElapsedTime) override
+	bool OnUserUpdate(float) override
 	{
 		// Called once per frame, draws random coloured pixels
 		for (int x = 0; x < ScreenWidth(); x++)
