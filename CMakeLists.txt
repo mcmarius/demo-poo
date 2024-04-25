@@ -130,7 +130,6 @@ endif()
 add_executable(${PROJECT_NAME}
     main.cpp
     ext/olcPixelGameEngine.cpp
-    env_fixes.h
 )
 
 ###############################################################################
