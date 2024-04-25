@@ -116,7 +116,6 @@ endfunction()
 
 # external dependencies with find_package
 
-find_package(Filesystem REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -171,7 +170,7 @@ set_custom_stdlib_and_sanitizers(${PROJECT_NAME} true)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 #target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL std::filesystem)
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads OpenGL::GL)
 
 if(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE PNG::PNG)
