@@ -18,7 +18,7 @@ jobs:
         run: |
           ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
           whereis clang
-          clang --version
+          clang-16 --version
           # echo "which ninja"
           # which ninja
           # echo "which gcc"
