@@ -17,8 +17,9 @@ jobs:
         shell: bash
         run: |
           ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
-          whereis llvm_clang
-          llvm_clang --version
+          export PATH="/opt/homebrew/opt/llvm@16/bin:$PATH"
+          whereis clang
+          clang --version
           # echo "which ninja"
           # which ninja
           # echo "which gcc"
