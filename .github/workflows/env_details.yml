@@ -18,7 +18,8 @@ jobs:
         run: |
           ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
           whereis clang
-          clang-16 --version
+          brew --prefix llvm@15
+          brew --prefix llvm@16
           # echo "which ninja"
           # which ninja
           # echo "which gcc"
