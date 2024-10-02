@@ -17,7 +17,7 @@ jobs:
         shell: bash
         run: |
           ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
-          /opt/homebrew/opt/llvm@16/bin/clang --version
+          ls -l /opt/homebrew/opt/llvm@16
           # echo "which ninja"
           # which ninja
           # echo "which gcc"
