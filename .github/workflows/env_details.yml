@@ -32,6 +32,7 @@ jobs:
           # echo "ls"
           # ls -l "C:/ProgramData/Chocolatey/bin"'
           ls -l "C:/Program Files/Microsoft Visual Studio/"
+          ls -l "C:/Program Files/"
           # which libstdc++-6.dll
           # which libgcc_s_seh-1.dll
           # which libwinpthread-1.dll
@@ -42,6 +43,7 @@ jobs:
         shell: bash
         run: |
           ls -l "C:/Program Files/Microsoft Visual Studio/"
+          ls -l "C:/Program Files/"
 
 
 # "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
