@@ -10,15 +10,15 @@ on:
 jobs:
   debug-envs:
     # runs-on: ubuntu-20.04
-    # runs-on: windows-2022
-    runs-on: macos-14
+    runs-on: windows-2025
+    # runs-on: macos-14
     steps:
       - name: gh workspace
         shell: bash
         run: |
-          ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
-          ls -l /opt/homebrew/opt/llvm@15
-          brew install llvm@16
+          #ls -l /Library/Developer/CommandLineTools/usr/lib/clang/
+          #ls -l /opt/homebrew/opt/llvm@15
+          #brew install llvm@16
           # echo "which ninja"
           # which ninja
           # echo "which gcc"
@@ -30,10 +30,18 @@ jobs:
           # echo "where g++"
           # where g++
           # echo "ls"
-          # ls -l "C:/ProgramData/Chocolatey/bin"
+          # ls -l "C:/ProgramData/Chocolatey/bin"'
+          ls -l "C:/Program Files/Microsoft Visual Studio/"
           # which libstdc++-6.dll
           # which libgcc_s_seh-1.dll
           # which libwinpthread-1.dll
+  debug-envs2:
+    runs-on: windows-2025-vs2026
+    steps:
+      - name: gh workspace
+        shell: bash
+        run: |
+          ls -l "C:/Program Files/Microsoft Visual Studio/"
 
 
 # "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
