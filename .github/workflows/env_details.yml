@@ -34,7 +34,7 @@ jobs:
           ls -l "C:/Program Files/Microsoft Visual Studio/"
           ls -l "C:/Program Files/"
           ls -l "C:/Program Files/Microsoft SDKs/"
-          ls -l "C:/Program Files/Microsoft Visual Studio/2025"
+          ls -l "C:/Program Files/Microsoft Visual Studio 14.0/"
           # which libstdc++-6.dll
           # which libgcc_s_seh-1.dll
           # which libwinpthread-1.dll
@@ -47,7 +47,7 @@ jobs:
           ls -l "C:/Program Files/Microsoft Visual Studio/"
           ls -l "C:/Program Files/"
           ls -l "C:/Program Files/Microsoft SDKs/"
-          ls -l "C:/Program Files/Microsoft Visual Studio/2025"
+          ls -l "C:/Program Files/Microsoft Visual Studio 14.0/"
 
 
 # "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.32.31326/bin/Hostx64/x64/cl.exe"
